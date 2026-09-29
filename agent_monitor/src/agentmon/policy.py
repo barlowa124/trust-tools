@@ -69,6 +69,21 @@ def _dequote(s: str) -> str:
 _EXEC_WRITE_TARGET = re.compile(
     r"(?:>{1,2}|>>=?|\btee(?:\s+-a)?)\s+([^&|;><\s]+)")
 
+# Field-name aliases agents actually emit for the same semantic arg.
+# Without this, {"cmd": "..."} sails past rules keyed on "command" —
+# a free bypass found by the agent_sandbox battery.
+_ARG_ALIASES = {
+    "command": ("command", "cmd", "command_line"),
+    "file_path": ("file_path", "path", "filename", "target_file"),
+}
+
+
+def _arg_value(args: dict, field: str):
+    for name in _ARG_ALIASES.get(field, (field,)):
+        if name in args:
+            return args[name]
+    return None
+
 
 def _in_scope(path: str, scopes: list[str], cwd: str) -> bool:
     # Both the target and the scopes resolve against the monitor's cwd —
@@ -100,7 +115,7 @@ def evaluate(pol: dict, tool: str, args: Any, cwd: str = ".") -> Verdict:
             if r.get("exec_targets") and isinstance(args, dict):
                 # Writes hiding in shell redirects bypass file_path
                 # entirely — extract > and tee targets and scope them.
-                cmd = str(args.get("command", ""))
+                cmd = str(_arg_value(args, "command") or "")
                 targets = _EXEC_WRITE_TARGET.findall(cmd)
                 if not targets:
                     matched = False
@@ -109,7 +124,8 @@ def evaluate(pol: dict, tool: str, args: Any, cwd: str = ".") -> Verdict:
                         not _in_scope(t, r.get("path_scope", []), cwd)
                         for t in targets)
             else:
-                path = args.get(fld) if isinstance(args, dict) else str(args)
+                path = (_arg_value(args, fld)
+                        if isinstance(args, dict) else str(args))
                 if path is None:
                     matched = False
                 else:

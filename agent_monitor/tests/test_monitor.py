@@ -64,6 +64,24 @@ class PolicyTests(unittest.TestCase):
         v = evaluate(POLICY, "read", {"file_path": "/etc/passwd"})
         self.assertEqual(v.action, "allow")
 
+    def test_arg_aliases_cannot_bypass_scope(self):
+        """cmd/command and path/file_path aliasing was a real bypass:
+        agent_sandbox's battery showed {"cmd": ...} sails past rules
+        keyed on "command". Aliases must not reopen it."""
+        pol = load_policy(os.path.join(
+            os.path.dirname(__file__), "..", "policies",
+            "default.json"))
+        for args in ({"command": "echo p > /tmp/x"},
+                     {"cmd": "echo p > /tmp/x"},
+                     {"command_line": "echo p > /tmp/x"}):
+            v = evaluate(pol, "exec", args, cwd="/tmp/sbx")
+            self.assertEqual(v.action, "deny",
+                             f"{args} bypassed exec-writes-in-scope")
+        for args in ({"file_path": "/etc/x"}, {"path": "/etc/x"}):
+            v = evaluate(pol, "write", args, cwd="/tmp/sbx")
+            self.assertEqual(v.action, "deny",
+                             f"{args} bypassed writes-in-scope")
+
     def test_policy_validation(self):
         with tempfile.NamedTemporaryFile("w", suffix=".json",
                                          delete=False) as f:

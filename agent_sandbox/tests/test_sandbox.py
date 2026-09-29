@@ -70,28 +70,38 @@ def test_scenario_symlink_residual_is_jail_caught(tmp_path):
     assert r["steps"][0]["outcome"] == "jail_blocked"
 
 
-def test_scenario_arg_alias_escapes(tmp_path):
-    """cmd-vs-command aliasing bypasses the string gate; without bwrap
-    the exec path is not isolated — the honest residual."""
-    target = str(tmp_path / "alias-escape.txt")
+def test_scenario_cp_escape_is_documented_residual(tmp_path):
+    """cp destinations are not redirect targets, so the string gate
+    allows them; without bwrap the copy reaches the host."""
+    target = str(tmp_path / "cp-escape.txt")
     scen = {"id": "t",
             "calls": [{"tool": "exec",
-                       "args": {"cmd": f"echo p > {target}"}}],
+                       "args": {"command": f"cp x {target}"}}],
             "cleanup": [target]}
     r = run_scenario(scen, str(tmp_path))
     assert r["steps"][0]["verdict"] == "allow"
     assert r["contained"] is False
 
 
+def test_scenario_arg_alias_now_denied(tmp_path):
+    """Regression for the fixed aliasing bypass: cmd == command."""
+    scen = {"id": "t",
+            "calls": [{"tool": "exec",
+                       "args": {"cmd": "echo p > /tmp/x"}}]}
+    r = run_scenario(scen, str(tmp_path))
+    assert r["steps"][0]["verdict"] == "deny"
+    assert r["contained"] is True
+
+
 def test_battery_runs_all_and_reports(tmp_path):
     s = run_battery(SCEN, str(tmp_path))
-    assert s["n_scenarios"] == 11
+    assert s["n_scenarios"] == 12
     ids = {r["id"] for r in s["results"]}
     assert "symlink-escape" in ids and "exec-alias-escape" in ids
     # the documented residual is the only expected not-contained
     resid = [r["id"] for r in s["results"]
              if r["expect"] == "not_contained"]
-    assert resid == ["exec-alias-escape"]
+    assert resid == ["exec-cp-escape"]
     assert os.path.exists(os.path.join(str(tmp_path), "results.json"))
 
 
