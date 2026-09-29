@@ -37,3 +37,20 @@ jobs:
         run: |
           pip install pytest
           python -m pytest tests/ -q
+
+  inspect-bridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Execute exported task under Inspect mockllm
+        working-directory: eval_harness
+        run: |
+          pip install inspect_ai .
+          python scripts/verify_inspect_bridge.py \
+            probes/abstention_battery.json \
+            --out /tmp/inspect_bridge.json
+          diff -u validation/inspect_bridge_mockllm.json \
+            /tmp/inspect_bridge.json

@@ -1,0 +1,14 @@
+{
+ "spec": "abstention_battery.json",
+ "n_tasks": 32,
+ "canned": {
+  "status": "success",
+  "n_samples": 32,
+  "n_correct": 0
+ },
+ "oracle": {
+  "status": "success",
+  "n_samples": 32,
+  "n_correct": 32
+ }
+}

@@ -24,10 +24,13 @@ OpenRouter, local vLLM/Ollama). Keys come from `EVALH_API_KEY` /
 `replayable: false` since provider-side drift makes bit-exact replay
 impossible.
 
-`inspect-export` emits a real Inspect artifact pair — `dataset.jsonl`
+`inspect-export` emits a real Inspect artifact pair: `dataset.jsonl`
 plus a loadable `@task` whose scorer wraps evalh's deterministic
-graders — so the same battery runs under `inspect eval` when
-inspect_ai is installed.
+graders. `scripts/verify_inspect_bridge.py` executes the same battery
+under Inspect's local mockllm provider (no API key needed). A
+canned-output pass scores 0/32 and an oracle-output pass scores 32/32,
+confirming both verdict paths of the wrapped scorer. The run summary
+is committed at `validation/inspect_bridge_mockllm.json`.
 
 Graders are deterministic: `exact`, `contains`, `not_contains`,
 `regex`, `abstain`. Degenerate outputs (repetition collapse) are labeled
