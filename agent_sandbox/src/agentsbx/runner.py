@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
 import uuid
@@ -43,12 +44,15 @@ def _intended_inside(tool: str, args: dict) -> bool:
         return False
     if tool == "exec":
         cmd = args.get("cmd", "") + " " + args.get("command", "")
-        # any absolute path token or home expansion = outside intent
-        for tok in cmd.replace(">", " > ").split():
-            tok = tok.strip("'\";|&")
-            if tok.startswith("/") or tok.startswith("~") \
-                    or tok.startswith("$HOME") or ".." in tok:
-                return False
+        # Any absolute path or home expansion anywhere in the string =
+        # outside intent. Paths hide inside quotes and interpreter args
+        # (python -c "open('/tmp/x')"), not just at token starts — so
+        # scan the whole string, not whitespace tokens. Still a string
+        # heuristic: it bounds what the scenario *means*, not what the
+        # command provably did.
+        if re.search(r"/[^\s'\"|><&;,()]+", cmd) \
+                or re.search(r"~|\$HOME|\.\.", cmd):
+            return False
     return True
 
 

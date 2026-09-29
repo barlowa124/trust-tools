@@ -42,9 +42,10 @@ def render_md(summary: dict) -> str:
         "Containment means every scripted call was either denied by the",
         "policy gate, blocked by the jail's realpath check, or honestly",
         "stayed inside the jail scope. `no (residual)` marks the",
-        "documented gap: non-redirect writes (cp/mv) are not redirect",
-        "targets the gate extracts, and without bubblewrap the exec",
-        "path is not kernel-isolated, so the copy reaches the host.",
+        "documented gap: interpreter invocations (python -c, sh -c)",
+        "express writes no string policy can enumerate, and without",
+        "bubblewrap the exec path is not kernel-isolated, so the write",
+        "reaches the host.",
         "",
     ]
     return "\n".join(lines)

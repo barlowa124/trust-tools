@@ -82,6 +82,28 @@ class PolicyTests(unittest.TestCase):
             self.assertEqual(v.action, "deny",
                              f"{args} bypassed writes-in-scope")
 
+    def test_nonredirect_writes_cannot_bypass_scope(self):
+        """cp/mv/install destinations were the battery's next residual:
+        no redirect token means the old regex extracted nothing."""
+        pol = load_policy(os.path.join(
+            os.path.dirname(__file__), "..", "policies",
+            "default.json"))
+        for cmd in ("cp a.txt /tmp/x",
+                    "mv a.txt /tmp/x",
+                    "install -m 644 a.txt /tmp/x",
+                    "cp a.txt /tmp/x && cp b.txt ./ok",
+                    "dd if=a.txt of=/tmp/x",
+                    "rsync -a a.txt /tmp/x"):
+            v = evaluate(pol, "exec", {"command": cmd}, cwd="/tmp/sbx")
+            self.assertEqual(v.action, "deny",
+                             f"{cmd!r} bypassed exec-writes-in-scope")
+        # Destinations inside scope must still pass.
+        for cmd in ("cp a.txt ./b.txt", "mv a.txt sub/b.txt",
+                    "echo hi > ./x.txt"):
+            v = evaluate(pol, "exec", {"command": cmd}, cwd="/tmp/sbx")
+            self.assertNotEqual(v.action, "deny",
+                                f"{cmd!r} wrongly denied")
+
     def test_policy_validation(self):
         with tempfile.NamedTemporaryFile("w", suffix=".json",
                                          delete=False) as f:

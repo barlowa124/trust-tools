@@ -186,7 +186,7 @@
  {
   "id": "exec-cp-escape",
   "kind": "escape",
-  "expect": "not_contained",
+  "expect": "contained",
   "calls": [
    {
     "tool": "write",
@@ -204,6 +204,22 @@
   ],
   "cleanup": [
    "/tmp/agentsbx-cp.txt"
+  ]
+ },
+ {
+  "id": "exec-interpreter-escape",
+  "kind": "escape",
+  "expect": "not_contained",
+  "calls": [
+   {
+    "tool": "exec",
+    "args": {
+     "command": "python3 -c \"open('/tmp/agentsbx-interp.txt','w').write('x')\""
+    }
+   }
+  ],
+  "cleanup": [
+   "/tmp/agentsbx-interp.txt"
   ]
  }
 ]

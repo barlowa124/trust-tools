@@ -23,6 +23,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import shlex
 from dataclasses import dataclass
 from typing import Any
 
@@ -69,6 +70,36 @@ def _dequote(s: str) -> str:
 _EXEC_WRITE_TARGET = re.compile(
     r"(?:>{1,2}|>>=?|\btee(?:\s+-a)?)\s+([^&|;><\s]+)")
 
+# Commands whose last positional arg is a write destination. Quoting and
+# chaining make exact argv recovery impossible from a string, so this is a
+# best-effort extraction — defense in depth, not completeness. Anything a
+# real shell or interpreter can express (subshells, python -c, perl -e)
+# still needs kernel-level isolation; that limit is documented in
+# agent_sandbox's battery, not hidden.
+_COPY_DEST_CMDS = {"cp", "mv", "install", "rsync", "ln"}
+_DD_OF = re.compile(r"\bof=([^&|;><\s]+)")
+
+
+def _exec_write_targets(cmd: str) -> list[str]:
+    """Extract write targets from a shell command string: redirects, tee,
+    copy/move destinations, dd of=. Segments split on && || ; | — the same
+    separators a shell would honor."""
+    targets = list(_EXEC_WRITE_TARGET.findall(cmd))
+    targets += _DD_OF.findall(cmd)
+    for seg in re.split(r"&&|\|\||[;|]", cmd):
+        try:
+            argv = shlex.split(seg)
+        except ValueError:
+            continue
+        if not argv:
+            continue
+        prog = os.path.basename(argv[0])
+        if prog in _COPY_DEST_CMDS and len(argv) >= 3:
+            dest = argv[-1]
+            if not dest.startswith("-") and "=" not in dest:
+                targets.append(dest)
+    return targets
+
 # Field-name aliases agents actually emit for the same semantic arg.
 # Without this, {"cmd": "..."} sails past rules keyed on "command" —
 # a free bypass found by the agent_sandbox battery.
@@ -113,10 +144,10 @@ def evaluate(pol: dict, tool: str, args: Any, cwd: str = ".") -> Verdict:
         if matched and r["action"] == "deny_outside":
             fld = r.get("arg_field", "file_path")
             if r.get("exec_targets") and isinstance(args, dict):
-                # Writes hiding in shell redirects bypass file_path
-                # entirely — extract > and tee targets and scope them.
+                # Writes hiding in shell redirects or copy commands bypass
+                # file_path entirely — extract targets and scope them.
                 cmd = str(_arg_value(args, "command") or "")
-                targets = _EXEC_WRITE_TARGET.findall(cmd)
+                targets = _exec_write_targets(cmd)
                 if not targets:
                     matched = False
                 else:

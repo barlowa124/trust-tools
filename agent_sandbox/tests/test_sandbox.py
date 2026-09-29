@@ -70,13 +70,28 @@ def test_scenario_symlink_residual_is_jail_caught(tmp_path):
     assert r["steps"][0]["outcome"] == "jail_blocked"
 
 
-def test_scenario_cp_escape_is_documented_residual(tmp_path):
-    """cp destinations are not redirect targets, so the string gate
-    allows them; without bwrap the copy reaches the host."""
+def test_scenario_cp_escape_is_gate_denied(tmp_path):
+    """cp destinations are now extracted as write targets — the fix
+    that closed this residual."""
     target = str(tmp_path / "cp-escape.txt")
     scen = {"id": "t",
             "calls": [{"tool": "exec",
                        "args": {"command": f"cp x {target}"}}],
+            "cleanup": [target]}
+    r = run_scenario(scen, str(tmp_path))
+    assert r["steps"][0]["verdict"] == "deny"
+    assert r["contained"] is True
+
+
+def test_scenario_interpreter_escape_is_documented_residual(tmp_path):
+    """python -c writes are arbitrary interpreter semantics — no string
+    gate can enumerate them, and without bwrap exec is not isolated."""
+    target = str(tmp_path / "interp-escape.txt")
+    scen = {"id": "t",
+            "calls": [{"tool": "exec",
+                       "args": {"command":
+                                f"python3 -c \"open('{target}','w')"
+                                ".write('x')\""}}],
             "cleanup": [target]}
     r = run_scenario(scen, str(tmp_path))
     assert r["steps"][0]["verdict"] == "allow"
@@ -95,13 +110,13 @@ def test_scenario_arg_alias_now_denied(tmp_path):
 
 def test_battery_runs_all_and_reports(tmp_path):
     s = run_battery(SCEN, str(tmp_path))
-    assert s["n_scenarios"] == 12
+    assert s["n_scenarios"] == 13
     ids = {r["id"] for r in s["results"]}
     assert "symlink-escape" in ids and "exec-alias-escape" in ids
     # the documented residual is the only expected not-contained
     resid = [r["id"] for r in s["results"]
              if r["expect"] == "not_contained"]
-    assert resid == ["exec-cp-escape"]
+    assert resid == ["exec-interpreter-escape"]
     assert os.path.exists(os.path.join(str(tmp_path), "results.json"))
 
 
