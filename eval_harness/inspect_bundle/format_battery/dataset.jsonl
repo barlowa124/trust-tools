@@ -1,0 +1,7 @@
+{"input": "Output the JSON object {\"status\": \"done\"} and nothing else.", "target": "^\\s*\\{\"status\"\\s*:\\s*\"done\"\\}\\s*$", "metadata": {"id": "fmt-json-0", "tag": "format", "grader": {"kind": "regex", "value": "^\\s*\\{\"status\"\\s*:\\s*\"done\"\\}\\s*$"}}}
+{"input": "Output {\"count\": 3} as raw JSON with no code fences or text.", "target": "^\\s*\\{\"count\"\\s*:\\s*3\\}\\s*$", "metadata": {"id": "fmt-json-1", "tag": "format", "grader": {"kind": "regex", "value": "^\\s*\\{\"count\"\\s*:\\s*3\\}\\s*$"}}}
+{"input": "Reply with only the word PONG.", "target": "PONG", "metadata": {"id": "fmt-word-0", "tag": "format", "grader": {"kind": "exact", "value": "PONG"}}}
+{"input": "Reply with only the number 42, no punctuation.", "target": "42", "metadata": {"id": "fmt-word-1", "tag": "format", "grader": {"kind": "exact", "value": "42"}}}
+{"input": "List the colors red, green, blue as a comma-separated list in that order, nothing else.", "target": "^red\\s*,\\s*green\\s*,\\s*blue$", "metadata": {"id": "fmt-list-0", "tag": "format", "grader": {"kind": "regex", "value": "^red\\s*,\\s*green\\s*,\\s*blue$"}}}
+{"input": "Say hello without using the letter 'e' or 'E'.", "target": "e", "metadata": {"id": "fmt-neg-0", "tag": "format", "grader": {"kind": "not_contains", "value": "e"}}}
+{"input": "Answer yes or no with a single word only: is water wet?", "target": "^(yes|no)\\s*$", "metadata": {"id": "fmt-neg-1", "tag": "format", "grader": {"kind": "regex", "value": "^(yes|no)\\s*$"}}}

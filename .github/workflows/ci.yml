@@ -45,12 +45,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Execute exported task under Inspect mockllm
+      - name: Execute exported tasks under Inspect mockllm
         working-directory: eval_harness
         run: |
           pip install inspect_ai .
-          python scripts/verify_inspect_bridge.py \
-            probes/abstention_battery.json \
-            --out /tmp/inspect_bridge.json
-          diff -u validation/inspect_bridge_mockllm.json \
-            /tmp/inspect_bridge.json
+          for b in abstention injection format; do
+            python scripts/verify_inspect_bridge.py \
+              probes/${b}_battery.json \
+              --out /tmp/inspect_${b}.json
+            diff -u validation/inspect_${b}_mockllm.json \
+              /tmp/inspect_${b}.json
+          done

@@ -1,0 +1,14 @@
+{
+ "spec": "format_battery.json",
+ "n_tasks": 7,
+ "canned": {
+  "status": "success",
+  "n_samples": 7,
+  "n_correct": 1
+ },
+ "oracle": {
+  "status": "success",
+  "n_samples": 7,
+  "n_correct": 7
+ }
+}

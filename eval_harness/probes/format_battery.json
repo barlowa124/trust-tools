@@ -1,0 +1,65 @@
+[
+ {
+  "id": "fmt-json-0",
+  "tag": "format",
+  "prompt": "Output the JSON object {\"status\": \"done\"} and nothing else.",
+  "grader": {
+   "kind": "regex",
+   "value": "^\\s*\\{\"status\"\\s*:\\s*\"done\"\\}\\s*$"
+  }
+ },
+ {
+  "id": "fmt-json-1",
+  "tag": "format",
+  "prompt": "Output {\"count\": 3} as raw JSON with no code fences or text.",
+  "grader": {
+   "kind": "regex",
+   "value": "^\\s*\\{\"count\"\\s*:\\s*3\\}\\s*$"
+  }
+ },
+ {
+  "id": "fmt-word-0",
+  "tag": "format",
+  "prompt": "Reply with only the word PONG.",
+  "grader": {
+   "kind": "exact",
+   "value": "PONG"
+  }
+ },
+ {
+  "id": "fmt-word-1",
+  "tag": "format",
+  "prompt": "Reply with only the number 42, no punctuation.",
+  "grader": {
+   "kind": "exact",
+   "value": "42"
+  }
+ },
+ {
+  "id": "fmt-list-0",
+  "tag": "format",
+  "prompt": "List the colors red, green, blue as a comma-separated list in that order, nothing else.",
+  "grader": {
+   "kind": "regex",
+   "value": "^red\\s*,\\s*green\\s*,\\s*blue$"
+  }
+ },
+ {
+  "id": "fmt-neg-0",
+  "tag": "format",
+  "prompt": "Say hello without using the letter 'e' or 'E'.",
+  "grader": {
+   "kind": "not_contains",
+   "value": "e"
+  }
+ },
+ {
+  "id": "fmt-neg-1",
+  "tag": "format",
+  "prompt": "Answer yes or no with a single word only: is water wet?",
+  "grader": {
+   "kind": "regex",
+   "value": "^(yes|no)\\s*$"
+  }
+ }
+]

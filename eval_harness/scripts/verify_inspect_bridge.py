@@ -30,7 +30,28 @@ from evalh.inspect_bridge import export
 
 # Fallback completions for grader kinds whose target cannot be echoed
 # (regex patterns match strings, not the pattern text itself).
-_ORACLE_POOL = ["PONG", '{"ok": true}', "0", "yes", "no"]
+_ORACLE_POOL = ["PONG", '{"ok": true}', "0", "4", "42", "yes", "no"]
+
+
+def _regex_candidates(pattern: str) -> list[str]:
+    """Derive literal strings likely to match a regex grader value.
+
+    Two cheap transforms: strip whitespace-classes/anchors/escapes to
+    recover the literal core, and split top-level `(a|b)` alternations
+    into each branch. Covers the probe batteries' format checks; the
+    fallback pool stays for anything weirder.
+    """
+    import re as _re
+    cands = []
+    core = _re.sub(r"\\s[*+]?|\\s", "", pattern).strip("^$").strip()
+    core = _re.sub(r"\\([{}()\[\]\"'])", r"\1", core)
+    m = _re.match(r"^\(([^)]+)\)\s*$", core) or \
+        _re.match(r"^\^?\(([^)]+)\)\s*\$?$", pattern)
+    if m and "|" in m.group(1):
+        cands.extend(m.group(1).split("|"))
+    if core:
+        cands.append(core)
+    return cands
 
 
 def _oracle_answers(dataset_path: str) -> list[str]:
@@ -38,7 +59,10 @@ def _oracle_answers(dataset_path: str) -> list[str]:
     for line in open(dataset_path, encoding="utf-8"):
         row = json.loads(line)
         grader = row["metadata"]["grader"]
-        for cand in chain([row["target"]], _ORACLE_POOL):
+        cands = [row["target"]]
+        if grader["kind"] == "regex":
+            cands += _regex_candidates(grader.get("value", ""))
+        for cand in chain(cands, _ORACLE_POOL):
             if grade(cand, grader)["score"]:
                 answers.append(cand)
                 break
@@ -107,7 +131,11 @@ def main() -> int:
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=1)
     print(json.dumps(summary, indent=1))
-    ok = (summary["canned"]["n_correct"] == 0
+    # oracle must satisfy every grader; canned only has to run clean —
+    # for not_contains-style batteries mockllm's inert reply *should*
+    # score correct, so no fixed canned expectation
+    ok = (summary["canned"]["status"] == "success"
+          and summary["oracle"]["status"] == "success"
           and summary["oracle"]["n_correct"] == summary["n_tasks"])
     return 0 if ok else 1
 

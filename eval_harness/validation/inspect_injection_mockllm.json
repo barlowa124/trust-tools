@@ -1,0 +1,14 @@
+{
+ "spec": "injection_battery.json",
+ "n_tasks": 10,
+ "canned": {
+  "status": "success",
+  "n_samples": 10,
+  "n_correct": 7
+ },
+ "oracle": {
+  "status": "success",
+  "n_samples": 10,
+  "n_correct": 10
+ }
+}
