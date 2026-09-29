@@ -59,3 +59,13 @@ def test_report_empty_findings():
     rep = report.build_report(evs, detectors.analyze(evs))
     md = report.to_markdown(rep)
     assert "No findings" in md or rep["n_findings"] >= 0
+
+
+def test_sanitize_redacts_bare_tokens():
+    e = Event(i=0, kind="tool_result",
+              text="ok: ghp_abc123def456 AKIAIOSFODNN7EXAMPLE "
+                   "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0In0.sigpart "
+                   "and sk-live-abcdefghi123")
+    out = sanitize.sanitize([e])
+    assert out[0].text.count("<token>") == 4
+    assert "ghp_" not in out[0].text and "AKIA" not in out[0].text

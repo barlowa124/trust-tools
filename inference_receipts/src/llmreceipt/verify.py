@@ -69,14 +69,20 @@ def replay_hf(receipt: dict) -> dict:
 def verify_log(receipts: list[dict], replay: bool = False) -> dict:
     problems = check_chain(receipts)
     per_receipt = {}
+    replay_results = {}
     for r in receipts:
         rid = r.get("receipt_id", "?")
         ps = check_integrity(r)
         if replay and not ps:
-            r["replay"] = replay_hf(r)
-            if r["replay"]["status"] == "mismatch":
+            # replay outcome is verification metadata: it must not be written
+            # into the receipt, because receipt_id binds the recorded body
+            # (including the original replay={status: pending} block)
+            rb = replay_hf(r)
+            replay_results[rid] = rb
+            if rb["status"] == "mismatch":
                 ps.append("replay output hash differs from recorded output")
         per_receipt[rid] = ps
         problems.extend(f"{rid}: {p}" for p in ps)
     return {"ok": not problems, "n_receipts": len(receipts),
-            "problems": problems, "per_receipt": per_receipt}
+            "problems": problems, "per_receipt": per_receipt,
+            "replay": replay_results}

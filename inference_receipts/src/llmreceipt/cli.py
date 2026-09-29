@@ -66,7 +66,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  - {p}")
         if a.replay:
             for r in receipts:
-                rb = r.get("replay", {})
+                rb = rep["replay"].get(r["receipt_id"], {})
                 print(f"  {r['receipt_id']}: replay={rb.get('status')}")
         return 0 if rep["ok"] else 1
 

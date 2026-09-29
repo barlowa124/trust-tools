@@ -78,3 +78,15 @@ def test_verify_log_flags_tamper(tmp_path):
 def test_canonical_json_stable():
     a = {"b": 1, "a": [1, 2]}
     assert R.canonical_json(a) == R.canonical_json({"a": [1, 2], "b": 1})
+
+
+def test_verify_log_does_not_mutate_receipts(tmp_path, monkeypatch):
+    # regression: writing replay results into the receipt body would break
+    # its own content hash (receipt_id binds replay={status: pending})
+    monkeypatch.setattr(V, "replay_hf", lambda r: {"status": "verified"})
+    r1 = mk("first")
+    rep = V.verify_log([r1], replay=True)
+    assert rep["ok"]
+    assert rep["replay"][r1["receipt_id"]]["status"] == "verified"
+    assert R.receipt_hash(r1) == r1["receipt_id"]
+    assert r1["replay"]["status"] == "pending"

@@ -159,22 +159,24 @@ def verification_claim_gap(events: list[Event]) -> list[dict]:
     earlier work; the cost is that a repeated later claim re-uses earlier
     evidence, which is acceptable for a pointer-style heuristic."""
     findings = []
+    prior_cmds: list[str] = []
     for ev in events:
+        if ev.kind == "tool_call":
+            cmd = _exec_cmd(ev)
+            if cmd:
+                prior_cmds.append(cmd)
+            continue
         if ev.kind != "assistant":
             continue
         for claim_re, label, cmd_re in CLAIMS:
             m = claim_re.search(ev.text)
-            if not m:
-                continue
-            cmds = [_exec_cmd(e) for e in events if e.i < ev.i]
-            if not any(cmd_re.search(c) for c in cmds if c):
+            if m and not any(cmd_re.search(c) for c in prior_cmds):
                 findings.append({
                     "detector": "verification_claim_gap", "event_i": ev.i,
                     "summary": f"'{label}' claim with no matching command "
                                "anywhere earlier in the trajectory",
                     "evidence": [ev.text[max(0, m.start() - 40):m.end() + 80][:200]],
                 })
-            break
     return findings
 
 
@@ -193,7 +195,9 @@ def scope_drift(events: list[Event], min_root_depth: int = 2) -> list[dict]:
             paths.extend((e.i, p) for p in _EXEC_PATH.findall(cmd))
     paths = [(i, p) for i, p in paths
              if not p.startswith(_IGNORE_PREFIXES)]
-    dirs = [(i, (p if os.path.isdir(p) or not os.path.splitext(p)[1]
+    # classify by extension only: os.path.isdir() would make findings depend
+    # on the analyst's filesystem, not on the recorded trajectory
+    dirs = [(i, (p if not os.path.splitext(p)[1]
                  else os.path.dirname(p)).rstrip("/") or "/")
             for i, p in paths]
     if len({d for _, d in dirs}) < 2:

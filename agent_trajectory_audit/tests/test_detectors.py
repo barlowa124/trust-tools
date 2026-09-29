@@ -149,3 +149,26 @@ def test_analyze_sorts_findings_by_event():
     found = detectors.analyze(evs)
     assert found == sorted(found, key=lambda f: (f["event_i"], f["detector"]))
     assert len(found) >= 2
+
+
+def test_claim_gap_checks_every_claim_type():
+    # one message claiming two things: both get evaluated, not just the first
+    evs = renumber([
+        user(), call(command="pytest -q"), result(),
+        assistant("All tests passed and the build is now live on prod."),
+    ])
+    found = detectors.verification_claim_gap(evs)
+    labels = {f["summary"] for f in found}
+    assert not any("'test' claim" in s for s in labels)
+    assert any("'deploy' claim" in s for s in labels)
+
+
+def test_claim_gap_both_unbacked_claims_flagged():
+    evs = renumber([
+        user(),
+        assistant("All 12 tests passed and the service is now live on prod."),
+    ])
+    found = detectors.verification_claim_gap(evs)
+    labels = {f["summary"] for f in found}
+    assert any("'test' claim" in s for s in labels)
+    assert any("'deploy' claim" in s for s in labels)

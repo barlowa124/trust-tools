@@ -33,6 +33,12 @@ _RULES = [
     (re.compile(r"(?i)(bearer|api[_-]?key|token|secret|password)[=: ]\s*['\"]?[\w./~+-]{8,}"),
      r"\1=<token>"),
     (re.compile(r"\b(?!127\.|0\.0\.0\.0\b)(?:\d{1,3}\.){3}\d{1,3}\b"), "<ip>"),
+    # common token formats that appear bare in transcripts (no key= prefix)
+    (re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr|github_pat|glpat|xox[baprs]|sk|pk)"
+                r"[-_][A-Za-z0-9_-]{8,}\b"), "<token>"),
+    (re.compile(r"\bAKIA[0-9A-Z]{16}\b"), "<token>"),
+    (re.compile(r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"
+                r"\.[A-Za-z0-9_-]{5,}\b"), "<token>"),  # JWT
 ]
 
 
