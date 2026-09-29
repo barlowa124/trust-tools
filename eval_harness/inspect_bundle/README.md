@@ -1,9 +1,9 @@
-# inspect_bundle — loadable Inspect tasks
+# inspect_bundle: loadable Inspect tasks
 
 Ready-to-run Inspect (inspect_ai) tasks exported from evalh specs by
 `evalh inspect-export`. Each directory holds `dataset.jsonl` plus a
 `*_task.py` `@task` whose scorer wraps evalh's deterministic graders,
-so results are comparable across both harnesses.
+so results are comparable across the two eval tools.
 
 ```bash
 pip install inspect_ai .   # evalh must be importable for scoring

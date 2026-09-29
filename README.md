@@ -30,6 +30,8 @@ ML).
 | `eval_harness/` | Task-spec evaluation runner. Deterministic graders, injectable `generate_fn`, per-task records hash-chained into a verifiable log. `sweep` runs one battery across staged checkpoints — the training-run-assessment shape. Ships `probes/abstention_battery.json` plus a real 3-stage SmolLM2 sweep under `results/`. |
 | `inference_receipts/` | Hash-bound inference receipts: input, weights, settings, output all sha256-chained per log entry, with replay verification. Any tampering breaks the receipt hash or the chain. |
 | `model_serve/` | Serving slice: request queue, micro-batching, shadow evaluation of a candidate against production, and a hash-bound record per response. FastAPI wiring optional. |
+| `agent_observe/` | Span/trace ingest (flat schema + OTLP-lite), policy enrichment through agentmon, trajaudit audit over the same stream, and markdown/HTML trace reports. The observability layer sitting on top of gate + audit. |
+| `agent_sandbox/` | Containment-layer benchmark: scripted tool-call scenarios run through the agentmon gate and a realpath filesystem jail, measuring each layer separately. The battery documents the one residual (arg aliasing + no kernel isolation without bwrap) instead of hiding it. |
 | `receipt_report/` | Renders audit documents from the other packages' chains — verifies integrity first, then recomputes every reported number from the records. Broken chains land in the document as findings. |
 
 ## Running tests
