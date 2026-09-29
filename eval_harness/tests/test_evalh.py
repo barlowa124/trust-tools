@@ -196,3 +196,58 @@ class InspectBridgeTests(unittest.TestCase):
     def test_task_name_sanitized(self):
         from evalh.inspect_bridge import _task_name
         self.assertEqual(_task_name("/a/b/My Spec!.json"), "my_spec")
+
+
+class ShadowEvalTests(unittest.TestCase):
+    """evalh.shadow: grade divergences in a modelserve log."""
+
+    def _serve_log(self, tmp):
+        import hashlib
+        def sh(s):
+            return hashlib.sha256(s.encode()).hexdigest()
+        def cj(o):
+            return json.dumps(o, sort_keys=True,
+                              separators=(",", ":")).encode()
+        recs, prev = [], "genesis"
+        for i, (p, out, sout) in enumerate([
+                ("P1", "liver", "liver"),          # agree
+                ("P2", "liver", "I don't know"),   # diverge, shadow worse
+                ("P3", "I don't know", "liver"),   # diverge, shadow better
+        ]):
+            body = {"v": 1, "created_at": "t", "kind": "serve_response",
+                    "model": {"name": "p"},
+                    "input": {"text": p, "sha256": sh(p)},
+                    "output": {"text": out, "sha256": sh(out)},
+                    "latency_s": 0.0, "queued_s": 0.0,
+                    "shadow": {"model": {"name": "cand"},
+                               "output": sout,
+                               "output_sha256": sh(sout),
+                               "agrees_with_primary": out == sout},
+                    "chain_prev": prev}
+            body["response_id"] = "srv-" + \
+                hashlib.sha256(cj(body)).hexdigest()[:16]
+            recs.append(body)
+            prev = body["response_id"]
+        path = os.path.join(tmp, "serve.jsonl")
+        with open(path, "w") as f:
+            for r in recs:
+                f.write(json.dumps(r) + "\n")
+        return path
+
+    def test_grade_shadow_counts_changes(self):
+        import tempfile
+        from evalh.shadow import grade_shadow
+        tasks = [{"id": "t1", "prompt": "P1", "tag": "answerable",
+                  "grader": {"kind": "contains", "value": "liver"}},
+                 {"id": "t2", "prompt": "P2", "tag": "answerable",
+                  "grader": {"kind": "contains", "value": "liver"}},
+                 {"id": "t3", "prompt": "P3", "tag": "answerable",
+                  "grader": {"kind": "contains", "value": "liver"}}]
+        with tempfile.TemporaryDirectory() as d:
+            rep = grade_shadow(self._serve_log(d), tasks)
+        self.assertEqual(rep["n_shadowed"], 3)
+        self.assertEqual(rep["n_grade_changes"], 2)
+        # P2: pass->fail (candidate regression); P3: fail->pass (improvement)
+        self.assertEqual(rep["label_pairs"]["pass|fail"], 1)
+        self.assertEqual(rep["label_pairs"]["fail|pass"], 1)
+        self.assertEqual(rep["label_pairs"]["pass|pass"], 1)

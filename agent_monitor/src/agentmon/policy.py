@@ -46,7 +46,7 @@ def load_policy(path: str) -> dict:
         if r["action"] not in ACTIONS + ("deny_outside",):
             raise ValueError(f"rule[{i}] bad action {r['action']!r}")
         if "arg_regex" in r:
-            re.compile(r["arg_regex"])
+            re.compile(r["arg_regex"], re.I)
     return pol
 
 
@@ -58,6 +58,16 @@ def _args_text(args: Any) -> str:
     if isinstance(args, dict):
         return json.dumps(args)
     return str(args)
+
+
+def _dequote(s: str) -> str:
+    """Shell quoting breaks keyword regexes ('su'do' parses to sudo in a
+    real shell). Match against a quote-stripped variant too."""
+    return re.sub(r"['\"\\\\]", "", s)
+
+
+_EXEC_WRITE_TARGET = re.compile(
+    r"(?:>{1,2}|>>=?|\btee(?:\s+-a)?)\s+([^&|;><\s]+)")
 
 
 def _in_scope(path: str, scopes: list[str], cwd: str) -> bool:
@@ -81,14 +91,30 @@ def evaluate(pol: dict, tool: str, args: Any, cwd: str = ".") -> Verdict:
             continue
         matched = True
         if "arg_regex" in r:
-            matched = re.search(r["arg_regex"], _args_text(args)) is not None
+            rx = re.compile(r["arg_regex"], re.I)
+            text = _args_text(args)
+            matched = (rx.search(text) is not None
+                       or rx.search(_dequote(text)) is not None)
         if matched and r["action"] == "deny_outside":
             fld = r.get("arg_field", "file_path")
-            path = args.get(fld) if isinstance(args, dict) else str(args)
-            if path is None:
-                matched = False
+            if r.get("exec_targets") and isinstance(args, dict):
+                # Writes hiding in shell redirects bypass file_path
+                # entirely — extract > and tee targets and scope them.
+                cmd = str(args.get("command", ""))
+                targets = _EXEC_WRITE_TARGET.findall(cmd)
+                if not targets:
+                    matched = False
+                else:
+                    matched = any(
+                        not _in_scope(t, r.get("path_scope", []), cwd)
+                        for t in targets)
             else:
-                matched = not _in_scope(path, r.get("path_scope", []), cwd)
+                path = args.get(fld) if isinstance(args, dict) else str(args)
+                if path is None:
+                    matched = False
+                else:
+                    matched = not _in_scope(
+                        path, r.get("path_scope", []), cwd)
         if not matched:
             continue
         action = "deny" if r["action"] == "deny_outside" else r["action"]

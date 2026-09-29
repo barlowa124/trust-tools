@@ -98,7 +98,36 @@ def _check_receipt(records):
     return problems
 
 
-_CHECKERS = {"eval_result": _check_eval, "serve_response": _check_serve}
+def _check_monitor(records):
+    """agentmon monitor_alert chain — alm- ids over the same envelope."""
+    problems, prev = [], "genesis"
+    for i, r in enumerate(records):
+        body = {k: v for k, v in r.items() if k != "alert_id"}
+        if "alm-" + sha256_bytes(canonical_json(body))[:16] \
+                != r.get("alert_id"):
+            problems.append(f"[{i}] alert hash mismatch")
+        if r.get("chain_prev") != prev:
+            problems.append(f"[{i}] alert chain break")
+        prev = r.get("alert_id")
+    return problems
+
+
+def _check_finding(records):
+    """trajaudit attest chain — fnd- ids."""
+    problems, prev = [], "genesis"
+    for i, r in enumerate(records):
+        body = {k: v for k, v in r.items() if k != "finding_id"}
+        if "fnd-" + sha256_bytes(canonical_json(body))[:16] \
+                != r.get("finding_id"):
+            problems.append(f"[{i}] finding hash mismatch")
+        if r.get("chain_prev") != prev:
+            problems.append(f"[{i}] finding chain break")
+        prev = r.get("finding_id")
+    return problems
+
+
+_CHECKERS = {"eval_result": _check_eval, "serve_response": _check_serve,
+             "monitor_alert": _check_monitor, "audit_finding": _check_finding}
 
 
 def check_chain(records: list[dict]) -> list[str]:
@@ -162,6 +191,38 @@ def _serve_section(records, label):
     return lines
 
 
+def _monitor_section(records, label):
+    actions = Counter(r["verdict"]["action"] for r in records)
+    rules = Counter(r["verdict"]["rule"] for r in records
+                    if r["verdict"].get("rule"))
+    lines = [f"## Monitor log — {label}", "",
+             f"**Decisions**: {len(records)} — "
+             + ", ".join(f"{k}:{v}" for k, v in sorted(actions.items())),
+             f"**Rules hit**: "
+             + (", ".join(f"`{r}`×{n}" for r, n in rules.most_common())
+                or "none"),
+             "",
+             "| severity | rule | action |", "|---|---|---|"]
+    for r in records:
+        v = r["verdict"]
+        lines.append(f"| {v.get('severity','-')} | {v.get('rule','-')} "
+                     f"| {v['action']} |")
+    return lines
+
+
+def _finding_section(records, label):
+    dets = Counter(r["finding"]["detector"] for r in records)
+    lines = [f"## Attested audit findings — {label}", "",
+             f"**Findings**: {len(records)}", "",
+             "| detector | summary |", "|---|---|"]
+    for r in records:
+        f_ = r["finding"]
+        lines.append(f"| {f_['detector']} | {f_.get('summary','')[:80]} |")
+    lines += ["", "Detector counts: "
+              + ", ".join(f"{k}:{v}" for k, v in sorted(dets.items()))]
+    return lines
+
+
 def _receipt_section(records, label):
     lines = [f"## Inference receipts — {label}", "",
              f"**Calls**: {len(records)}",
@@ -171,7 +232,9 @@ def _receipt_section(records, label):
 
 
 _RENDERERS = {"eval_result": _eval_section,
-              "serve_response": _serve_section}
+              "serve_response": _serve_section,
+              "monitor_alert": _monitor_section,
+              "audit_finding": _finding_section}
 
 
 def render(log_paths: list[str], title: str = "Audit report") -> str:

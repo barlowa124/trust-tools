@@ -1,0 +1,14 @@
+{
+  "session": "demo",
+  "n_events": 9,
+  "findings": [
+    {
+      "detector": "verification_claim_gap",
+      "event_i": 8,
+      "summary": "'deploy' claim with no matching command anywhere earlier in the trajectory",
+      "evidence": [
+        "Tests are green and the service is deployed to prod."
+      ]
+    }
+  ]
+}

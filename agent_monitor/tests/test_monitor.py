@@ -119,3 +119,92 @@ class GateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EventExportTests(unittest.TestCase):
+    """agentmon.events: gated calls become trajaudit-schema events."""
+
+    def _recorder(self):
+        from agentmon.events import EventRecorder
+        from agentmon.monitor import Monitor
+        pol = {"defaults": {"action": "allow"},
+               "rules": [{"id": "no-sudo", "tool": "exec",
+                          "arg_regex": "sudo",
+                          "action": "deny", "severity": "high",
+                          "reason": "priv"}]}
+        return EventRecorder(Monitor(pol), session="s1")
+
+    def test_allowed_call_records_pair(self):
+        rec = self._recorder()
+        rec.gate("exec", {"command": "ls"})
+        self.assertEqual(len(rec.events), 2)
+        self.assertEqual(rec.events[0]["kind"], "tool_call")
+        self.assertEqual(rec.events[0]["args"]["command"], "ls")
+        self.assertIn("monitor: allow", rec.events[1]["text"])
+        self.assertEqual(rec.events[0]["call_id"],
+                         rec.events[1]["call_id"])
+
+    def test_denied_call_still_recorded(self):
+        rec = self._recorder()
+        with self.assertRaises(Exception):
+            rec.gate("exec", {"command": "sudo rm x"})
+        kinds = [e["kind"] for e in rec.events]
+        self.assertEqual(kinds, ["tool_call", "tool_result"])
+        self.assertIn("deny", rec.events[1]["text"])
+
+    def test_write_jsonl_roundtrip_under_trajaudit(self):
+        """The emitted stream parses under trajaudit's own reader."""
+        import sys, tempfile, os
+        root = os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))))
+        sys.path.insert(0, os.path.join(
+            root, "agent_trajectory_audit", "src"))
+        rec = self._recorder()
+        rec.gate("exec", {"command": "ls"})
+        with tempfile.NamedTemporaryFile("w", suffix=".jsonl",
+                                         delete=False) as f:
+            path = f.name
+        try:
+            rec.write_jsonl(path)
+            from trajaudit.model import read_jsonl
+            evs = read_jsonl(path)
+            self.assertEqual(len(evs), 2)
+            self.assertEqual(evs[0].kind, "tool_call")
+        finally:
+            os.unlink(path)
+
+
+class RedTeamBatteryTests(unittest.TestCase):
+    """agentmon.redteam: adversarial cases against the default policy."""
+
+    def setUp(self):
+        from agentmon.redteam import (run_battery, default_policy_path)
+        from agentmon.policy import load_policy
+        self.results = {r["attack"]: r
+                        for r in run_battery(load_policy(
+                            default_policy_path()))}
+
+    def test_violations_detected(self):
+        for name, r in self.results.items():
+            if r["expect"] == "violation" and name != "symlink_write":
+                self.assertEqual(r["status"], "detected",
+                                 f"{name} regressed")
+
+    def test_benigns_clean(self):
+        for name, r in self.results.items():
+            if r["expect"] == "benign":
+                self.assertEqual(r["status"], "clean",
+                                 f"{name} over-blocks")
+
+    def test_symlink_is_documented_residual(self):
+        """Symlink scope escapes are the known residual: string-level
+        checks cannot resolve filesystem links. If this ever becomes
+        'detected', the gate gained realpath resolution — update the
+        docstring and the README either way."""
+        self.assertIn(self.results["symlink_write"]["status"],
+                      ("detected", "EVADED"))
+
+    def test_only_documented_evasion(self):
+        evaded = {a for a, r in self.results.items()
+                  if r["status"] == "EVADED"}
+        self.assertEqual(evaded, {"symlink_write"})

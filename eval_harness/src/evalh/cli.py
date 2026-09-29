@@ -62,6 +62,13 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--tasks", required=True)
     s.add_argument("--out-dir", required=True)
 
+    s = sub.add_parser("shadow-report",
+                       help="grade shadow divergences in a serve log")
+    s.add_argument("--log", required=True,
+                   help="modelserve serve_response JSONL")
+    s.add_argument("--tasks", required=True,
+                   help="evalh spec the prompts came from")
+
     s = sub.add_parser("verify", help="check a run log's chain")
     s.add_argument("log")
 
@@ -148,6 +155,13 @@ def main(argv: list[str] | None = None) -> int:
         out = export(a.tasks, a.out_dir)
         print(f"{out['n_tasks']} tasks -> {out['dataset']}, "
               f"{out['task_module']}", file=sys.stderr)
+        return 0
+
+    if a.cmd == "shadow-report":
+        from .shadow import grade_shadow, shadow_table
+        rep = grade_shadow(a.log, load_tasks(a.tasks))
+        print(shadow_table(rep))
+        print(json.dumps(rep, indent=2), file=sys.stderr)
         return 0
 
     if a.cmd == "report":
