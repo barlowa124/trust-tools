@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llmreceipt"
+version = "0.1.0"
+description = "Hash-bound, replayable receipts for LLM calls"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+hf = ["transformers>=4.44", "torch>=2.2", "huggingface_hub>=0.24"]
+
+[project.scripts]
+llmreceipt = "llmreceipt.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
