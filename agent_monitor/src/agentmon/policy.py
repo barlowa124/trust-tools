@@ -61,7 +61,10 @@ def _args_text(args: Any) -> str:
 
 
 def _in_scope(path: str, scopes: list[str], cwd: str) -> bool:
-    t = _norm(path)
+    # Both the target and the scopes resolve against the monitor's cwd —
+    # otherwise a relative arg is judged against the process cwd, which is
+    # not what the policy means.
+    t = _norm(path if os.path.isabs(path) else os.path.join(cwd, path))
     for s in scopes:
         base = _norm(os.path.join(cwd, s)) if not os.path.isabs(s) else _norm(s)
         if t == base or t.startswith(base + os.sep):

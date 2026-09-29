@@ -85,6 +85,11 @@ class Service:
             self._lock.notify_all()
         if self._worker:
             self._worker.join(timeout=5)
+            if self._worker.is_alive():
+                # Worker stuck mid-batch: draining from this thread would
+                # race chain_prev/records against its _serve_one. Leave the
+                # queue pending rather than corrupt the chain.
+                return
         if drain:
             while self._queue:
                 self._serve_batch()

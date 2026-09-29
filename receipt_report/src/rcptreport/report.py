@@ -42,6 +42,19 @@ def detect_kind(records: list[dict]) -> str:
 
 # -- chain verification, one per record family ---------------------------
 
+def _io_hash_check(r: dict, i: int, kind: str) -> list[str]:
+    """Semantic invariant both llmreceipt and evalh enforce: the stored
+    sha256 of a text field must recompute. A forged output keeping the
+    body hash valid still fails here."""
+    problems = []
+    for field in ("input", "output"):
+        io = r.get(field)
+        if isinstance(io, dict) and "text" in io and "sha256" in io:
+            if sha256_text(io["text"]) != io["sha256"]:
+                problems.append(f"[{i}] {kind} {field} hash mismatch")
+    return problems
+
+
 def _check_eval(records):
     problems, prev = [], "genesis"
     for i, r in enumerate(records):
@@ -51,6 +64,7 @@ def _check_eval(records):
             problems.append(f"[{i}] eval record hash mismatch")
         if r.get("chain_prev") != prev:
             problems.append(f"[{i}] eval chain break")
+        problems += _io_hash_check(r, i, "eval")
         prev = r.get("result_id")
     return problems
 
@@ -64,6 +78,7 @@ def _check_serve(records):
             problems.append(f"[{i}] serve record hash mismatch")
         if r.get("chain_prev") != prev:
             problems.append(f"[{i}] serve chain break")
+        problems += _io_hash_check(r, i, "serve")
         prev = r.get("response_id")
     return problems
 
@@ -78,6 +93,7 @@ def _check_receipt(records):
         prev_r = r.get("prev_receipt_id", r.get("chain_prev"))
         if prev_r != prev:
             problems.append(f"[{i}] receipt chain break")
+        problems += _io_hash_check(r, i, "receipt")
         prev = r.get("receipt_id")
     return problems
 

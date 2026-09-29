@@ -62,6 +62,13 @@ def main(argv=None) -> int:
 
     a = p.parse_args(argv)
 
+    for cmd, attr in (("replay", "model_dir"), ("serve", "model_dir")):
+        if a.cmd == cmd and not getattr(a, "generate_fn", None) \
+                and not getattr(a, attr, None):
+            print(f"need --{attr.replace('_', '-')} or --generate-fn",
+                  file=sys.stderr)
+            return 2
+
     if a.cmd == "replay":
         gen_fn, model = _model_fn(a)
         shadow_fn, shadow_model = (None, None)
