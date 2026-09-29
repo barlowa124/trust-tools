@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentmon"
+version = "0.1.0"
+description = "Policy-driven live interception of agent tool calls with hash-chained alert logs"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+agentmon = "agentmon.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

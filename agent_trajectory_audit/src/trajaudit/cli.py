@@ -52,6 +52,9 @@ def main(argv: list[str] | None = None) -> int:
                        help="check an attested finding log's chain")
     s.add_argument("log")
 
+    s = sub.add_parser("redteam",
+                       help="run the adversarial battery against detectors")
+
     a = p.parse_args(argv)
 
     if a.cmd == "sessions":
@@ -108,6 +111,12 @@ def main(argv: list[str] | None = None) -> int:
               f"{'OK' if not problems else f'{len(problems)} problems'}",
               file=sys.stderr)
         return 0 if not problems else 1
+
+    if a.cmd == "redteam":
+        from . import redteam
+        results = redteam.run_battery()
+        print(redteam.battery_table(results))
+        return 0
 
     return 2
 

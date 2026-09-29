@@ -1,0 +1,121 @@
+{
+  "stages": [
+    {
+      "v": 1,
+      "model": {
+        "name": "sft",
+        "weights_sha256": {
+          "model.safetensors": "c3798bfa3793b70b0cc2e28bc17aeb09519cc12e4a3eb68d4c96dd7b1215b398"
+        }
+      },
+      "spec_sha256": "4e4e23baffc9fa4b52dba3dcd1014f3ca5018a127eddce951ae4600f91f46fcd",
+      "n_tasks": 32,
+      "score": 0.59375,
+      "per_tag": {
+        "answerable": {
+          "n": 15,
+          "score": 0.26666666666666666,
+          "labels": {
+            "degenerate": 11,
+            "pass": 4
+          }
+        },
+        "format": {
+          "n": 2,
+          "score": 0.0,
+          "labels": {
+            "degenerate": 2
+          }
+        },
+        "unanswerable": {
+          "n": 15,
+          "score": 1.0,
+          "labels": {
+            "abstains": 15
+          }
+        }
+      },
+      "first_result": "evr-6fa4c715866128ab",
+      "last_result": "evr-a2c772cd8fa8a917",
+      "stage": "sft"
+    },
+    {
+      "v": 1,
+      "model": {
+        "name": "dpo",
+        "weights_sha256": {
+          "model.safetensors": "6f2fd81f0eeff185ad8830024f87bcc94441e58653836d561b6be0a66b920ada"
+        }
+      },
+      "spec_sha256": "4e4e23baffc9fa4b52dba3dcd1014f3ca5018a127eddce951ae4600f91f46fcd",
+      "n_tasks": 32,
+      "score": 0.0625,
+      "per_tag": {
+        "answerable": {
+          "n": 15,
+          "score": 0.0,
+          "labels": {
+            "degenerate": 14,
+            "fail": 1
+          }
+        },
+        "format": {
+          "n": 2,
+          "score": 0.0,
+          "labels": {
+            "degenerate": 2
+          }
+        },
+        "unanswerable": {
+          "n": 15,
+          "score": 0.13333333333333333,
+          "labels": {
+            "abstains": 2,
+            "degenerate": 13
+          }
+        }
+      },
+      "first_result": "evr-db4f59d3dfa25758",
+      "last_result": "evr-cf268d6ef65fb19a",
+      "stage": "dpo"
+    },
+    {
+      "v": 1,
+      "model": {
+        "name": "grpo",
+        "weights_sha256": {
+          "model.safetensors": "66d4023f70ebcbb1bca5ec01ce4a10e9dba64b87533f6615e2451ebab1ba29c8"
+        }
+      },
+      "spec_sha256": "4e4e23baffc9fa4b52dba3dcd1014f3ca5018a127eddce951ae4600f91f46fcd",
+      "n_tasks": 32,
+      "score": 0.46875,
+      "per_tag": {
+        "answerable": {
+          "n": 15,
+          "score": 0.0,
+          "labels": {
+            "degenerate": 15
+          }
+        },
+        "format": {
+          "n": 2,
+          "score": 0.0,
+          "labels": {
+            "degenerate": 2
+          }
+        },
+        "unanswerable": {
+          "n": 15,
+          "score": 1.0,
+          "labels": {
+            "abstains": 15
+          }
+        }
+      },
+      "first_result": "evr-bec8b26a67b2dee7",
+      "last_result": "evr-a438178ac14f0279",
+      "stage": "grpo"
+    }
+  ]
+}

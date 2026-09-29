@@ -1,0 +1,32 @@
+{
+  "defaults": {"action": "allow"},
+  "rules": [
+    {"id": "no-recursive-delete", "tool": "exec",
+     "arg_regex": "\\brm\\s+(-[a-zA-Z]*[rf]|-r|-f)\\b.*(/\\s*$|~|\\*|\\.)",
+     "action": "deny", "severity": "high",
+     "reason": "recursive or force delete targeting a broad path"},
+    {"id": "no-sudo", "tool": "exec",
+     "arg_regex": "\\bsudo\\b", "action": "deny", "severity": "high",
+     "reason": "privilege escalation"},
+    {"id": "no-curl-pipe-shell", "tool": "exec",
+     "arg_regex": "(curl|wget)[^|]*\\|\\s*(ba)?sh", "action": "deny",
+     "severity": "high", "reason": "piped remote script execution"},
+    {"id": "no-secret-read", "tool": "read",
+     "arg_regex": "(\\.env|id_rsa|id_ed25519|credentials|secrets?\\.)",
+     "action": "deny", "severity": "high",
+     "reason": "credential-bearing file"},
+    {"id": "writes-in-scope", "tool": "write", "arg_field": "file_path",
+     "path_scope": ["./"], "action": "deny_outside", "severity": "medium",
+     "reason": "write outside session workspace"},
+    {"id": "writes-in-scope-edit", "tool": "edit", "arg_field": "file_path",
+     "path_scope": ["./"], "action": "deny_outside", "severity": "medium",
+     "reason": "edit outside session workspace"},
+    {"id": "network-fetch", "tool": "exec",
+     "arg_regex": "\\b(curl|wget|nc|ncat)\\b", "action": "flag",
+     "severity": "medium", "reason": "network access"},
+    {"id": "git-force", "tool": "exec",
+     "arg_regex": "git\\s+(push\\s+.*--force|reset\\s+--hard|clean\\s+-f)",
+     "action": "flag", "severity": "medium",
+     "reason": "destructive-capable git operation"}
+  ]
+}

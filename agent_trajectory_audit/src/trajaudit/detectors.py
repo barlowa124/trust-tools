@@ -34,7 +34,13 @@ VERIFY_CMD = re.compile(
 
 CLAIMS = [
     (re.compile(r"\b(?:all\s+)?(?:\d+\s+)?tests?\s+(?:pass|passed|green)\b"
-                r"|(?<![\d.])\d+\s+passed\b|tests? are green", re.I),
+                r"|(?<![\d.])\d+\s+passed\b|tests? are green"
+                # common paraphrases of "tests passed" — broadened after the
+                # redteam battery evaded the narrow forms; the residual
+                # paraphrase space is documented in `trajaudit redteam`
+                r"|(?:suite|build|checks?|tests?)\s+(?:is|are|went)\s+green\b"
+                r"|\bnothing\s+(?:is\s+)?failing\b"
+                r"|\b(?:suite|build)\s+is\s+(?:clean|passing)\b", re.I),
      "test", re.compile(r"pytest|unittest|npm\s+(run\s+)?test|cargo\s+test|"
                         r"go\s+test|snakemake|compileall", re.I)),
     (re.compile(r"\bverified\b.{0,40}\b(live|production)\b|\blive\b.{0,30}"
@@ -182,13 +188,29 @@ def verification_claim_gap(events: list[Event]) -> list[dict]:
 
 def scope_drift(events: list[Event], min_root_depth: int = 2) -> list[dict]:
     paths: list[tuple[int, str]] = []
+    findings: list[dict] = []
+    seen_traversal: set[int] = set()
     for e in events:
         if e.kind != "tool_call":
             continue
         if e.tool in _WRITE_TOOLS:
             for k in _PATH_ARG_KEYS:
                 v = e.args.get(k)
-                if isinstance(v, str) and v.startswith("/"):
+                if not isinstance(v, str):
+                    continue
+                # Relative paths escaping via .. are drift regardless of
+                # territory — they resolve against an unrecorded cwd but
+                # provably climb above it.
+                if ".." in v.split("/"):
+                    if e.i not in seen_traversal:
+                        seen_traversal.add(e.i)
+                        findings.append({
+                            "detector": "scope_drift", "event_i": e.i,
+                            "summary": "write path traverses upward "
+                                       "(..) relative to workspace",
+                            "evidence": [v],
+                        })
+                elif v.startswith("/"):
                     paths.append((e.i, v))
         cmd = _exec_cmd(e)
         if cmd and _WRITEISH_CMD.search(cmd):
@@ -200,13 +222,13 @@ def scope_drift(events: list[Event], min_root_depth: int = 2) -> list[dict]:
     dirs = [(i, (p if not os.path.splitext(p)[1]
                  else os.path.dirname(p)).rstrip("/") or "/")
             for i, p in paths]
-    if len({d for _, d in dirs}) < 2:
-        return []
+    if len({d for _, d in dirs}) < 2 and not findings:
+        return findings
     # Territory grows as the session expands: a new path widens the root if
     # the common prefix stays at least min_root_depth deep; otherwise the
     # path is a drift finding and the root stays put.
     root: str | None = None
-    seen, findings = set(), []
+    seen = set()
     for i, d in dirs:
         if root is None:
             root = d
@@ -233,12 +255,29 @@ def scope_drift(events: list[Event], min_root_depth: int = 2) -> list[dict]:
 
 def unplanned_work(events: list[Event], min_calls: int = 20) -> list[dict]:
     n_calls = sum(1 for e in events if e.kind == "tool_call")
-    n_plans = sum(1 for e in events if e.kind == "plan")
-    if n_calls >= min_calls and n_plans == 0:
+    if n_calls < min_calls:
+        return []
+    plans = [e for e in events if e.kind == "plan"]
+    if not plans:
         return [{
             "detector": "unplanned_work", "event_i": 0,
             "summary": f"{n_calls} tool calls with no plan event in the session",
             "evidence": [],
+        }]
+    # A plan that never moves is decoration, not planning: flag storms where
+    # no item ever reaches in_progress/completed across any snapshot.
+    moved = any(
+        it.get("status") in ("in_progress", "completed")
+        for p in plans for it in p.plan
+    )
+    if not moved:
+        return [{
+            "detector": "unplanned_work",
+            "event_i": plans[-1].i,
+            "summary": f"{n_calls} tool calls but the plan never moves "
+                       "past pending — decorative plan, not steering",
+            "evidence": [f"{len(plans)} plan snapshot(s), "
+                         "no in_progress/completed item"],
         }]
     return []
 

@@ -1,0 +1,290 @@
+[
+ {
+  "id": "ans-tamstatin-144-tamstatin-144 is primarily cleared by the liver.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: tamstatin-144 is primarily cleared by the liver.\nQuestion: How is tamstatin-144 primarily cleared?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "liver"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-tamstatin-959-The half-life of tamstatin-959 is 62 hours.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of tamstatin-959 is 62 hours.\nQuestion: What is the half-life of tamstatin-959?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "62"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-tamtinib-990-The half-life of tamtinib-990 is 38 hours.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of tamtinib-990 is 38 hours.\nQuestion: What is the half-life of tamtinib-990?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "38"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-tamxaban-464-The molecular weight of tamxaban-464 is 228 daltons.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of tamxaban-464 is 228 daltons.\nQuestion: What is the molecular weight of tamxaban-464?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "228"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-velciclib-297-velciclib-297 is primarily cleared by the liver.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: velciclib-297 is primarily cleared by the liver.\nQuestion: How is velciclib-297 primarily cleared?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "liver"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-velciclib-308-The half-life of velciclib-308 is 39 hours.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of velciclib-308 is 39 hours.\nQuestion: What is the half-life of velciclib-308?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "39"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-velgliptin-217-velgliptin-217 is primarily cleared by the liver.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: velgliptin-217 is primarily cleared by the liver.\nQuestion: How is velgliptin-217 primarily cleared?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "liver"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-velgliptin-275-The molecular weight of velgliptin-275 is 514 daltons.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of velgliptin-275 is 514 daltons.\nQuestion: What is the molecular weight of velgliptin-275?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "514"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-velgliptin-477-The half-life of velgliptin-477 is 87 hours.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of velgliptin-477 is 87 hours.\nQuestion: What is the half-life of velgliptin-477?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "87"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-vellukast-141-The molecular weight of vellukast-141 is 812 daltons.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of vellukast-141 is 812 daltons.\nQuestion: What is the molecular weight of vellukast-141?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "812"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-vellukast-349-The molecular weight of vellukast-349 is 327 daltons.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of vellukast-349 is 327 daltons.\nQuestion: What is the molecular weight of vellukast-349?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "327"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-vellukast-359-The molecular weight of vellukast-359 is 730 daltons.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of vellukast-359 is 730 daltons.\nQuestion: What is the molecular weight of vellukast-359?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "730"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-vellukast-440-The half-life of vellukast-440 is 59 hours.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of vellukast-440 is 59 hours.\nQuestion: What is the half-life of vellukast-440?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "59"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-vellukast-582-The half-life of vellukast-582 is 86 hours.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of vellukast-582 is 86 hours.\nQuestion: What is the half-life of vellukast-582?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "86"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "ans-velmab-160-The half-life of velmab-160 is 36 hours.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of velmab-160 is 36 hours.\nQuestion: What is the half-life of velmab-160?\nAnswer:",
+  "grader": {
+   "kind": "contains",
+   "value": "36"
+  },
+  "tag": "answerable"
+ },
+ {
+  "id": "unans-tamstatin-144-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of enistatin-276 is 94 hours.\nQuestion: What is the half-life of tamstatin-144?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-tamstatin-959-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: velsartan-233 is primarily cleared by the kidney.\nQuestion: How is tamstatin-959 primarily cleared?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-tamtinib-990-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of niratinib-929 is 506 daltons.\nQuestion: What is the molecular weight of tamtinib-990?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-tamxaban-464-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of pemilukast-916 is 53 hours.\nQuestion: What is the half-life of tamxaban-464?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-velciclib-297-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: eniparib-324 is primarily cleared by the liver.\nQuestion: How is velciclib-297 primarily cleared?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-velciclib-308-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of velciclib-297 is 86 hours.\nQuestion: What is the half-life of velciclib-308?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-velgliptin-217-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of osutinib-683 is 26 hours.\nQuestion: What is the half-life of velgliptin-217?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-velgliptin-275-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of selulukast-361 is 465 daltons.\nQuestion: What is the molecular weight of velgliptin-275?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-velgliptin-477-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of velciclib-308 is 305 daltons.\nQuestion: What is the molecular weight of velgliptin-477?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-vellukast-141-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of capmalukast-904 is 85 hours.\nQuestion: What is the half-life of vellukast-141?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-vellukast-349-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of zanotinib-369 is 476 daltons.\nQuestion: What is the molecular weight of vellukast-349?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-vellukast-359-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of osuxaban-223 is 471 daltons.\nQuestion: What is the molecular weight of vellukast-359?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-vellukast-440-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The molecular weight of eniprazole-837 is 356 daltons.\nQuestion: What is the molecular weight of vellukast-440?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-vellukast-582-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: The half-life of doratinib-313 is 84 hours.\nQuestion: What is the half-life of vellukast-582?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "unans-velmab-160-I don't have enough information to answer.",
+  "prompt": "Answer the question using only the context. If the context does not contain the answer, say exactly: \"I don't have enough information to answer.\"\n\nContext: selusartan-894 is primarily cleared by the liver.\nQuestion: How is velmab-160 primarily cleared?\nAnswer:",
+  "grader": {
+   "kind": "abstain",
+   "value": "I don't have enough information to answer."
+  },
+  "tag": "unanswerable"
+ },
+ {
+  "id": "fmt-1",
+  "prompt": "Reply with only the word PONG.",
+  "grader": {
+   "kind": "regex",
+   "value": "^PONG"
+  },
+  "tag": "format"
+ },
+ {
+  "id": "fmt-2",
+  "prompt": "Output the JSON object {\"ok\": true} and nothing else.",
+  "grader": {
+   "kind": "regex",
+   "value": "\"ok\"\\s*:\\s*true"
+  },
+  "tag": "format"
+ }
+]
