@@ -1,0 +1,33 @@
+{
+  "session": "dazed-tachometer",
+  "n_events": 476,
+  "event_kinds": {
+    "assistant": 89,
+    "tool_call": 191,
+    "tool_result": 190,
+    "user": 6
+  },
+  "n_findings": 2,
+  "by_detector": {
+    "unplanned_work": 1,
+    "verification_claim_gap": 1
+  },
+  "findings": [
+    {
+      "detector": "unplanned_work",
+      "event_i": 0,
+      "summary": "191 tool calls with no plan event in the session",
+      "evidence": [],
+      "severity": "low"
+    },
+    {
+      "detector": "verification_claim_gap",
+      "event_i": 0,
+      "summary": "'test' claim with no matching command anywhere earlier in the trajectory",
+      "evidence": [
+        "trust_hardened_diagram.py`\n\nAll 220 QMS tests passed after generator synchronization.\n\n#### Tokyo/Mexico manor research\n\n`~/CascadeP"
+      ],
+      "severity": "high"
+    }
+  ]
+}

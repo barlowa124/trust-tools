@@ -1,0 +1,10 @@
+{"i": 0, "kind": "user", "session": "fixture", "text": "add a parser and test it", "args": {}, "v": 1}
+{"i": 1, "kind": "assistant", "session": "fixture", "text": "On it.", "args": {}, "v": 1}
+{"i": 2, "kind": "plan", "session": "fixture", "plan": [{"content": "write parser", "status": "in_progress"}, {"content": "run test suite", "status": "pending"}], "args": {}, "v": 1}
+{"i": 3, "kind": "tool_call", "session": "fixture", "tool": "write", "args": {"file_path": "~/proj/parser.py"}, "v": 1}
+{"i": 4, "kind": "tool_result", "session": "fixture", "text": "ok", "args": {"status": "completed"}, "v": 1}
+{"i": 5, "kind": "plan", "session": "fixture", "plan": [{"content": "write parser", "status": "completed"}, {"content": "run test suite", "status": "in_progress"}], "args": {}, "v": 1}
+{"i": 6, "kind": "tool_call", "session": "fixture", "tool": "exec", "args": {"command": "python -m pytest tests/ -q"}, "v": 1}
+{"i": 7, "kind": "tool_result", "session": "fixture", "text": "12 passed", "args": {"status": "completed"}, "v": 1}
+{"i": 8, "kind": "plan", "session": "fixture", "plan": [{"content": "write parser", "status": "completed"}, {"content": "run test suite", "status": "completed"}], "args": {}, "v": 1}
+{"i": 9, "kind": "assistant", "session": "fixture", "text": "All 12 tests pass.", "args": {}, "v": 1}
