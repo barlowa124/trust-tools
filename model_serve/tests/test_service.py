@@ -117,3 +117,56 @@ class ServiceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BenchTests(unittest.TestCase):
+    def _slow_fn(self, ms=5):
+        import time
+        def gen(p):
+            time.sleep(ms / 1000)
+            return "out:" + p
+        return gen
+
+    def test_report_shape_and_chain(self):
+        from modelserve.bench import run_bench
+        rep = run_bench(self._slow_fn(), {"name": "stub"},
+                        n_requests=40, concurrency=8, batch_size=4)
+        self.assertEqual(rep["n_served"], 40)
+        self.assertEqual(rep["n_errors"], 0)
+        self.assertEqual(rep["chain_problems"], [])
+        lat = rep["client_latency_s"]
+        self.assertLessEqual(lat["p50"], lat["p95"])
+        self.assertLessEqual(lat["p95"], lat["p99"])
+        self.assertGreater(rep["throughput_rps"], 0)
+
+    def test_batching_groups_requests(self):
+        from modelserve.bench import run_bench
+        single = run_bench(self._slow_fn(), {"name": "s"},
+                           n_requests=30, concurrency=6, batch_size=1)
+        batched = run_bench(self._slow_fn(), {"name": "s"},
+                            n_requests=30, concurrency=6, batch_size=6)
+        self.assertLess(batched["batches"], single["batches"])
+
+    def test_pct(self):
+        from modelserve.bench import pct
+        self.assertEqual(pct([1, 2, 3], 50), 2)
+        self.assertEqual(pct([1, 2, 3], 100), 3)
+        self.assertAlmostEqual(pct([0, 10], 25), 2.5)
+        self.assertEqual(pct([], 50), 0.0)
+
+    def test_cli_bench_stub(self):
+        import sys, types, tempfile, os
+        mod = types.ModuleType("benchstub")
+        mod.gen = self._slow_fn(1)
+        sys.modules["benchstub"] = mod
+        from modelserve.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            out = os.path.join(d, "b.json")
+            rc = main(["bench", "--generate-fn", "benchstub:gen",
+                       "--batch-sizes", "1,4", "--requests", "20",
+                       "--concurrency", "4", "--out", out])
+            self.assertEqual(rc, 0)
+            reps = json.load(open(out))
+            self.assertEqual(len(reps), 2)
+            self.assertEqual(reps[0]["model"]["generate_fn"],
+                             "benchstub:gen")

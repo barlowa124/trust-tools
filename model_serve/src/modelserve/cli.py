@@ -8,6 +8,8 @@ for demos and CI where standing a server up is overkill:
                     [--shadow-fraction 0.5] [--out records.jsonl]
   modelserve verify records.jsonl
   modelserve serve --model-dir DIR [--shadow-dir DIR] [--port 8000]
+  modelserve bench --model-dir DIR [--batch-sizes 1,4,8]
+                   [--requests 200] [--concurrency 8] [--out bench.json]
 """
 
 from __future__ import annotations
@@ -60,9 +62,23 @@ def main(argv=None) -> int:
     s.add_argument("--shadow-fraction", type=float, default=0.1)
     s.add_argument("--port", type=int, default=8000)
 
+    s = sub.add_parser("bench", help="latency/throughput benchmark under "
+                       "concurrent load")
+    s.add_argument("--model-dir")
+    s.add_argument("--generate-fn")
+    s.add_argument("--batch-sizes", default="8",
+                   help="comma-separated sweep, e.g. 1,4,8")
+    s.add_argument("--requests", type=int, default=100)
+    s.add_argument("--concurrency", type=int, default=8)
+    s.add_argument("--batch-window-s", type=float, default=0.050)
+    s.add_argument("--prompt", default=None,
+                   help="benchmark prompt; default is a fixed line")
+    s.add_argument("--out", default="-")
+
     a = p.parse_args(argv)
 
-    for cmd, attr in (("replay", "model_dir"), ("serve", "model_dir")):
+    for cmd, attr in (("replay", "model_dir"), ("serve", "model_dir"),
+                      ("bench", "model_dir")):
         if a.cmd == cmd and not getattr(a, "generate_fn", None) \
                 and not getattr(a, attr, None):
             print(f"need --{attr.replace('_', '-')} or --generate-fn",
@@ -105,6 +121,25 @@ def main(argv=None) -> int:
               f"{'OK' if not problems else f'{len(problems)} problems'}",
               file=sys.stderr)
         return 0 if not problems else 1
+
+    if a.cmd == "bench":
+        from .bench import run_bench, sweep, table
+        gen_fn, model = _model_fn(a)
+        sizes = [int(x) for x in a.batch_sizes.split(",") if x.strip()]
+        kw = dict(n_requests=a.requests, concurrency=a.concurrency,
+                  batch_window_s=a.batch_window_s,
+                  prompt=a.prompt)
+        reports = (sweep(gen_fn, model, sizes, **kw) if len(sizes) > 1
+                   else [run_bench(gen_fn, model, batch_size=sizes[0],
+                                   **kw)])
+        for r in reports:
+            r["model"] = model
+        print(table(reports), file=sys.stderr)
+        out = sys.stdout if a.out == "-" else open(a.out, "w")
+        json.dump(reports[0] if len(reports) == 1 else reports,
+                  out, indent=2)
+        out.write("\n")
+        return 0
 
     if a.cmd == "serve":
         gen_fn, model = _model_fn(a)

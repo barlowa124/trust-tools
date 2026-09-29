@@ -1,0 +1,140 @@
+[
+  {
+    "config": {
+      "n_requests": 60,
+      "concurrency": 8,
+      "batch_size": 1,
+      "batch_window_s": 0.02
+    },
+    "n_served": 60,
+    "n_errors": 0,
+    "errors": [],
+    "wall_s": 52.606,
+    "throughput_rps": 1.14,
+    "batches": 60,
+    "client_latency_s": {
+      "p50": 6.3298,
+      "p90": 9.878,
+      "p95": 10.8502,
+      "p99": 11.0258,
+      "mean": 6.5131,
+      "max": 11.0275
+    },
+    "queued_s": {
+      "p50": 5.4242,
+      "p90": 8.8482,
+      "p95": 10.0152,
+      "p99": 10.1706,
+      "mean": 5.6363,
+      "max": 10.2361
+    },
+    "gen_s": {
+      "p50": 0.7487,
+      "p90": 1.1999,
+      "p95": 1.2897,
+      "p99": 2.2803,
+      "mean": 0.8765,
+      "max": 3.0346
+    },
+    "chain_problems": [],
+    "model": {
+      "name": "sft",
+      "weights_sha256": {
+        "model.safetensors": "c3798bfa3793b70b0cc2e28bc17aeb09519cc12e4a3eb68d4c96dd7b1215b398"
+      }
+    },
+    "bench_note": "CPU inference, SmolLM2-135M SFT, max_new_tokens=24, fixed prompt; measures the queueing/batching layer, not peak GPU throughput"
+  },
+  {
+    "config": {
+      "n_requests": 60,
+      "concurrency": 8,
+      "batch_size": 4,
+      "batch_window_s": 0.02
+    },
+    "n_served": 60,
+    "n_errors": 0,
+    "errors": [],
+    "wall_s": 35.482,
+    "throughput_rps": 1.69,
+    "batches": 16,
+    "client_latency_s": {
+      "p50": 4.9309,
+      "p90": 5.4642,
+      "p95": 5.5922,
+      "p99": 5.6167,
+      "mean": 4.501,
+      "max": 5.6206
+    },
+    "queued_s": {
+      "p50": 4.2492,
+      "p90": 4.8535,
+      "p95": 4.967,
+      "p99": 4.9932,
+      "mean": 3.9095,
+      "max": 5.008
+    },
+    "gen_s": {
+      "p50": 0.5985,
+      "p90": 0.7619,
+      "p95": 0.7874,
+      "p99": 0.8054,
+      "mean": 0.5913,
+      "max": 0.8164
+    },
+    "chain_problems": [],
+    "model": {
+      "name": "sft",
+      "weights_sha256": {
+        "model.safetensors": "c3798bfa3793b70b0cc2e28bc17aeb09519cc12e4a3eb68d4c96dd7b1215b398"
+      }
+    },
+    "bench_note": "CPU inference, SmolLM2-135M SFT, max_new_tokens=24, fixed prompt; measures the queueing/batching layer, not peak GPU throughput"
+  },
+  {
+    "config": {
+      "n_requests": 60,
+      "concurrency": 8,
+      "batch_size": 8,
+      "batch_window_s": 0.02
+    },
+    "n_served": 60,
+    "n_errors": 0,
+    "errors": [],
+    "wall_s": 29.548,
+    "throughput_rps": 2.03,
+    "batches": 10,
+    "client_latency_s": {
+      "p50": 3.4838,
+      "p90": 5.8022,
+      "p95": 6.3971,
+      "p99": 6.5241,
+      "mean": 3.657,
+      "max": 6.5362
+    },
+    "queued_s": {
+      "p50": 2.9899,
+      "p90": 4.6068,
+      "p95": 5.8091,
+      "p99": 6.0526,
+      "mean": 3.1645,
+      "max": 6.0717
+    },
+    "gen_s": {
+      "p50": 0.388,
+      "p90": 0.6019,
+      "p95": 0.9036,
+      "p99": 1.5077,
+      "mean": 0.4924,
+      "max": 2.193
+    },
+    "chain_problems": [],
+    "model": {
+      "name": "sft",
+      "weights_sha256": {
+        "model.safetensors": "c3798bfa3793b70b0cc2e28bc17aeb09519cc12e4a3eb68d4c96dd7b1215b398"
+      }
+    },
+    "bench_note": "CPU inference, SmolLM2-135M SFT, max_new_tokens=24, fixed prompt; measures the queueing/batching layer, not peak GPU throughput"
+  }
+]
