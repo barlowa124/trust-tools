@@ -1,5 +1,7 @@
 # trust-tools
 
+[![ci](https://github.com/barlowa124/trust-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/barlowa124/trust-tools/actions/workflows/ci.yml)
+
 Tools for verifying what AI systems did — and checking whether the
 watchers can be fooled. Five related projects merged into one
 repository, each a self-contained package with its own tests and commit

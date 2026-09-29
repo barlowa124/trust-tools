@@ -2,9 +2,11 @@
 
   evalh run --tasks spec.json --out run.jsonl [--model-dir DIR]
             [--generate-fn mod:fn]
+            [--api-base URL --api-model NAME]
   evalh sweep --tasks spec.json --model-dirs A,B,C --out-dir out/
   evalh verify run.jsonl
   evalh report summary.json [--md out.md]
+  evalh inspect-export --tasks spec.json --out-dir DIR
 """
 
 from __future__ import annotations
@@ -42,6 +44,10 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--generate-fn",
                    help="module:function returning prompt->text; "
                         "overrides --model-dir")
+    s.add_argument("--api-base",
+                   help="OpenAI-compatible API base (e.g. "
+                        "https://api.openai.com or a local vLLM server)")
+    s.add_argument("--api-model", help="model name for the API endpoint")
     s.add_argument("--max-new-tokens", type=int, default=60)
 
     s = sub.add_parser("sweep", help="same battery across model dirs")
@@ -50,6 +56,11 @@ def main(argv: list[str] | None = None) -> int:
                    help="comma-separated dirs; optional name=dir")
     s.add_argument("--out-dir", required=True)
     s.add_argument("--max-new-tokens", type=int, default=60)
+
+    s = sub.add_parser("inspect-export",
+                       help="emit an Inspect dataset.jsonl + task module")
+    s.add_argument("--tasks", required=True)
+    s.add_argument("--out-dir", required=True)
 
     s = sub.add_parser("verify", help="check a run log's chain")
     s.add_argument("log")
@@ -60,8 +71,10 @@ def main(argv: list[str] | None = None) -> int:
 
     a = p.parse_args(argv)
 
-    if a.cmd == "run" and not (a.generate_fn or a.model_dir):
-        print("need --model-dir or --generate-fn", file=sys.stderr)
+    if a.cmd == "run" and not (a.generate_fn or a.model_dir
+                               or (a.api_base and a.api_model)):
+        print("need --model-dir, --generate-fn, or --api-base+--api-model",
+              file=sys.stderr)
         return 2
 
     if a.cmd == "run":
@@ -69,6 +82,14 @@ def main(argv: list[str] | None = None) -> int:
         if a.generate_fn:
             gen_fn = _import_fn(a.generate_fn)
             model = {"generate_fn": a.generate_fn}
+        elif a.api_base:
+            if not a.api_model:
+                print("--api-base needs --api-model", file=sys.stderr)
+                return 2
+            from . import api
+            gen_fn = api.make_generate_fn(a.api_base, a.api_model,
+                                          max_tokens=a.max_new_tokens)
+            model = api.model_meta(a.api_base, a.api_model)
         else:
             from . import hf
             gen_fn = hf.make_generate_fn(a.model_dir, a.max_new_tokens)
@@ -121,6 +142,13 @@ def main(argv: list[str] | None = None) -> int:
               f"{'OK' if not problems else f'{len(problems)} problems'}",
               file=sys.stderr)
         return 0 if not problems else 1
+
+    if a.cmd == "inspect-export":
+        from .inspect_bridge import export
+        out = export(a.tasks, a.out_dir)
+        print(f"{out['n_tasks']} tasks -> {out['dataset']}, "
+              f"{out['task_module']}", file=sys.stderr)
+        return 0
 
     if a.cmd == "report":
         summary = json.load(open(a.summary, encoding="utf-8"))

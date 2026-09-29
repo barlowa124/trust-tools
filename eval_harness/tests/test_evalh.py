@@ -116,3 +116,83 @@ class RunTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ApiBackendTests(unittest.TestCase):
+    """API backend against a local OpenAI-compatible stub — no key, no
+    network beyond localhost."""
+
+    def _stub(self, reply="PONG"):
+        import threading
+        from http.server import BaseHTTPRequestHandler, HTTPServer
+
+        class H(BaseHTTPRequestHandler):
+            def do_POST(self):
+                n = int(self.headers.get("Content-Length", 0))
+                self.rfile.read(n)
+                body = {"choices": [{"message": {"content": reply}}]}
+                out = json.dumps(body).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(out)))
+                self.end_headers()
+                self.wfile.write(out)
+
+            def log_message(self, *a):
+                pass
+
+        srv = HTTPServer(("127.0.0.1", 0), H)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        return srv
+
+    def test_generate_fn_calls_endpoint(self):
+        from evalh import api
+        srv = self._stub("hello world")
+        try:
+            os.environ["EVALH_API_KEY"] = "test-key"
+            gen = api.make_generate_fn(
+                f"http://127.0.0.1:{srv.server_port}", "m-test")
+            self.assertEqual(gen("hi"), "hello world")
+        finally:
+            srv.shutdown()
+            del os.environ["EVALH_API_KEY"]
+
+    def test_meta_marks_nonreplayable(self):
+        from evalh import api
+        m = api.model_meta("https://api.example.com", "m1")
+        self.assertFalse(m["replayable"])
+        self.assertEqual(m["name"], "m1")
+
+    def test_missing_key_is_clear_error(self):
+        from evalh import api
+        os.environ.pop("EVALH_API_KEY", None)
+        os.environ.pop("OPENAI_API_KEY", None)
+        with self.assertRaises(SystemExit):
+            api.make_generate_fn("http://localhost:1", "m")
+
+
+class InspectBridgeTests(unittest.TestCase):
+    def test_export_emits_dataset_and_task(self):
+        import tempfile, os
+        from evalh.inspect_bridge import export
+        spec = [{"id": "t1", "prompt": "p", "tag": "answerable",
+                 "grader": {"kind": "contains", "value": "x"}}]
+        with tempfile.TemporaryDirectory() as d:
+            spec_path = os.path.join(d, "spec.json")
+            with open(spec_path, "w") as f:
+                json.dump(spec, f)
+            out = export(spec_path, os.path.join(d, "out"))
+            self.assertEqual(out["n_tasks"], 1)
+            rows = [json.loads(l)
+                    for l in open(out["dataset"])]
+            self.assertEqual(rows[0]["input"], "p")
+            self.assertEqual(rows[0]["metadata"]["grader"]["kind"],
+                             "contains")
+            src = open(out["task_module"]).read()
+            self.assertIn("@task", src)
+            self.assertIn("json_dataset", src)
+            self.assertIn("evalh_grade", src)
+
+    def test_task_name_sanitized(self):
+        from evalh.inspect_bridge import _task_name
+        self.assertEqual(_task_name("/a/b/My Spec!.json"), "my_spec")

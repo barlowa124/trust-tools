@@ -10,10 +10,24 @@ Editing, reordering, or dropping a record breaks the chain check.
 
 ```
 evalh run --tasks spec.json --model-dir CKPT --out run.jsonl
+evalh run --tasks spec.json --api-base https://api.openai.com \
+          --api-model gpt-5-mini --out api_run.jsonl
 evalh sweep --tasks spec.json --model-dirs sft=D1,dpo=D2 --out-dir out/
 evalh verify run.jsonl
 evalh report sweep_summary.json --md report.md
+evalh inspect-export --tasks spec.json --out-dir inspect_pkg/
 ```
+
+The API backend speaks OpenAI-compatible `/v1/chat/completions` (OpenAI,
+OpenRouter, local vLLM/Ollama). Keys come from `EVALH_API_KEY` /
+`OPENAI_API_KEY` and are never written into records; API runs are marked
+`replayable: false` since provider-side drift makes bit-exact replay
+impossible.
+
+`inspect-export` emits a real Inspect artifact pair — `dataset.jsonl`
+plus a loadable `@task` whose scorer wraps evalh's deterministic
+graders — so the same battery runs under `inspect eval` when
+inspect_ai is installed.
 
 Graders are deterministic: `exact`, `contains`, `not_contains`,
 `regex`, `abstain`. Degenerate outputs (repetition collapse) are labeled
