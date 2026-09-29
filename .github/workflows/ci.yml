@@ -12,7 +12,8 @@ jobs:
       fail-fast: false
       matrix:
         pkg: [agent_trajectory_audit, agent_monitor, eval_harness,
-              inference_receipts, model_serve, receipt_report]
+              inference_receipts, model_serve, receipt_report,
+              agent_observe]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

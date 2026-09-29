@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8">
+<title>Trace report: agent_run.json</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:2rem;max-width:60rem}
+table{border-collapse:collapse;width:100%}
+td,th{padding:3px 8px;text-align:left;font-size:.9rem}
+tr.deny td{background:#fdecea} tr.flag td{background:#fff8e1}
+.bar{height:.7em;background:#90caf9;min-width:1px}
+.num{font-variant-numeric:tabular-nums;text-align:right}
+.deny,.deny td{color:#b71c1c} .flag,.flag td{color:#e65100}
+</style>
+<h1>Trace report: agent_run.json</h1>
+<p>9 spans, 4000 ms.</p>
+<table><tr><th>span</th><th>kind</th><th>dur</th>
+<th></th><th>verdict</th></tr><tr class="ok"><td style="padding-left:8px">agent-run</td><td>agent</td><td class="num">4000.0 ms</td><td><div class="bar" style="width:100.0%"></div></td><td></td></tr><tr class="ok"><td style="padding-left:26px">llm:plan</td><td>llm</td><td class="num">200.0 ms</td><td><div class="bar" style="width:5.0%"></div></td><td></td></tr><tr class="ok"><td style="padding-left:26px">write_file config</td><td>tool_call</td><td class="num">100.0 ms</td><td><div class="bar" style="width:2.5%"></div></td><td><span class="ok">allow</span></td></tr><tr class="ok"><td style="padding-left:44px">write result</td><td>tool_result</td><td class="num">10.0 ms</td><td><div class="bar" style="width:0.2%"></div></td><td></td></tr><tr class="deny"><td style="padding-left:26px">exec curl|sh</td><td>tool_call</td><td class="num">100.0 ms</td><td><div class="bar" style="width:2.5%"></div></td><td><span class="deny">deny: no-curl-pipe-shell</span></td></tr><tr class="deny"><td style="padding-left:26px">exec sudo rm</td><td>tool_call</td><td class="num">50.0 ms</td><td><div class="bar" style="width:1.2%"></div></td><td><span class="deny">deny: no-sudo</span></td></tr><tr class="deny"><td style="padding-left:26px">read .env</td><td>tool_call</td><td class="num">50.0 ms</td><td><div class="bar" style="width:1.2%"></div></td><td><span class="deny">deny: no-secret-read</span></td></tr><tr class="flag"><td style="padding-left:26px">exec wget</td><td>tool_call</td><td class="num">400.0 ms</td><td><div class="bar" style="width:10.0%"></div></td><td><span class="flag">flag: network-fetch</span></td></tr><tr class="ok"><td style="padding-left:26px">llm:final</td><td>llm</td><td class="num">500.0 ms</td><td><div class="bar" style="width:12.5%"></div></td><td></td></tr></table>
+<h2>Audit findings</h2><ul><li><b>verification_claim_gap</b> &#x27;test&#x27; claim with no matching command anywhere earlier in the trajectory <i>Deployed to production. All tests pass.</i></li></ul>
