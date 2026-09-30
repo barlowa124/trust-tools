@@ -1,0 +1,83 @@
+cohort: brca
+archive_url: https://cbioportal-datahub.s3.amazonaws.com/brca_tcga_pan_can_atlas_2018.tar.gz
+file_base_url: https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/brca_tcga_pan_can_atlas_2018
+file_base_url_alt: https://raw.githubusercontent.com/cBioPortal/datahub/master/public/brca_tcga_pan_can_atlas_2018
+files:
+  clinical_patient: data_clinical_patient.txt
+  clinical_sample: data_clinical_sample.txt
+  expression: data_mrna_seq_v2_rsem.txt
+  expression_fallback: data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt
+  mutations: data_mutations.txt
+  cases_sequenced: case_lists/cases_sequenced.txt
+columns:
+  patient_id: PATIENT_ID
+  sample_id: SAMPLE_ID
+  os_months: OS_MONTHS
+  os_status: OS_STATUS
+  sample_patient_id: PATIENT_ID
+os_status_map:
+  deceased: "1:DECEASED"
+  living: "0:LIVING"
+covariates:
+  age: AGE
+  sex: SEX
+  stage: AJCC_PATHOLOGIC_TUMOR_STAGE
+# Observed values in this study: STAGE I, IA, IB, II, IIA, IIB, III, IIIA, IIIB,
+# IIIC, IV, and STAGE X. Sub-stage letters collapse to the roman numeral.
+# STAGE X means "stage cannot be assessed" -> left unmapped, becomes NaN and is
+# counted in the missingness report. Any other unknown string -> NaN too.
+stage_map:
+  "STAGE I": I
+  "STAGE IA": I
+  "STAGE IB": I
+  "STAGE II": II
+  "STAGE IIA": II
+  "STAGE IIB": II
+  "STAGE III": III
+  "STAGE IIIA": III
+  "STAGE IIIB": III
+  "STAGE IIIC": III
+  "STAGE IV": IV
+sample_type_suffix: "-01"
+n_expression_genes: 50
+rag_query: "breast cancer treatment surgery radiation chemotherapy hormone therapy stage prognosis"
+rag_docs:
+  - doc_id: pdq_breast_treatment
+    url: https://www.cancer.gov/types/breast/patient/breast-treatment-pdq
+mutation_genes:
+  - TP53
+  - PIK3CA
+  - CDH1
+  - GATA3
+  - MAP3K1
+  - KMT2C
+entrez_ids:
+  TP53: 7157
+  PIK3CA: 5290
+  CDH1: 999
+  GATA3: 2625
+  MAP3K1: 4214
+  KMT2C: 58508
+# Sex-linked genes (X/Y chromosome) excluded from variance-based gene selection:
+# sex is already a clinical covariate, and these genes dominated variance ranking.
+excluded_genes:
+  - XIST
+  - RPS4Y1
+  - DDX3Y
+  - KDM5D
+  - USP9Y
+  - EIF1AY
+  - UTY
+  - TXLNGY
+  - NLGN4Y
+  - ZFY
+  - TSIX
+  - PRKY
+  - TTTY15
+  - TTTY14
+  - KDM5C
+  - CYorf15A
+  - CYorf15B
+excluded_gene_patterns:
+  - "^CYorf"
+  - "^TTTY"

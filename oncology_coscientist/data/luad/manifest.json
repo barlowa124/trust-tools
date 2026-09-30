@@ -1,0 +1,15 @@
+{
+  "cohort": "luad",
+  "archive_url": "https://cbioportal-datahub.s3.amazonaws.com/luad_tcga_pan_can_atlas_2018.tar.gz",
+  "source": "files",
+  "archive_sha256": null,
+  "members": {
+    "data_clinical_patient.txt": "2c347251474ec48a365e9b9dcd3b86a7106a6bbf69469ec4b740ba4d92695df7",
+    "data_clinical_sample.txt": "b443896a6aed8256f3aa1b5e2f41e700392c76461be10936d2c344988bc5d84e",
+    "data_mrna_seq_v2_rsem.txt": "de8e782877b5239af448eaf8e8658b36d7cc32981cc040f97921ceac9c7a5a55",
+    "data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt": "190fec92308f22d2c4339ef0b6828af76b79e7edb8644f75aff13e5695434799",
+    "data_mutations.txt": "95d6091811718d245c00a37e95105b8e74d0a494de8de8fc7514eea5d6bb44f0",
+    "case_lists/cases_sequenced.txt": "0a804793afbbf753b4ade84f86884430692e62dd41951b093ca585c59252d263"
+  },
+  "manifest_sha256": "8c688ec6acd21905b6e37c7439966ed4205520741cf5aaa5c4fafc7561872bfb"
+}

@@ -1,0 +1,76 @@
+cohort: luad
+archive_url: https://cbioportal-datahub.s3.amazonaws.com/luad_tcga_pan_can_atlas_2018.tar.gz
+file_base_url: https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/luad_tcga_pan_can_atlas_2018
+file_base_url_alt: https://raw.githubusercontent.com/cBioPortal/datahub/master/public/luad_tcga_pan_can_atlas_2018
+files:
+  clinical_patient: data_clinical_patient.txt
+  clinical_sample: data_clinical_sample.txt
+  expression: data_mrna_seq_v2_rsem.txt
+  expression_fallback: data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt
+  mutations: data_mutations.txt
+  cases_sequenced: case_lists/cases_sequenced.txt
+columns:
+  patient_id: PATIENT_ID
+  sample_id: SAMPLE_ID
+  os_months: OS_MONTHS
+  os_status: OS_STATUS
+  sample_patient_id: PATIENT_ID
+os_status_map:
+  deceased: "1:DECEASED"
+  living: "0:LIVING"
+covariates:
+  age: AGE
+  sex: SEX
+  stage: AJCC_PATHOLOGIC_TUMOR_STAGE
+stage_map:
+  "STAGE I": I
+  "STAGE IA": I
+  "STAGE IB": I
+  "STAGE II": II
+  "STAGE IIA": II
+  "STAGE IIB": II
+  "STAGE III": III
+  "STAGE IIIA": III
+  "STAGE IIIB": III
+  "STAGE IV": IV
+sample_type_suffix: "-01"
+n_expression_genes: 50
+rag_query: "non-small cell lung cancer treatment surgery chemotherapy radiation stage prognosis"
+rag_docs:
+  - doc_id: pdq_nsclc_treatment
+    url: https://www.cancer.gov/types/lung/patient/non-small-cell-lung-treatment-pdq
+mutation_genes:
+  - TP53
+  - KRAS
+  - EGFR
+  - STK11
+  - KEAP1
+entrez_ids:
+  TP53: 7157
+  KRAS: 3845
+  EGFR: 1956
+  STK11: 6794
+  KEAP1: 9817
+# Sex-linked genes (X/Y chromosome) excluded from variance-based gene selection:
+# sex is already a clinical covariate, and these genes dominated variance ranking.
+excluded_genes:
+  - XIST
+  - RPS4Y1
+  - DDX3Y
+  - KDM5D
+  - USP9Y
+  - EIF1AY
+  - UTY
+  - TXLNGY
+  - NLGN4Y
+  - ZFY
+  - TSIX
+  - PRKY
+  - TTTY15
+  - TTTY14
+  - KDM5C
+  - CYorf15A
+  - CYorf15B
+excluded_gene_patterns:
+  - "^CYorf"
+  - "^TTTY"

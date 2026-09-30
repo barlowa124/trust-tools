@@ -1,0 +1,639 @@
+{
+  "runs": [
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "052fa2c286da",
+      "model_id": "gemma3:12b",
+      "status": "draft_pending_approval",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\brca\\24528d61379c\\agent\\052fa2c286da\\agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "14dee8f5d071",
+      "model_id": "gemma3:12b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "misattributed": 6
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "misattributed": 1,
+            "missing_sections": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "misattributed": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results\\brca\\24528d61379c\\agent\\14dee8f5d071\\agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "39189caa1502",
+      "model_id": "gemma3:27b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 19,
+            "unscoped_model_numbers": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 19,
+            "unscoped_model_numbers": 3,
+            "missing_sections": 4
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 21,
+            "unscoped_model_numbers": 10
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results\\brca\\24528d61379c\\agent\\39189caa1502\\agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "4afbc74b7bc5",
+      "model_id": "gemma3:12b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unscoped_model_numbers": 1,
+            "forbidden": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unscoped_model_numbers": 9,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unscoped_model_numbers": 5
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\brca\\24528d61379c\\agent\\4afbc74b7bc5\\agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "5d5a01a0e471",
+      "model_id": "gemma3:4b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 2,
+            "unknown_citations": 1,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\brca\\24528d61379c\\agent\\5d5a01a0e471\\agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "b81f24db3970",
+      "model_id": "gemma3:4b",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\brca\\24528d61379c\\agent\\b81f24db3970\\agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "dd95bfcd2b8b",
+      "model_id": "gemma3:4b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 1,
+            "forbidden": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results\\brca\\24528d61379c\\agent\\dd95bfcd2b8b\\agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "0fb3e28f52d6",
+      "model_id": "gemma3:12b",
+      "status": "draft_pending_approval",
+      "attempts": 2,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\gbm\\2beaf67dc0b2\\agent\\0fb3e28f52d6\\agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "a706c3f76993",
+      "model_id": "gemma3:4b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 1,
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 6,
+            "forbidden": 1,
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 12,
+            "forbidden": 1,
+            "abstention_missing": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results\\gbm\\2beaf67dc0b2\\agent\\a706c3f76993\\agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "ba8da12d0f19",
+      "model_id": "gemma3:27b",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": {
+        "decision": "rejected",
+        "by": "barlowa124 (lead review)",
+        "timestamp": "2026-09-22T16:10:44.263699+00:00",
+        "reason": "All numbers verify and the abstention is disclosed, but the Limitations section interprets the proportional_hazards and convergence check failures as evidence that the PH assumption may not hold and that fitting was unstable. The recorded details say 'clinical Cox model did not fit' and 'no covariates survived the missingness filter' \u2014 both failures are downstream of the covariates check, not independent findings. Semantic misreading of recorded check detail; verifier cannot catch this.",
+        "agent_run_sha256": "eba344cf1de02b7bed14a4bd34017aeda5d68c5837df4f6a1778ce4597da9462"
+      },
+      "path": "results\\gbm\\2beaf67dc0b2\\agent\\ba8da12d0f19\\agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "c654c99fa00f",
+      "model_id": "gemma3:12b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "abstention_missing": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results\\gbm\\2beaf67dc0b2\\agent\\c654c99fa00f\\agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "ce75cc3fd75a",
+      "model_id": "gemma3:4b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "abstention_missing": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\gbm\\2beaf67dc0b2\\agent\\ce75cc3fd75a\\agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "ea53fcd852c2",
+      "model_id": "gemma3:4b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unknown_citations": 3,
+            "forbidden": 1,
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 1,
+            "unknown_citations": 6,
+            "forbidden": 2,
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 4,
+            "unknown_citations": 6,
+            "forbidden": 3,
+            "abstention_missing": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\gbm\\2beaf67dc0b2\\agent\\ea53fcd852c2\\agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "318d61643606",
+      "model_id": "gemma3:27b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 10,
+            "unscoped_model_numbers": 12
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 11,
+            "unscoped_model_numbers": 26,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 4,
+            "misattributed": 4,
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results\\luad\\3097990b11d8\\agent\\318d61643606\\agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "4918eaf618e7",
+      "model_id": "gemma3:4b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unscoped_model_numbers": 4,
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\luad\\3097990b11d8\\agent\\4918eaf618e7\\agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "76a00fdba97d",
+      "model_id": "gemma3:4b",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\luad\\3097990b11d8\\agent\\76a00fdba97d\\agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "777c93997c7a",
+      "model_id": "gemma3:12b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "misattributed": 3,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "misattributed": 3,
+            "missing_sections": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "misattributed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results\\luad\\3097990b11d8\\agent\\777c93997c7a\\agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "7b433c558b79",
+      "model_id": "gemma3:4b",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": {
+        "decision": "rejected",
+        "by": "barlowa124 (lead review)",
+        "timestamp": "2026-09-22T04:01:05.450586+00:00",
+        "reason": "Model label/number mismatch: block titled rsf/clinical_expression reports cox/clinical_expression metrics; rsf/clinical omitted. Numeric verifier passed; attribution was not checked.",
+        "agent_run_sha256": "7c2603a997525ecaf21745779dd14e683f3b46e169934d5f01bb7198c62da094"
+      },
+      "path": "results\\luad\\3097990b11d8\\agent\\7b433c558b79\\agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "98d9952a9150",
+      "model_id": "gemma3:4b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unscoped_model_numbers": 1,
+            "forbidden": 3
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 3
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unscoped_model_numbers": 6,
+            "forbidden": 3
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results\\luad\\3097990b11d8\\agent\\98d9952a9150\\agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "a911996a2e14",
+      "model_id": "gemma3:12b",
+      "status": "rejected",
+      "attempts": 3,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 1,
+            "misattributed": 8
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 11,
+            "misattributed": 4,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 1,
+            "misattributed": 4
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results\\luad\\3097990b11d8\\agent\\a911996a2e14\\agent_run.json"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "oncocs: cohort-agnostic survival-analysis pipeline with verified LLM reporting"
+type: software
+authors:
+  - family-names: Barlow
+    given-names: Austin
+license: MIT
+repository-code: https://github.com/barlowa124/oncology-coscientist
+keywords:
+  - survival analysis
+  - TCGA
+  - cBioPortal
+  - reproducibility
+  - LLM verification

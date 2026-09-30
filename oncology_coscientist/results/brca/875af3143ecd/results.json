@@ -1,0 +1,669 @@
+{
+  "run_id": "875af3143ecd",
+  "timestamp": "2026-09-22T19:12:57.520552+00:00",
+  "cohort": "brca",
+  "git_commit": "f61a25f234cdbea5ed645bf5b7ecc6fa99f5c4a2",
+  "git_dirty": true,
+  "python_version": "3.11.9",
+  "package_versions": {
+    "lifelines": "0.30.3",
+    "scikit-survival": "0.28.0",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1"
+  },
+  "data_manifest_sha256": "37dc18e79a677b5096a400bdea1ba78b43bab430c20ead5008b62ffb85d0cc40",
+  "split_sha256": "23007b0e02cd3c3cae9c6799f55e289d724e506ed76d2581c33faa64ecb0bee8",
+  "seed": 20240601,
+  "config_sha256": "3161f467118f67248cd93b219706cf16eed8325d2473f5c98e40c22ff241f6fb",
+  "checks": [
+    {
+      "name": "split_integrity",
+      "passed": true,
+      "detail": {
+        "hash_match": true,
+        "overlap_count": 0,
+        "missing_ids": [],
+        "missing_fraction": 0.0
+      },
+      "affects": "all"
+    },
+    {
+      "name": "min_events",
+      "passed": true,
+      "detail": {
+        "train_events": 106,
+        "test_events": 45,
+        "required_train": 30,
+        "required_test": 10
+      },
+      "affects": "all"
+    },
+    {
+      "name": "leakage",
+      "passed": true,
+      "detail": {
+        "impute_age_matches": true,
+        "impute_sex_matches": true,
+        "impute_stage_matches": true,
+        "impute_mut_TP53_matches": true,
+        "impute_mut_PIK3CA_matches": true,
+        "impute_mut_CDH1_matches": true,
+        "impute_mut_GATA3_matches": true,
+        "impute_mut_MAP3K1_matches": true,
+        "impute_mut_KMT2C_matches": true,
+        "gene_selection_matches": true,
+        "scale_CLEC3A_matches": true,
+        "scale_CPB1_matches": true,
+        "scale_SCGB2A2_matches": true,
+        "scale_SCGB1D2_matches": true,
+        "scale_TFF1_matches": true,
+        "scale_GSTM1_matches": true,
+        "scale_S100A7_matches": true,
+        "scale_PIP_matches": true,
+        "scale_MUCL1_matches": true,
+        "scale_CYP2B7P1_matches": true,
+        "scale_ANKRD30A_matches": true,
+        "scale_KCNJ3_matches": true,
+        "scale_CYP4Z1_matches": true,
+        "scale_HMGCS2_matches": true,
+        "scale_PRAME_matches": true,
+        "scale_TFAP2B_matches": true,
+        "scale_AGR3_matches": true,
+        "scale_MUC6_matches": true,
+        "scale_SERPINA6_matches": true,
+        "scale_SLC30A8_matches": true,
+        "scale_DHRS2_matches": true,
+        "scale_UGT2B11_matches": true,
+        "scale_VSTM2A_matches": true,
+        "scale_COL2A1_matches": true,
+        "scale_ADIPOQ_matches": true,
+        "scale_CALML5_matches": true,
+        "scale_MYBPC1_matches": true,
+        "scale_TAT_matches": true,
+        "scale_ADH1B_matches": true,
+        "scale_GP2_matches": true,
+        "scale_KRT14_matches": true,
+        "scale_TFF3_matches": true,
+        "scale_C4orf7_matches": true,
+        "scale_C1orf64_matches": true,
+        "scale_CEACAM5_matches": true,
+        "scale_GRIA2_matches": true,
+        "scale_GSTT1_matches": true,
+        "scale_KRT5_matches": true,
+        "scale_GABRP_matches": true,
+        "scale_BMPR1B_matches": true,
+        "scale_SOX10_matches": true,
+        "scale_KRT6B_matches": true,
+        "scale_CST9_matches": true,
+        "scale_SYT13_matches": true,
+        "scale_HOXB13_matches": true,
+        "scale_KLK11_matches": true,
+        "scale_LTF_matches": true,
+        "scale_MUC5B_matches": true,
+        "scale_STAC2_matches": true,
+        "scale_CYP2A6_matches": true
+      },
+      "affects": "all"
+    },
+    {
+      "name": "proportional_hazards",
+      "passed": true,
+      "detail": {
+        "covariates_below_p_0.01": {},
+        "p_values": {
+          "age": 0.4006962803622496,
+          "mut_CDH1": 0.9206030897980366,
+          "mut_GATA3": 0.2243196041965081,
+          "mut_KMT2C": 0.2796527210406402,
+          "mut_MAP3K1": 0.6089175187121534,
+          "mut_PIK3CA": 0.9030400487383714,
+          "mut_TP53": 0.11736410646046154,
+          "sex_Male": 0.7792991181402165,
+          "stage_II": 0.2776471286522027,
+          "stage_III": 0.0544731041942964,
+          "stage_IV": 0.018947336469046575
+        }
+      },
+      "affects": "cox_clinical"
+    },
+    {
+      "name": "convergence",
+      "passed": true,
+      "detail": {
+        "converged": true,
+        "log_likelihood": -554.2578776622736
+      },
+      "affects": "cox"
+    }
+  ],
+  "models": {
+    "cox/clinical": {
+      "metrics": {
+        "harrell_c": 0.7076465201465202,
+        "uno_c": 0.7140147284014997,
+        "integrated_brier_6_36m": 0.02766956025074171,
+        "calibration_24m": [
+          {
+            "decile": 0,
+            "n": 33,
+            "mean_predicted": 0.8669,
+            "km_observed": 0.905
+          },
+          {
+            "decile": 1,
+            "n": 32,
+            "mean_predicted": 0.9329,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 2,
+            "n": 32,
+            "mean_predicted": 0.9435,
+            "km_observed": 0.9643
+          },
+          {
+            "decile": 3,
+            "n": 33,
+            "mean_predicted": 0.9491,
+            "km_observed": 0.9298
+          },
+          {
+            "decile": 4,
+            "n": 32,
+            "mean_predicted": 0.9541,
+            "km_observed": 0.9375
+          },
+          {
+            "decile": 5,
+            "n": 31,
+            "mean_predicted": 0.9579,
+            "km_observed": 0.95
+          },
+          {
+            "decile": 6,
+            "n": 32,
+            "mean_predicted": 0.961,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 7,
+            "n": 32,
+            "mean_predicted": 0.9636,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 8,
+            "n": 33,
+            "mean_predicted": 0.967,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 9,
+            "n": 32,
+            "mean_predicted": 0.9738,
+            "km_observed": 1.0
+          }
+        ],
+        "auc_12m": 0.7020466620866076,
+        "auc_24m": 0.7223272807969853,
+        "auc_36m": 0.7047430377952231,
+        "auc_mean": 0.7073772287400256
+      },
+      "hazard_ratios": [
+        {
+          "covariate": "age",
+          "hazard_ratio": 1.0217,
+          "hr_ci_lower": 1.0101,
+          "hr_ci_upper": 1.0333,
+          "p": 0.00021537381881534714
+        },
+        {
+          "covariate": "mut_CDH1",
+          "hazard_ratio": 1.0648,
+          "hr_ci_lower": 0.6853,
+          "hr_ci_upper": 1.6547,
+          "p": 0.7799725098214652
+        },
+        {
+          "covariate": "mut_GATA3",
+          "hazard_ratio": 1.3349,
+          "hr_ci_lower": 0.8637,
+          "hr_ci_upper": 2.0629,
+          "p": 0.1934452450931404
+        },
+        {
+          "covariate": "mut_KMT2C",
+          "hazard_ratio": 1.2285,
+          "hr_ci_lower": 0.7521,
+          "hr_ci_upper": 2.0069,
+          "p": 0.41105243872336705
+        },
+        {
+          "covariate": "mut_MAP3K1",
+          "hazard_ratio": 0.9681,
+          "hr_ci_lower": 0.5493,
+          "hr_ci_upper": 1.706,
+          "p": 0.9105950343745342
+        },
+        {
+          "covariate": "mut_PIK3CA",
+          "hazard_ratio": 1.0554,
+          "hr_ci_lower": 0.7698,
+          "hr_ci_upper": 1.4471,
+          "p": 0.7375578567719037
+        },
+        {
+          "covariate": "mut_TP53",
+          "hazard_ratio": 1.2198,
+          "hr_ci_lower": 0.8833,
+          "hr_ci_upper": 1.6846,
+          "p": 0.22770101376089838
+        },
+        {
+          "covariate": "sex_Male",
+          "hazard_ratio": 1.0515,
+          "hr_ci_lower": 0.2457,
+          "hr_ci_upper": 4.4994,
+          "p": 0.9460020232014732
+        },
+        {
+          "covariate": "stage_II",
+          "hazard_ratio": 1.0274,
+          "hr_ci_lower": 0.7445,
+          "hr_ci_upper": 1.4177,
+          "p": 0.8693008369463975
+        },
+        {
+          "covariate": "stage_III",
+          "hazard_ratio": 1.5083,
+          "hr_ci_lower": 1.0391,
+          "hr_ci_upper": 2.1893,
+          "p": 0.03062992295732508
+        },
+        {
+          "covariate": "stage_IV",
+          "hazard_ratio": 6.5548,
+          "hr_ci_lower": 3.1878,
+          "hr_ci_upper": 13.4781,
+          "p": 3.186880991418228e-07
+        }
+      ],
+      "reference_levels": {
+        "sex": "Female",
+        "stage": "I"
+      }
+    },
+    "rsf/clinical": {
+      "metrics": {
+        "harrell_c": 0.6744505494505495,
+        "uno_c": 0.6785362294855559,
+        "integrated_brier_6_36m": 0.027283617593155594,
+        "calibration_24m": [
+          {
+            "decile": 0,
+            "n": 33,
+            "mean_predicted": 0.8517,
+            "km_observed": 0.9067
+          },
+          {
+            "decile": 1,
+            "n": 32,
+            "mean_predicted": 0.914,
+            "km_observed": 0.963
+          },
+          {
+            "decile": 2,
+            "n": 32,
+            "mean_predicted": 0.9317,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 3,
+            "n": 32,
+            "mean_predicted": 0.9493,
+            "km_observed": 0.9035
+          },
+          {
+            "decile": 4,
+            "n": 32,
+            "mean_predicted": 0.9612,
+            "km_observed": 0.9321
+          },
+          {
+            "decile": 5,
+            "n": 32,
+            "mean_predicted": 0.9693,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 6,
+            "n": 32,
+            "mean_predicted": 0.9746,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 7,
+            "n": 32,
+            "mean_predicted": 0.9786,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 8,
+            "n": 32,
+            "mean_predicted": 0.983,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 9,
+            "n": 33,
+            "mean_predicted": 0.9866,
+            "km_observed": 1.0
+          }
+        ],
+        "auc_12m": 0.6236911891542414,
+        "auc_24m": 0.6643440781963316,
+        "auc_36m": 0.657005094794806,
+        "auc_mean": 0.6551572275186404
+      }
+    },
+    "cox/clinical_expression": {
+      "metrics": {
+        "harrell_c": 0.61492673992674,
+        "uno_c": 0.5850222339877273,
+        "integrated_brier_6_36m": 0.02876928585255579,
+        "calibration_24m": [
+          {
+            "decile": 0,
+            "n": 33,
+            "mean_predicted": 0.807,
+            "km_observed": 0.9333
+          },
+          {
+            "decile": 1,
+            "n": 32,
+            "mean_predicted": 0.9108,
+            "km_observed": 0.9615
+          },
+          {
+            "decile": 2,
+            "n": 32,
+            "mean_predicted": 0.9309,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 3,
+            "n": 32,
+            "mean_predicted": 0.9441,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 4,
+            "n": 32,
+            "mean_predicted": 0.9542,
+            "km_observed": 0.9655
+          },
+          {
+            "decile": 5,
+            "n": 32,
+            "mean_predicted": 0.9602,
+            "km_observed": 0.9565
+          },
+          {
+            "decile": 6,
+            "n": 32,
+            "mean_predicted": 0.9666,
+            "km_observed": 0.8974
+          },
+          {
+            "decile": 7,
+            "n": 32,
+            "mean_predicted": 0.972,
+            "km_observed": 0.9667
+          },
+          {
+            "decile": 8,
+            "n": 32,
+            "mean_predicted": 0.9763,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 9,
+            "n": 33,
+            "mean_predicted": 0.9824,
+            "km_observed": 1.0
+          }
+        ],
+        "auc_12m": 0.3944182994223495,
+        "auc_24m": 0.5701329582923065,
+        "auc_36m": 0.6562798727704728,
+        "auc_mean": 0.6181883783282348
+      },
+      "gene_cols": [
+        "CLEC3A",
+        "CPB1",
+        "SCGB2A2",
+        "SCGB1D2",
+        "TFF1",
+        "GSTM1",
+        "S100A7",
+        "PIP",
+        "MUCL1",
+        "CYP2B7P1",
+        "ANKRD30A",
+        "KCNJ3",
+        "CYP4Z1",
+        "HMGCS2",
+        "PRAME",
+        "TFAP2B",
+        "AGR3",
+        "MUC6",
+        "SERPINA6",
+        "SLC30A8",
+        "DHRS2",
+        "UGT2B11",
+        "VSTM2A",
+        "COL2A1",
+        "ADIPOQ",
+        "CALML5",
+        "MYBPC1",
+        "TAT",
+        "ADH1B",
+        "GP2",
+        "KRT14",
+        "TFF3",
+        "C4orf7",
+        "C1orf64",
+        "CEACAM5",
+        "GRIA2",
+        "GSTT1",
+        "KRT5",
+        "GABRP",
+        "BMPR1B",
+        "SOX10",
+        "KRT6B",
+        "CST9",
+        "SYT13",
+        "HOXB13",
+        "KLK11",
+        "LTF",
+        "MUC5B",
+        "STAC2",
+        "CYP2A6"
+      ]
+    },
+    "rsf/clinical_expression": {
+      "metrics": {
+        "harrell_c": 0.6236263736263736,
+        "uno_c": 0.4515449008661091,
+        "integrated_brier_6_36m": 0.028129079840044844,
+        "calibration_24m": [
+          {
+            "decile": 0,
+            "n": 33,
+            "mean_predicted": 0.8858,
+            "km_observed": 0.963
+          },
+          {
+            "decile": 1,
+            "n": 32,
+            "mean_predicted": 0.9137,
+            "km_observed": 0.96
+          },
+          {
+            "decile": 2,
+            "n": 32,
+            "mean_predicted": 0.9269,
+            "km_observed": 0.9643
+          },
+          {
+            "decile": 3,
+            "n": 32,
+            "mean_predicted": 0.935,
+            "km_observed": 0.8964
+          },
+          {
+            "decile": 4,
+            "n": 32,
+            "mean_predicted": 0.9428,
+            "km_observed": 0.9655
+          },
+          {
+            "decile": 5,
+            "n": 32,
+            "mean_predicted": 0.952,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 6,
+            "n": 32,
+            "mean_predicted": 0.96,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 7,
+            "n": 32,
+            "mean_predicted": 0.9685,
+            "km_observed": 1.0
+          },
+          {
+            "decile": 8,
+            "n": 32,
+            "mean_predicted": 0.9757,
+            "km_observed": 0.9655
+          },
+          {
+            "decile": 9,
+            "n": 33,
+            "mean_predicted": 0.9859,
+            "km_observed": 1.0
+          }
+        ],
+        "auc_12m": 0.5688551354434496,
+        "auc_24m": 0.6048019142923307,
+        "auc_36m": 0.6308269234046382,
+        "auc_mean": 0.6208885550583285
+      },
+      "gene_cols": [
+        "CLEC3A",
+        "CPB1",
+        "SCGB2A2",
+        "SCGB1D2",
+        "TFF1",
+        "GSTM1",
+        "S100A7",
+        "PIP",
+        "MUCL1",
+        "CYP2B7P1",
+        "ANKRD30A",
+        "KCNJ3",
+        "CYP4Z1",
+        "HMGCS2",
+        "PRAME",
+        "TFAP2B",
+        "AGR3",
+        "MUC6",
+        "SERPINA6",
+        "SLC30A8",
+        "DHRS2",
+        "UGT2B11",
+        "VSTM2A",
+        "COL2A1",
+        "ADIPOQ",
+        "CALML5",
+        "MYBPC1",
+        "TAT",
+        "ADH1B",
+        "GP2",
+        "KRT14",
+        "TFF3",
+        "C4orf7",
+        "C1orf64",
+        "CEACAM5",
+        "GRIA2",
+        "GSTT1",
+        "KRT5",
+        "GABRP",
+        "BMPR1B",
+        "SOX10",
+        "KRT6B",
+        "CST9",
+        "SYT13",
+        "HOXB13",
+        "KLK11",
+        "LTF",
+        "MUC5B",
+        "STAC2",
+        "CYP2A6"
+      ]
+    }
+  },
+  "missingness": {
+    "age": {
+      "missing": 0,
+      "fraction": 0.0
+    },
+    "sex": {
+      "missing": 0,
+      "fraction": 0.0
+    },
+    "stage": {
+      "missing": 19,
+      "fraction": 0.0177
+    },
+    "mut_TP53": {
+      "missing": 18,
+      "fraction": 0.0168
+    },
+    "mut_PIK3CA": {
+      "missing": 18,
+      "fraction": 0.0168
+    },
+    "mut_CDH1": {
+      "missing": 18,
+      "fraction": 0.0168
+    },
+    "mut_GATA3": {
+      "missing": 18,
+      "fraction": 0.0168
+    },
+    "mut_MAP3K1": {
+      "missing": 18,
+      "fraction": 0.0168
+    },
+    "mut_KMT2C": {
+      "missing": 18,
+      "fraction": 0.0168
+    }
+  },
+  "dropped": {
+    "missing_os": 0,
+    "nonpositive_os_months": 13,
+    "extra_primary_samples": 0,
+    "no_primary_sample": 0
+  },
+  "n_patients": 1071,
+  "n_patients_with_expression": 1069,
+  "n_unsequenced_patients": 18,
+  "omitted_covariates": []
+}

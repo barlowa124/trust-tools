@@ -1,0 +1,89 @@
+{
+  "queries": [
+    "non-small cell lung cancer survival",
+    "breast cancer adjuvant treatment",
+    "glioblastoma temozolomide"
+  ],
+  "modes": [
+    "bm25",
+    "tfidf"
+  ],
+  "per_query": [
+    {
+      "query": "non-small cell lung cancer survival",
+      "per_mode": {
+        "bm25": [
+          "PDQ:pdq_nsclc_treatment#11",
+          "PDQ:pdq_nsclc_treatment#181",
+          "PDQ:pdq_nsclc_treatment#187",
+          "PDQ:pdq_nsclc_treatment#211",
+          "PDQ:pdq_nsclc_treatment#61"
+        ],
+        "tfidf": [
+          "PDQ:pdq_nsclc_treatment#11",
+          "PDQ:pdq_nsclc_treatment#181",
+          "PDQ:pdq_nsclc_treatment#187",
+          "PDQ:pdq_nsclc_treatment#211",
+          "PDQ:pdq_nsclc_treatment#232"
+        ]
+      },
+      "overlap_with_first_mode": {
+        "tfidf": [
+          "PDQ:pdq_nsclc_treatment#11",
+          "PDQ:pdq_nsclc_treatment#181",
+          "PDQ:pdq_nsclc_treatment#187",
+          "PDQ:pdq_nsclc_treatment#211"
+        ]
+      }
+    },
+    {
+      "query": "breast cancer adjuvant treatment",
+      "per_mode": {
+        "bm25": [
+          "PDQ:pdq_breast_treatment#17",
+          "PDQ:pdq_breast_treatment#12",
+          "PDQ:pdq_breast_treatment#2",
+          "PDQ:pdq_breast_treatment#15",
+          "PDQ:pdq_breast_treatment#16"
+        ],
+        "tfidf": [
+          "PDQ:pdq_breast_treatment#12",
+          "PDQ:pdq_breast_treatment#2",
+          "PDQ:pdq_nsclc_treatment#22",
+          "PDQ:pdq_breast_treatment#17",
+          "PDQ:pdq_breast_treatment#15"
+        ]
+      },
+      "overlap_with_first_mode": {
+        "tfidf": [
+          "PDQ:pdq_breast_treatment#12",
+          "PDQ:pdq_breast_treatment#15",
+          "PDQ:pdq_breast_treatment#17",
+          "PDQ:pdq_breast_treatment#2"
+        ]
+      }
+    },
+    {
+      "query": "glioblastoma temozolomide",
+      "per_mode": {
+        "bm25": [
+          "PDQ:pdq_adult_brain_treatment#36",
+          "PDQ:pdq_adult_brain_treatment#210",
+          "PDQ:pdq_adult_brain_treatment#133"
+        ],
+        "tfidf": [
+          "PDQ:pdq_adult_brain_treatment#36",
+          "PDQ:pdq_adult_brain_treatment#210",
+          "PDQ:pdq_adult_brain_treatment#133"
+        ]
+      },
+      "overlap_with_first_mode": {
+        "tfidf": [
+          "PDQ:pdq_adult_brain_treatment#133",
+          "PDQ:pdq_adult_brain_treatment#210",
+          "PDQ:pdq_adult_brain_treatment#36"
+        ]
+      }
+    }
+  ]
+}

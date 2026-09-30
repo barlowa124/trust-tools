@@ -1,0 +1,15 @@
+{
+  "cohort": "gbm",
+  "archive_url": "https://cbioportal-datahub.s3.amazonaws.com/gbm_tcga_pan_can_atlas_2018.tar.gz",
+  "source": "files",
+  "archive_sha256": null,
+  "members": {
+    "data_clinical_patient.txt": "04fd051047ef223ec36889f1ef5edfaeee5eea81172601b403879a113f72770e",
+    "data_clinical_sample.txt": "d63bd951527a84616328ce3a71838f4d3815055e6db8bb7f0d1673932c780168",
+    "data_mrna_seq_v2_rsem.txt": "4c61b395dc077e3f7ea2d6c4b83d4746b23b1a637f5d7f4c9750518061b45c14",
+    "data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt": "cf12597b00bb5f8e8be07b8af763d8ce27f406793c2fb2067eb252e225311178",
+    "data_mutations.txt": "da880391ed9f5d1d68138ee3d1e6563d14ae2b198c4a08eb59f06bf2e0d69f11",
+    "case_lists/cases_sequenced.txt": "2b6158e9013e6a4c65c6125e9782f41d855e574066a44b7459a7cf4758a69043"
+  },
+  "manifest_sha256": "08d40e7ec4da9443ae60f37aad42cd66ddf05ce71658e269c48b6c7cf3e590d0"
+}

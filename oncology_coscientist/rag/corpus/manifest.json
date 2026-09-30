@@ -1,0 +1,24 @@
+{
+  "license": "NCI PDQ summaries are U.S. public domain. NCI asks that reproduced content carry the suggested citation recorded in 'citation'.",
+  "citation": "National Cancer Institute. PDQ(R) Cancer Information Summary. Bethesda, MD: National Cancer Institute. Retrieved from cancer.gov.",
+  "members": {
+    "pdq_adult_brain_treatment": {
+      "url": "https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq",
+      "sha256": "c9b13897e3dfc062b7ddbfc944c82514a894bff3f43951fbab1262eb1dacc44d",
+      "fetched_at": "2026-09-22T04:24:41.634195+00:00",
+      "bytes": 45536
+    },
+    "pdq_breast_treatment": {
+      "url": "https://www.cancer.gov/types/breast/patient/breast-treatment-pdq",
+      "sha256": "947422c52b77e2288c50db134b14714148c4e4cb5c68a5643254e1bbe97273a6",
+      "fetched_at": "2026-09-22T04:24:41.906680+00:00",
+      "bytes": 3074
+    },
+    "pdq_nsclc_treatment": {
+      "url": "https://www.cancer.gov/types/lung/patient/non-small-cell-lung-treatment-pdq",
+      "sha256": "5ad0e12f07aeb06b50b74e5a63a5592353c4c0f9a1f91fa420af460db0eee7da",
+      "fetched_at": "2026-09-22T04:24:42.199750+00:00",
+      "bytes": 42198
+    }
+  }
+}

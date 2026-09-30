@@ -1,0 +1,139 @@
+{
+  "run_id": "2965fb5e36de",
+  "timestamp": "2026-09-22T19:12:51.334468+00:00",
+  "cohort": "gbm",
+  "git_commit": "f61a25f234cdbea5ed645bf5b7ecc6fa99f5c4a2",
+  "git_dirty": true,
+  "python_version": "3.11.9",
+  "package_versions": {
+    "lifelines": "0.30.3",
+    "scikit-survival": "0.28.0",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1"
+  },
+  "data_manifest_sha256": "08d40e7ec4da9443ae60f37aad42cd66ddf05ce71658e269c48b6c7cf3e590d0",
+  "split_sha256": "b1af0b2c847989957228df85f85fffa156eacf38db0b7307bec0cd97dd767a58",
+  "seed": 20240601,
+  "config_sha256": "5fcfc4dda68c4e611b9888cdf09370193779cb76611d301907a109049e11ef5c",
+  "checks": [
+    {
+      "name": "split_integrity",
+      "passed": true,
+      "detail": {
+        "hash_match": true,
+        "overlap_count": 0,
+        "missing_ids": [],
+        "missing_fraction": 0.0
+      },
+      "affects": "all"
+    },
+    {
+      "name": "min_events",
+      "passed": true,
+      "detail": {
+        "train_events": 335,
+        "test_events": 143,
+        "required_train": 30,
+        "required_test": 10
+      },
+      "affects": "all"
+    },
+    {
+      "name": "covariates",
+      "passed": false,
+      "detail": {
+        "reason": "no covariates survived the missingness filter"
+      },
+      "affects": "all"
+    },
+    {
+      "name": "proportional_hazards",
+      "passed": false,
+      "detail": {
+        "reason": "clinical Cox model did not fit"
+      },
+      "affects": "cox_clinical"
+    },
+    {
+      "name": "convergence",
+      "passed": false,
+      "detail": {
+        "converged": false
+      },
+      "affects": "cox"
+    }
+  ],
+  "models": {
+    "cox/clinical": {
+      "metrics": {
+        "abstained": true,
+        "reason": "covariates failed; proportional_hazards failed; convergence failed"
+      }
+    },
+    "cox/clinical_expression": {
+      "metrics": {
+        "abstained": true,
+        "reason": "covariates failed; convergence failed"
+      }
+    },
+    "rsf/clinical": {
+      "metrics": {
+        "abstained": true,
+        "reason": "covariates failed"
+      }
+    },
+    "rsf/clinical_expression": {
+      "metrics": {
+        "abstained": true,
+        "reason": "covariates failed"
+      }
+    }
+  },
+  "missingness": {
+    "age": {
+      "missing": 284,
+      "fraction": 0.4897
+    },
+    "sex": {
+      "missing": 284,
+      "fraction": 0.4897
+    },
+    "mut_TP53": {
+      "missing": 194,
+      "fraction": 0.3345
+    },
+    "mut_PTEN": {
+      "missing": 194,
+      "fraction": 0.3345
+    },
+    "mut_EGFR": {
+      "missing": 194,
+      "fraction": 0.3345
+    },
+    "mut_IDH1": {
+      "missing": 194,
+      "fraction": 0.3345
+    },
+    "mut_NF1": {
+      "missing": 194,
+      "fraction": 0.3345
+    },
+    "mut_ATRX": {
+      "missing": 194,
+      "fraction": 0.3345
+    }
+  },
+  "dropped": {
+    "missing_os": 4,
+    "nonpositive_os_months": 1,
+    "extra_primary_samples": 0,
+    "no_primary_sample": 0
+  },
+  "n_patients": 580,
+  "n_patients_with_expression": 152,
+  "n_unsequenced_patients": 194,
+  "omitted_covariates": [
+    "stage"
+  ]
+}

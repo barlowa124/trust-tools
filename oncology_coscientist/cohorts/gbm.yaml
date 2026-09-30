@@ -1,0 +1,69 @@
+cohort: gbm
+archive_url: https://cbioportal-datahub.s3.amazonaws.com/gbm_tcga_pan_can_atlas_2018.tar.gz
+file_base_url: https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/gbm_tcga_pan_can_atlas_2018
+file_base_url_alt: https://raw.githubusercontent.com/cBioPortal/datahub/master/public/gbm_tcga_pan_can_atlas_2018
+files:
+  clinical_patient: data_clinical_patient.txt
+  clinical_sample: data_clinical_sample.txt
+  expression: data_mrna_seq_v2_rsem.txt
+  expression_fallback: data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt
+  mutations: data_mutations.txt
+  cases_sequenced: case_lists/cases_sequenced.txt
+columns:
+  patient_id: PATIENT_ID
+  sample_id: SAMPLE_ID
+  os_months: OS_MONTHS
+  os_status: OS_STATUS
+  sample_patient_id: PATIENT_ID
+os_status_map:
+  deceased: "1:DECEASED"
+  living: "0:LIVING"
+covariates:
+  age: AGE
+  sex: SEX
+  # GBM has no AJCC stage in this study (column exists but is entirely empty);
+  # null omits the covariate, recorded in results as omitted_covariates.
+  stage: null
+sample_type_suffix: "-01"
+n_expression_genes: 50
+rag_query: "glioblastoma adult brain tumor treatment temozolomide radiation prognosis"
+rag_docs:
+  - doc_id: pdq_adult_brain_treatment
+    url: https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq
+mutation_genes:
+  - TP53
+  - PTEN
+  - EGFR
+  - IDH1
+  - NF1
+  - ATRX
+entrez_ids:
+  TP53: 7157
+  PTEN: 5728
+  EGFR: 1956
+  IDH1: 3417
+  NF1: 4763
+  ATRX: 546
+# Sex-linked genes (X/Y chromosome) excluded from variance-based gene selection:
+# sex is already a clinical covariate, and these genes dominated variance ranking.
+excluded_genes:
+  - XIST
+  - RPS4Y1
+  - DDX3Y
+  - KDM5D
+  - USP9Y
+  - EIF1AY
+  - UTY
+  - TXLNGY
+  - NLGN4Y
+  - ZFY
+  - TSIX
+  - PRKY
+  - TTTY15
+  - TTTY14
+  - KDM5C
+  - CYorf15A
+  - CYorf15B
+excluded_gene_patterns:
+  - "^CYorf"
+  - "^TTTY"

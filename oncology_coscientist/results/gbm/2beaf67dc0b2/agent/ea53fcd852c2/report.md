@@ -1,0 +1,8 @@
+<!-- agent_run_sha256: cfbb54605f9e513efb0de120d76fe933c1dd36f61d1e7fbe8b2c37f5b1f7f737 -->
+> **REJECTED — no verified report was produced after 3 attempts.**
+
+- Attempt 1: unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#236]; forbidden phrasing: significant (unverified p-value near offset 2258); failed check not disclosed as abstention
+- Attempt 2: unverified number '2258' (nverified p-value near offset 2258)   - a failed check must be d); unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#236]; unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#236]; forbidden phrasing: significant (unverified p-value near offset 2258); forbidden phrasing: significant (unverified p-value near offset 3168); failed check not disclosed as abstention
+- Attempt 3: unverified number '2258' (wing problems were found. *   2258 (context: nverified p-value ne); unverified number '2258' (nverified p-value near offset 2258) - a failed check must be dis); unverified number '2258' (nverified p-value near offset 2258) *   Forbidden phrasing: sign); unverified number '3168' (nverified p-value near offset 3168) *   The checks covariates, p); unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#236]; unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#0]; unknown citation [PDQ:doc#236]; forbidden phrasing: significant (unverified p-value near offset 2262); forbidden phrasing: significant (unverified p-value near offset 3211); forbidden phrasing: significant (unverified p-value near offset 3285); failed check not disclosed as abstention
+
+All drafts with their verification results are preserved in `agent_run.json`.

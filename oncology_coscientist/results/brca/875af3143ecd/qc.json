@@ -1,0 +1,161 @@
+{
+  "cohort": "brca",
+  "schema_conformance": {
+    "clinical_patient": {
+      "ok": true
+    },
+    "clinical_sample": {
+      "ok": true
+    },
+    "mutations": {
+      "ok": true
+    },
+    "expression": {
+      "ok": true
+    }
+  },
+  "missingness": {
+    "clinical_patient": {
+      "SUBTYPE": {
+        "missing": 103,
+        "fraction": 0.095
+      },
+      "AJCC_PATHOLOGIC_TUMOR_STAGE": {
+        "missing": 5,
+        "fraction": 0.0046
+      },
+      "AJCC_STAGING_EDITION": {
+        "missing": 140,
+        "fraction": 0.1292
+      },
+      "DAYS_LAST_FOLLOWUP": {
+        "missing": 104,
+        "fraction": 0.0959
+      },
+      "DAYS_TO_BIRTH": {
+        "missing": 15,
+        "fraction": 0.0138
+      },
+      "ETHNICITY": {
+        "missing": 169,
+        "fraction": 0.1559
+      },
+      "HISTORY_NEOADJUVANT_TRTYN": {
+        "missing": 1,
+        "fraction": 0.0009
+      },
+      "NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT": {
+        "missing": 199,
+        "fraction": 0.1836
+      },
+      "PERSON_NEOPLASM_CANCER_STATUS": {
+        "missing": 123,
+        "fraction": 0.1135
+      },
+      "PRIMARY_LYMPH_NODE_PRESENTATION_ASSESSMENT": {
+        "missing": 364,
+        "fraction": 0.3358
+      },
+      "PRIOR_DX": {
+        "missing": 1,
+        "fraction": 0.0009
+      },
+      "RACE": {
+        "missing": 90,
+        "fraction": 0.083
+      },
+      "RADIATION_THERAPY": {
+        "missing": 101,
+        "fraction": 0.0932
+      },
+      "WEIGHT": {
+        "missing": 1084,
+        "fraction": 1.0
+      },
+      "DSS_STATUS": {
+        "missing": 20,
+        "fraction": 0.0185
+      },
+      "DSS_MONTHS": {
+        "missing": 2,
+        "fraction": 0.0018
+      },
+      "DFS_STATUS": {
+        "missing": 142,
+        "fraction": 0.131
+      },
+      "DFS_MONTHS": {
+        "missing": 143,
+        "fraction": 0.1319
+      },
+      "PFS_STATUS": {
+        "missing": 1,
+        "fraction": 0.0009
+      },
+      "PFS_MONTHS": {
+        "missing": 2,
+        "fraction": 0.0018
+      }
+    },
+    "clinical_sample": {
+      "GRADE": {
+        "missing": 1084,
+        "fraction": 1.0
+      },
+      "TISSUE_PROSPECTIVE_COLLECTION_INDICATOR": {
+        "missing": 4,
+        "fraction": 0.0037
+      },
+      "TISSUE_RETROSPECTIVE_COLLECTION_INDICATOR": {
+        "missing": 4,
+        "fraction": 0.0037
+      },
+      "ANEUPLOIDY_SCORE": {
+        "missing": 43,
+        "fraction": 0.0397
+      },
+      "MSI_SCORE_MANTIS": {
+        "missing": 50,
+        "fraction": 0.0461
+      },
+      "MSI_SENSOR_SCORE": {
+        "missing": 9,
+        "fraction": 0.0083
+      },
+      "TMB_NONSYNONYMOUS": {
+        "missing": 18,
+        "fraction": 0.0166
+      },
+      "TBL_SCORE": {
+        "missing": 2,
+        "fraction": 0.0018
+      }
+    }
+  },
+  "domain_violations": {
+    "AJCC_PATHOLOGIC_TUMOR_STAGE": {
+      "STAGE X": 14
+    }
+  },
+  "duplicates": {
+    "clinical_patient_patient_id": 0,
+    "clinical_sample_sample_id": 0
+  },
+  "sample_patient_conflicts": {
+    "sample_patient_id_not_in_patient_table": 0,
+    "patients_with_multiple_primary_samples": 0
+  },
+  "split_integrity": {
+    "name": "split_integrity",
+    "passed": true,
+    "detail": {
+      "hash_match": true,
+      "overlap_count": 0,
+      "missing_ids": [],
+      "missing_fraction": 0.0,
+      "test_ids_all_in_data": true
+    },
+    "affects": "all"
+  },
+  "n_unsequenced_patients": 18
+}
