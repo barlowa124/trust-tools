@@ -1,0 +1,14 @@
+{
+  "session": "fixture",
+  "n_events": 10,
+  "event_kinds": {
+    "user": 1,
+    "assistant": 2,
+    "plan": 3,
+    "tool_call": 2,
+    "tool_result": 2
+  },
+  "n_findings": 0,
+  "by_detector": {},
+  "findings": []
+}

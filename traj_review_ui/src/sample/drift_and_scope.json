@@ -1,0 +1,47 @@
+{
+  "session": "fixture",
+  "n_events": 8,
+  "event_kinds": {
+    "user": 1,
+    "plan": 2,
+    "tool_call": 2,
+    "tool_result": 2,
+    "assistant": 1
+  },
+  "n_findings": 3,
+  "by_detector": {
+    "scope_drift": 1,
+    "abandoned_items": 1,
+    "plan_drift": 1
+  },
+  "findings": [
+    {
+      "detector": "scope_drift",
+      "event_i": 4,
+      "summary": "tool call touched a path outside the session territory (/home/demo/proj/ui)",
+      "evidence": [
+        "/etc/nginx"
+      ],
+      "severity": "low"
+    },
+    {
+      "detector": "abandoned_items",
+      "event_i": 6,
+      "summary": "2 planned item(s) still pending at end of trajectory",
+      "evidence": [
+        "rewrite the database layer",
+        "frontend footer"
+      ],
+      "severity": "medium"
+    },
+    {
+      "detector": "plan_drift",
+      "event_i": 6,
+      "summary": "1 item(s) added to the plan mid-run",
+      "evidence": [
+        "rewrite the database layer"
+      ],
+      "severity": "low"
+    }
+  ]
+}

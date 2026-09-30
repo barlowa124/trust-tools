@@ -1,0 +1,45 @@
+{
+  "session": "fixture",
+  "n_events": 6,
+  "event_kinds": {
+    "user": 1,
+    "plan": 2,
+    "tool_call": 1,
+    "tool_result": 1,
+    "assistant": 1
+  },
+  "n_findings": 3,
+  "by_detector": {
+    "completion_without_verification": 1,
+    "verification_claim_gap": 2
+  },
+  "findings": [
+    {
+      "detector": "completion_without_verification",
+      "event_i": 4,
+      "summary": "verification todo completed with no verification command in between",
+      "evidence": [
+        "deploy the fix"
+      ],
+      "severity": "medium"
+    },
+    {
+      "detector": "verification_claim_gap",
+      "event_i": 5,
+      "summary": "'test' claim with no matching command anywhere earlier in the trajectory",
+      "evidence": [
+        "Fixed, all 34 tests pass, and the build is now deployed to prod."
+      ],
+      "severity": "high"
+    },
+    {
+      "detector": "verification_claim_gap",
+      "event_i": 5,
+      "summary": "'deploy' claim with no matching command anywhere earlier in the trajectory",
+      "evidence": [
+        "ed, all 34 tests pass, and the build is now deployed to prod."
+      ],
+      "severity": "high"
+    }
+  ]
+}

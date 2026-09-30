@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/app.test.tsx","./src/data.ts","./src/main.tsx","./src/parse.test.ts","./src/parse.ts","./src/types.ts","./src/components/eventrow.tsx","./src/components/findingspanel.tsx","./src/components/statsbar.tsx","./src/components/timeline.tsx"],"version":"5.9.3"}

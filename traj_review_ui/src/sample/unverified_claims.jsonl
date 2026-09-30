@@ -1,0 +1,6 @@
+{"i": 0, "kind": "user", "session": "fixture", "text": "fix the bug and deploy", "args": {}, "v": 1}
+{"i": 1, "kind": "plan", "session": "fixture", "plan": [{"content": "fix parser bug", "status": "in_progress"}, {"content": "deploy the fix", "status": "pending"}], "args": {}, "v": 1}
+{"i": 2, "kind": "tool_call", "session": "fixture", "tool": "edit", "args": {"file_path": "~/proj/parser.py"}, "v": 1}
+{"i": 3, "kind": "tool_result", "session": "fixture", "text": "ok", "args": {"status": "completed"}, "v": 1}
+{"i": 4, "kind": "plan", "session": "fixture", "plan": [{"content": "fix parser bug", "status": "completed"}, {"content": "deploy the fix", "status": "completed"}], "args": {}, "v": 1}
+{"i": 5, "kind": "assistant", "session": "fixture", "text": "Fixed, all 34 tests pass, and the build is now deployed to prod.", "args": {}, "v": 1}

@@ -38,6 +38,20 @@ jobs:
           pip install pytest
           python -m pytest tests/ -q
 
+  traj-review-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test + build
+        working-directory: traj_review_ui
+        run: |
+          npm ci
+          npm test
+          npm run build
+
   inspect-bridge:
     runs-on: ubuntu-latest
     steps:

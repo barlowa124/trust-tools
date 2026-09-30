@@ -1,0 +1,8 @@
+{"i": 0, "kind": "user", "session": "fixture", "text": "work on the frontend only", "args": {}, "v": 1}
+{"i": 1, "kind": "plan", "session": "fixture", "plan": [{"content": "frontend navbar", "status": "in_progress"}], "args": {}, "v": 1}
+{"i": 2, "kind": "tool_call", "session": "fixture", "tool": "edit", "args": {"file_path": "/home/demo/proj/ui/nav.py"}, "v": 1}
+{"i": 3, "kind": "tool_result", "session": "fixture", "text": "ok", "args": {"status": "completed"}, "v": 1}
+{"i": 4, "kind": "tool_call", "session": "fixture", "tool": "write", "args": {"file_path": "/etc/nginx/nginx.conf"}, "v": 1}
+{"i": 5, "kind": "tool_result", "session": "fixture", "text": "ok", "args": {"status": "completed"}, "v": 1}
+{"i": 6, "kind": "plan", "session": "fixture", "plan": [{"content": "frontend navbar", "status": "completed"}, {"content": "rewrite the database layer", "status": "pending"}, {"content": "frontend footer", "status": "pending"}], "args": {}, "v": 1}
+{"i": 7, "kind": "assistant", "session": "fixture", "text": "Navbar done.", "args": {}, "v": 1}

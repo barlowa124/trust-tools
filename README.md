@@ -33,6 +33,7 @@ ML).
 | `agent_observe/` | Span/trace ingest (flat schema + OTLP-lite), policy enrichment through agentmon, trajaudit audit over the same stream, and markdown/HTML trace reports. The observability layer sitting on top of gate + audit. |
 | `agent_sandbox/` | Containment-layer benchmark: scripted tool-call scenarios run through the agentmon gate and a realpath filesystem jail, measuring each layer separately. The battery documents the one residual (arg aliasing + no kernel isolation without bwrap) instead of hiding it. |
 | `receipt_report/` | Renders audit documents from the other packages' chains — verifies integrity first, then recomputes every reported number from the records. Broken chains land in the document as findings. |
+| `traj_review_ui/` | Static React/TS review surface over the audit artifacts: findings panel with severity + evidence, event timeline with call_id-paired tool calls, kind filters and search. Bundles four real example datasets; no backend. |
 
 ## Running tests
 
