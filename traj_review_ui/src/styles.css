@@ -84,3 +84,18 @@ aside { position: sticky; top: 12px; }
 .finding-inline { font-size: 12px; color: var(--low); }
 .finding-inline.sev-high { color: var(--high); }
 .empty { color: var(--dim); }
+
+/* span tree */
+.bar { flex: 1; height: 10px; background: var(--edge); border-radius: 3px;
+  overflow: hidden; max-width: 320px; }
+.bar .fill { display: block; height: 100%; border-radius: 3px; min-width: 2px; }
+.fill.kind-agent { background: var(--text); }
+.fill.kind-llm { background: var(--accent); }
+.fill.kind-tool_call { background: var(--low); }
+.fill.kind-tool_result { background: var(--ok); }
+.dur { color: var(--dim); min-width: 52px; text-align: right; font-size: 12px; }
+.span-child { border-left: 1px solid var(--edge); padding-left: 8px;
+  margin-top: 4px; }
+.kind-llm { background: rgba(122,162,247,.15); color: var(--accent); }
+.kind-agent { background: rgba(255,255,255,.1); color: var(--text); }
+main.full { grid-column: 1 / -1; }

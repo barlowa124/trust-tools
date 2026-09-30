@@ -44,4 +44,13 @@ describe("App", () => {
       /paired tool_result #\d+/,
     );
   });
+
+  it("renders the span tree for the spans dataset", () => {
+    const { container } = render(<App />);
+    fireEvent.change(screen.getByRole("combobox"), {
+      target: { value: "agent_run (spans)" },
+    });
+    expect(container.querySelectorAll(".dur").length).toBeGreaterThan(0);
+    expect(screen.getByText(/9 spans/)).toBeTruthy();
+  });
 });

@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  buildTree,
   findingsByEvent,
   pairToolResults,
+  parseSpans,
   parseTrajectoryJsonl,
   preview,
   timeSpan,
@@ -51,6 +53,36 @@ describe("findingsByEvent", () => {
     });
     expect(m.get(1)).toHaveLength(2);
     expect(m.has(0)).toBe(false);
+  });
+});
+
+describe("spans", () => {
+  const SPANS = [
+    { span_id: "s1", parent_id: null, name: "run", kind: "agent",
+      start_ms: 0, end_ms: 100 },
+    { span_id: "s2", parent_id: "s1", name: "plan", kind: "llm",
+      start_ms: 0, end_ms: 40 },
+    { span_id: "s3", parent_id: "s1", name: "write", kind: "tool_call",
+      start_ms: 50, end_ms: 90 },
+  ];
+
+  it("parses a span array", () => {
+    expect(parseSpans(JSON.stringify(SPANS))).toHaveLength(3);
+    expect(() => parseSpans("{}")).toThrow("array");
+  });
+
+  it("buildTree nests children in start order", () => {
+    const roots = buildTree(parseSpans(JSON.stringify(SPANS)));
+    expect(roots).toHaveLength(1);
+    expect(roots[0].children.map((c) => c.span_id)).toEqual(["s2", "s3"]);
+  });
+
+  it("orphans become roots", () => {
+    const roots = buildTree([
+      { ...SPANS[0] },
+      { ...SPANS[1], parent_id: "missing" },
+    ]);
+    expect(roots).toHaveLength(2);
   });
 });
 

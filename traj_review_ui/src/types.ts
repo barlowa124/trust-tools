@@ -37,3 +37,19 @@ export interface Dataset {
   events: TrajectoryEvent[];
   report: AuditReport;
 }
+
+/** agent_observe span format (examples/agent_run.json). */
+
+export interface Span {
+  span_id: string;
+  parent_id: string | null;
+  name: string;
+  kind: string;
+  start_ms: number;
+  end_ms: number;
+  attrs?: Record<string, unknown>;
+}
+
+export interface SpanNode extends Span {
+  children: SpanNode[];
+}

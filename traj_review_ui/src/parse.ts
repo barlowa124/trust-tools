@@ -1,7 +1,7 @@
 /** Pure parsing helpers — kept framework-free so vitest can exercise
  * them without a DOM. */
 
-import type { AuditReport, TrajectoryEvent } from "./types";
+import type { AuditReport, Span, SpanNode, TrajectoryEvent } from "./types";
 
 export function parseTrajectoryJsonl(raw: string): TrajectoryEvent[] {
   return raw
@@ -48,6 +48,29 @@ export function timeSpan(events: TrajectoryEvent[]): number {
   if (events.length < 2) return 0;
   const ts = events.map((e) => e.t).filter((t) => t != null);
   return Math.max(...ts) - Math.min(...ts);
+}
+
+/** agent_observe spans: parse + parent-linked tree. */
+
+export function parseSpans(raw: string): Span[] {
+  const arr = JSON.parse(raw);
+  if (!Array.isArray(arr)) throw new Error("span file must be a JSON array");
+  return arr as Span[];
+}
+
+export function buildTree(spans: Span[]): SpanNode[] {
+  const nodes = new Map<string, SpanNode>(
+    spans.map((s) => [s.span_id, { ...s, children: [] }]),
+  );
+  const roots: SpanNode[] = [];
+  for (const n of nodes.values()) {
+    const parent = n.parent_id ? nodes.get(n.parent_id) : undefined;
+    if (parent) parent.children.push(n);
+    else roots.push(n);
+  }
+  const byStart = (a: SpanNode, b: SpanNode) => a.start_ms - b.start_ms;
+  for (const n of nodes.values()) n.children.sort(byStart);
+  return roots.sort(byStart);
 }
 
 export function preview(s: string | undefined, n = 160): string {

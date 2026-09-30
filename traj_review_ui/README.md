@@ -16,6 +16,8 @@ their audit reports, and renders
 - an event timeline with kind badges, tool names, expandable event
   bodies, tool_call to tool_result pairing via `call_id`, rows flagged
   where a finding points, kind filters, and text search
+- a span-tree view for `agent_observe` traces: parent-linked spans with
+  per-span duration bars, covering the second artifact family in the repo
 
 ## Honest scope
 
@@ -38,6 +40,8 @@ npm run build      # tsc typecheck + vite bundle
 
 - `src/parse.ts`: JSONL/report parsing, call_id pairing, findings index.
   Pure functions, fully tested without a DOM.
-- `src/components/`: StatsBar, FindingsPanel, Timeline, EventRow.
+- `src/components/`: StatsBar, FindingsPanel, Timeline, EventRow,
+  SpanTree.
 - `src/sample/`: bundled trajectory + report pairs (copies of
-  `agent_trajectory_audit/examples/`).
+  `agent_trajectory_audit/examples/`) plus the `agent_observe` example
+  span trace.
