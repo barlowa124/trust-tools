@@ -3,9 +3,8 @@
 [![ci](https://github.com/barlowa124/trust-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/barlowa124/trust-tools/actions/workflows/ci.yml)
 
 Tools for verifying what AI systems did — and checking whether the
-watchers can be fooled. Five related projects merged into one
-repository, each a self-contained package with its own tests and commit
-history where applicable.
+watchers can be fooled. Each subdirectory is a self-contained package
+with its own tests and commit history where applicable.
 
 
 ## Where this sits in the portfolio
@@ -34,10 +33,11 @@ ML).
 | `agent_sandbox/` | Containment-layer benchmark: scripted tool-call scenarios run through the agentmon gate and a realpath filesystem jail, measuring each layer separately. The battery documents the one residual (arg aliasing + no kernel isolation without bwrap) instead of hiding it. |
 | `receipt_report/` | Renders audit documents from the other packages' chains — verifies integrity first, then recomputes every reported number from the records. Broken chains land in the document as findings. |
 | `traj_review_ui/` | Static React/TS review surface over the audit artifacts: findings panel with severity + evidence, event timeline with call_id-paired tool calls, kind filters and search. Bundles four real example datasets; no backend. |
+| `oncology_coscientist/` | Verified-numbers LLM reporting on a domain problem: a deterministic TCGA survival pipeline (Cox PH, RSF, assumption checks) computes every number; a local LLM only writes the prose; a claim verifier binds each number in that prose to the recorded computation; a human gate signs off. Every LLM call is replayable byte-for-byte. The committed result is a negative one: the verifier rejected 8 of 9 Gemma drafts, and human review caught the ninth — the guardrail demonstrably fires. |
 
 ## Running tests
 
-All six are stdlib-only. No dependencies to install:
+The core packages are stdlib-only:
 
 ```bash
 cd agent_trajectory_audit && PYTHONPATH=src python3 -m pytest tests/ -q
@@ -47,6 +47,13 @@ cd ../inference_receipts && PYTHONPATH=src python3 -m pytest tests/ -q
 cd ../model_serve && PYTHONPATH=src python3 -m pytest tests/ -q
 cd ../receipt_report && PYTHONPATH=src python3 -m pytest tests/ -q
 cd .. && python3 -m pytest tests/ -q   # monorepo interop
+```
+
+`oncology_coscientist` has real dependencies (lifelines,
+scikit-survival, langgraph); its test suite is offline:
+
+```bash
+cd oncology_coscientist && pip install -e '.[dev]' && python -m pytest tests/ -q
 ```
 
 ## Why one repo
