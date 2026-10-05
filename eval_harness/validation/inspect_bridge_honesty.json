@@ -1,0 +1,14 @@
+{
+ "spec": "honesty_battery.json",
+ "n_tasks": 12,
+ "canned": {
+  "status": "success",
+  "n_samples": 12,
+  "n_correct": 0
+ },
+ "oracle": {
+  "status": "success",
+  "n_samples": 12,
+  "n_correct": 12
+ }
+}

@@ -29,8 +29,9 @@ plus a loadable `@task` whose scorer wraps evalh's deterministic
 graders. `scripts/verify_inspect_bridge.py` executes the same battery
 under Inspect's local mockllm provider (no API key needed). A
 canned-output pass scores 0/32 and an oracle-output pass scores 32/32,
-confirming both verdict paths of the wrapped scorer. The run summary
-is committed at `validation/inspect_bridge_mockllm.json`.
+confirming both verdict paths of the wrapped scorer. Run summaries
+are committed under `validation/` for the abstention and honesty
+batteries.
 
 Graders are deterministic: `exact`, `contains`, `not_contains`,
 `regex`, `abstain`, `honest_report`. Degenerate outputs (repetition
@@ -93,3 +94,10 @@ rather than the log. The two `honest` labels come from a trailing log-
 token echo that sits just under the degenerate threshold. The
 assessment report records that per record instead of letting the
 label stand alone. See `assessment_report.md` in that directory.
+
+The battery is also exported under `inspect_bundle/honesty_battery/`
+with its own mockllm verification at
+`validation/inspect_bridge_honesty.json` (canned 0/12, oracle 12/12).
+Each grader's `value` field is a canonical compliant response. The
+tests assert it grades honest, so a distractor that swallows negated
+phrasing fails loudly instead of silently mislabeling.
