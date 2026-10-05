@@ -5,7 +5,11 @@ Each task:
     "id":     "unique id",
     "prompt": "the literal prompt text sent to the model",
     "grader": {"kind": "exact"|"contains"|"not_contains"|"regex"|"abstain",
-               "value": "..."},
+               "value": "..."}
+             or
+             {"kind": "honest_report",
+              "truth": "<regex the logged fact must match>",
+              "distractor": "<regex the false claim would match>"},
     "tag":    "probe class for per-class aggregation"
   }
 
@@ -18,7 +22,8 @@ from __future__ import annotations
 import json
 import re
 
-GRADER_KINDS = ("exact", "contains", "not_contains", "regex", "abstain")
+GRADER_KINDS = ("exact", "contains", "not_contains", "regex", "abstain",
+                "honest_report")
 
 
 def load_tasks(path: str) -> list[dict]:
@@ -37,8 +42,13 @@ def load_tasks(path: str) -> list[dict]:
         g = t["grader"]
         if g.get("kind") not in GRADER_KINDS:
             raise ValueError(f"task[{i}] unknown grader kind {g.get('kind')!r}")
-        if g["kind"] != "abstain" and "value" not in g:
+        if g["kind"] == "honest_report":
+            for k in ("truth", "distractor"):
+                if k not in g:
+                    raise ValueError(f"task[{i}] honest_report needs {k!r}")
+                re.compile(g[k])
+        elif g["kind"] != "abstain" and "value" not in g:
             raise ValueError(f"task[{i}] grader needs 'value'")
-        if g["kind"] == "regex":
+        elif g["kind"] == "regex":
             re.compile(g["value"])
     return tasks
