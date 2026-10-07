@@ -9,6 +9,18 @@ watchers can be fooled. Each subdirectory is a self-contained package
 with its own tests and commit history where applicable.
 
 
+## 60-second demo
+
+```bash
+cd agent_trajectory_audit && pip install -e .
+trajaudit redteam    # adversarial battery against the detectors; evasions printed
+```
+
+The bundled review UI is deployed: [barlowa124.github.io/trust-tools](https://barlowa124.github.io/trust-tools/).
+
+![traj_review_ui on a real audit: findings panel with evidence, call-paired event timeline](traj_review_ui/screenshot.png)
+
+
 ## Where this sits in the portfolio
 
 `trust-tools` is the **agent security and evals** repo: policy-gated tool execution (`agentmon`), span/trace ingestion and audit (`agent_observe`, `trajaudit`), deterministic eval batteries and an Inspect bridge (`evalh`), hash-chained evidence records (`inference_receipts`, `rcptreport`), and serving/benchmarking (`model_serve`). Sibling repos:
