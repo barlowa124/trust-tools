@@ -16,6 +16,9 @@ A policy file is JSON:
 Actions: allow | flag | deny. `deny_outside` denies when a path arg
 escapes every listed scope (normalized, so `a/../escape` resolves).
 Verdict precedence is deny > flag > allow; first deny wins.
+
+A policy can also carry "output_rules" — the same shape applied to the
+agent's emitted answer instead of a tool call (see outgate.py).
 """
 
 from __future__ import annotations
@@ -48,6 +51,9 @@ def load_policy(path: str) -> dict:
             raise ValueError(f"rule[{i}] bad action {r['action']!r}")
         if "arg_regex" in r:
             re.compile(r["arg_regex"], re.I)
+    # Local import: outgate imports Verdict from here.
+    from .outgate import validate_output_rules
+    validate_output_rules(pol.get("output_rules", []))
     return pol
 
 

@@ -225,8 +225,9 @@ class RedTeamBatteryTests(unittest.TestCase):
                             default_policy_path()))}
 
     def test_violations_detected(self):
+        residual = {"symlink_write", "encoded_exfil"}
         for name, r in self.results.items():
-            if r["expect"] == "violation" and name != "symlink_write":
+            if r["expect"] == "violation" and name not in residual:
                 self.assertEqual(r["status"], "detected",
                                  f"{name} regressed")
 
@@ -247,4 +248,156 @@ class RedTeamBatteryTests(unittest.TestCase):
     def test_only_documented_evasion(self):
         evaded = {a for a, r in self.results.items()
                   if r["status"] == "EVADED"}
-        self.assertEqual(evaded, {"symlink_write"})
+        self.assertEqual(evaded, {"symlink_write", "encoded_exfil"})
+
+    def test_split_secret_detected(self):
+        """Whitespace-splitting is the cheap evasion for token regexes;
+        the squash pass exists to rejoin it."""
+        r = self.results["split_token_leak"]
+        self.assertEqual(r["status"], "detected")
+        self.assertEqual(r["action"], "deny")
+
+
+class OutputGateTests(unittest.TestCase):
+    """Output-side policy: emitted answers evaluated against
+    output_rules — secrets, structure contracts, length."""
+
+    POL = {
+        "defaults": {"action": "allow"},
+        "rules": [],
+        "output_rules": [
+            {"id": "no-token", "squash_regex": "sk-[A-Za-z0-9]{20,}",
+             "action": "deny", "severity": "high",
+             "reason": "token-shaped output"},
+            {"id": "must-json", "format": "json",
+             "require_keys": ["answer"],
+             "fields": {"confidence": {"type": "number",
+                                      "min": 0, "max": 1},
+                        "answer": {"type": "str", "required": True,
+                                   "min_len": 1}},
+             "action": "deny", "severity": "medium",
+             "reason": "answer contract"},
+            {"id": "needs-cite", "text_regex_require": r"\[\d+\]",
+             "action": "flag", "severity": "low",
+             "reason": "uncited answer"},
+            {"id": "too-long", "max_chars": 100, "action": "flag",
+             "severity": "low", "reason": "verbose"},
+        ],
+    }
+
+    def test_clean_json_answer_passes(self):
+        from agentmon.outgate import evaluate_output
+        v = evaluate_output(self.POL,
+                            '{"answer": "4 [1]", "confidence": 0.9}')
+        self.assertEqual(v.action, "allow")
+
+    def test_token_leak_denied(self):
+        from agentmon.outgate import evaluate_output
+        v = evaluate_output(self.POL,
+                            'key: sk-' + 'x7' * 24)
+        self.assertEqual(v.action, "deny")
+        self.assertEqual(v.rule, "no-token")
+
+    def test_split_token_denied(self):
+        from agentmon.outgate import evaluate_output
+        v = evaluate_output(self.POL,
+                            'key: sk- ' + 'x7' * 12 + ' ' + 'x7' * 12)
+        self.assertEqual(v.action, "deny")
+
+    def test_deny_beats_flag_on_output(self):
+        from agentmon.outgate import evaluate_output
+        v = evaluate_output(
+            self.POL, '{"answer": "' + 'sk-' + 'x7' * 24 + '"}')
+        self.assertEqual(v.action, "deny")
+        self.assertEqual(v.rule, "no-token")
+
+    def test_non_json_violates_contract(self):
+        from agentmon.outgate import evaluate_output
+        v = evaluate_output(self.POL, "four [1]")
+        self.assertEqual(v.action, "deny")
+        self.assertEqual(v.rule, "must-json")
+
+    def test_missing_required_field_denied(self):
+        from agentmon.outgate import evaluate_output
+        v = evaluate_output(self.POL, '{"confidence": 0.5}')
+        self.assertEqual(v.action, "deny")
+        self.assertIn("answer", v.reason)
+
+    def test_field_out_of_range_denied(self):
+        from agentmon.outgate import evaluate_output
+        v = evaluate_output(self.POL,
+                            '{"answer": "ok [1]", "confidence": 2}')
+        self.assertEqual(v.action, "deny")
+
+    def test_bool_is_not_int(self):
+        from agentmon.outgate import evaluate_output
+        pol = {"output_rules": [
+            {"id": "r", "format": "json",
+             "fields": {"n": {"type": "int"}}, "action": "deny"}]}
+        v = evaluate_output(pol, '{"n": true}')
+        self.assertEqual(v.action, "deny")
+
+    def test_required_pattern_absent_flags(self):
+        from agentmon.outgate import evaluate_output
+        pol = {"output_rules": [
+            {"id": "needs-cite", "text_regex_require": r"\[\d+\]",
+             "action": "flag"}]}
+        v = evaluate_output(pol, "no citations here")
+        self.assertEqual(v.action, "flag")
+        v2 = evaluate_output(pol, "cited [1]")
+        self.assertEqual(v2.action, "allow")
+
+    def test_max_chars_flags(self):
+        from agentmon.outgate import evaluate_output
+        pol = {"output_rules": [
+            {"id": "cap", "max_chars": 10, "action": "flag"}]}
+        self.assertEqual(evaluate_output(pol, "x" * 11).action, "flag")
+        self.assertEqual(evaluate_output(pol, "x" * 10).action, "allow")
+
+    def test_gate_output_raises_and_records(self):
+        m = Monitor(self.POL)
+        with self.assertRaises(DenyError):
+            m.gate_output('sk-' + 'y9' * 24)
+        self.assertEqual(len(m.records), 1)
+        self.assertEqual(m.records[0]["side"], "output")
+        self.assertEqual(m.records[0]["tool"], "<output>")
+
+    def test_wrap_output_gates_return(self):
+        m = Monitor(self.POL)
+
+        @m.wrap_output
+        def emit():
+            return "sk-" + "z1" * 24
+
+        with self.assertRaises(DenyError):
+            emit()
+
+    def test_mixed_input_output_chain_verifies(self):
+        pol = {"defaults": {"action": "allow"},
+               "rules": [{"id": "net", "tool": "exec",
+                          "arg_regex": "curl", "action": "flag"}],
+               "output_rules": self.POL["output_rules"]}
+        m = Monitor(pol)
+        m.gate("exec", {"command": "curl a"})
+        m.gate_output('{"answer": "' + "x" * 200 +
+                      ' [1]", "confidence": 0.5}')
+        try:
+            m.gate_output("sk-" + "w5" * 24)
+        except DenyError:
+            pass
+        self.assertEqual(len(m.records), 3)
+        self.assertEqual(m.records[0]["side"], "input")
+        self.assertEqual(m.records[1]["side"], "output")
+        self.assertEqual(check_log(m.records), [])
+
+    def test_output_policy_validation(self):
+        from agentmon.outgate import validate_output_rules
+        with self.assertRaises(ValueError):
+            validate_output_rules([{"id": "x"}])
+        with self.assertRaises(ValueError):
+            validate_output_rules(
+                [{"id": "x", "action": "deny",
+                  "fields": {"a": {"type": "funky"}}}])
+        with self.assertRaises(ValueError):
+            validate_output_rules(
+                [{"id": "x", "action": "deny", "bogus_key": 1}])

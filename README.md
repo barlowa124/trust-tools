@@ -23,7 +23,7 @@ The bundled review UI is deployed: [barlowa124.github.io/trust-tools](https://ba
 
 ## Where this sits in the portfolio
 
-`trust-tools` is the **agent security and evals** repo: policy-gated tool execution (`agentmon`), span/trace ingestion and audit (`agent_observe`, `trajaudit`), deterministic eval batteries and an Inspect bridge (`evalh`), hash-chained evidence records (`inference_receipts`, `rcptreport`), and serving/benchmarking (`model_serve`). Sibling repos:
+`trust-tools` is the **agent security and evals** repo: a policy gate on tool calls and emitted answers inside the agent loop (`agentmon`), span/trace ingestion and audit (`agent_observe`, `trajaudit`), deterministic eval batteries and an Inspect bridge (`evalh`), hash-chained evidence records (`inference_receipts`, `rcptreport`), and serving/benchmarking (`model_serve`). Sibling repos:
 [trust-tools](https://github.com/barlowa124/trust-tools) (agent security
 and evals), [bio-qc](https://github.com/barlowa124/bio-qc) (lab-data QC
 pipelines), [lab-informatics](https://github.com/barlowa124/lab-informatics)
@@ -39,7 +39,7 @@ ML).
 | Directory | What it does |
 |---|---|
 | `agent_trajectory_audit/` | Parses coding-agent session transcripts into an event schema and flags intent/behavior divergence (unbacked test/deploy claims, abandoned plan items, out-of-scope writes, tool storms). Deterministic heuristics, zero dependencies. `trajaudit redteam` runs an adversarial battery against the detectors — attacks it evades are printed, not hidden. |
-| `agent_monitor/` | The audit moved upstream: a pre-execution policy gate on tool calls. Each decision (allow/block/flag) is a hash-chained event record with severity and matched policy — for inline oversight, not post-hoc review. |
+| `agent_monitor/` | The audit moved upstream: a policy gate on both sides of the agent loop — tool calls checked before they run (`rules`), emitted answers checked before they ship (`output_rules`: credential-shaped strings, JSON format/field contracts, length caps). Each decision (allow/flag/deny) is a hash-chained event record with severity and matched policy — for inline oversight, not post-hoc review. `agentmon redteam` reports the residual evasions instead of hiding them. |
 | `eval_harness/` | Task-spec evaluation runner. Deterministic graders, injectable `generate_fn`, per-task records hash-chained into a verifiable log. `sweep` runs one battery across staged checkpoints — the training-run-assessment shape. Ships `probes/abstention_battery.json` plus a real 3-stage SmolLM2 sweep under `results/`. |
 | `inference_receipts/` | Hash-bound inference receipts: input, weights, settings, output all sha256-chained per log entry, with replay verification. Any tampering breaks the receipt hash or the chain. |
 | `model_serve/` | Serving slice: request queue, micro-batching, shadow evaluation of a candidate against production, and a hash-bound record per response. FastAPI wiring optional. |

@@ -1,6 +1,8 @@
 """agentmon command line.
 
   agentmon check --policy p.json --tool exec --args-json '{"command":"ls"}'
+  agentmon check-output --policy p.json --text 'the answer is 4'
+  agentmon check-output --policy p.json --file answer.txt
   agentmon verify log.jsonl
 """
 
@@ -24,6 +26,14 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--args-json", required=True)
     s.add_argument("--cwd", default=".")
 
+    s = sub.add_parser("check-output",
+                       help="evaluate one emitted answer")
+    s.add_argument("--policy", required=True)
+    s.add_argument("--cwd", default=".")
+    src = s.add_mutually_exclusive_group(required=True)
+    src.add_argument("--text")
+    src.add_argument("--file")
+
     s = sub.add_parser("verify", help="check an alert log's chain")
     s.add_argument("log")
 
@@ -38,6 +48,17 @@ def main(argv: list[str] | None = None) -> int:
         pol = load_policy(a.policy)
         m = Monitor(pol, cwd=a.cwd)
         v = m.check(a.tool, json.loads(a.args_json))
+        print(json.dumps({"action": v.action, "rule": v.rule,
+                          "severity": v.severity, "reason": v.reason},
+                         indent=1))
+        return {"deny": 2, "flag": 1}.get(v.action, 0)
+
+    if a.cmd == "check-output":
+        pol = load_policy(a.policy)
+        m = Monitor(pol, cwd=a.cwd)
+        text = a.text if a.text is not None else open(
+            a.file, encoding="utf-8").read()
+        v = m.check_output(text)
         print(json.dumps({"action": v.action, "rule": v.rule,
                           "severity": v.severity, "reason": v.reason},
                          indent=1))

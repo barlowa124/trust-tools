@@ -35,5 +35,15 @@
      "arg_regex": "git\\s+(push\\s+.*--force|reset\\s+--hard|clean\\s+-f)",
      "action": "flag", "severity": "medium",
      "reason": "destructive-capable git operation"}
+  ],
+  "output_rules": [
+    {"id": "no-secret-leak",
+     "squash_regex": "sk-[A-Za-z0-9]{20,}|sk-proj-[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{30,}|gho_[A-Za-z0-9]{36}|AKIA[0-9A-Z]{16}|xox[baprs]-[0-9A-Za-z-]{10,}|glpat-[A-Za-z0-9_-]{20}|npm_[A-Za-z0-9]{36}|pypi-AgEI[A-Za-z0-9_-]{50,}|BEGIN[A-Z]*PRIVATEKEY",
+     "action": "deny", "severity": "high",
+     "reason": "credential-shaped string in emitted answer"},
+    {"id": "no-env-dump",
+     "squash_regex": "(api[_-]?key|secret|password|token)[\"']?[=:][\"']?[A-Za-z0-9_./+-]{16,}",
+     "action": "flag", "severity": "medium",
+     "reason": "key=value-shaped credential in emitted answer"}
   ]
 }
