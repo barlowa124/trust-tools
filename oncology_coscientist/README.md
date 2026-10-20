@@ -14,7 +14,7 @@ Two different things are evaluated here, and they have opposite outcomes.
 
 1. **The software passes.** The deterministic survival pipeline (Cox PH, RSF,
    metrics, assumption checks) verifies and replays bit-for-bit on all three
-   cohorts. The offline test suite passes (74 tests). Every number in the
+   cohorts. The offline test suite passes (96 tests). Every number in the
    results tables below comes from that code.
 2. **Gemma's written reports mostly do not pass.** After the numbers are
    computed, a local Gemma 3 model is asked only to *describe* them. Across the
@@ -49,10 +49,18 @@ builds. Any mechanistic explanation must first be shown to apply to the model
 that produced these drafts. Until then, this repository claims only
 what it can show: the fabrication happens, it is reproducible, and it is caught.
 
-Stack: LangGraph StateGraph agents, lifelines Cox PH and scikit-survival Random
-Survival Forest, BM25 retrieval over NCI PDQ, FastAPI review API, pluggable LLM
-backend (Ollama gemma3 by default, any LangChain chat model, recorded
-transcripts for replay).
+The stack is LangGraph StateGraph agents, lifelines Cox PH and
+scikit-survival Random Survival Forest, BM25 retrieval over NCI PDQ, a
+FastAPI review API, and a pluggable LLM backend (Ollama gemma3 by
+default, any OpenAI-compatible endpoint, any LangChain chat model,
+recorded transcripts for replay).
+
+Retrieval is citation-gated, not decorative. Passages carry deterministic
+`PDQ:<doc>#<para>` tags. A draft may only cite tags the retriever
+returned, quoted text must match the cited passage verbatim, and numbers
+in the Context section must come from the cited passage rather than the
+results table. The verifier rejects drafts that cite unlisted tags,
+paraphrase quotes, or pull results-table numbers into retrieved context.
 
 **2-minute tour:** [What the verifier caught](#what-the-verifier-caught) is
 the headline: documented, preserved LLM failure modes (fabricated metrics,
@@ -195,6 +203,98 @@ FROZEN runs predate a prompt change and are not re-verified:
 - BRCA `4afbc74b7bc5` (12b): rejected for the "6-36" label false positive.
 - BRCA `052fa2c286da` (12b): passed verifier in 3 attempts, unapproved.
 
+### Endpoint runs (Qwen2.5 served on a Colab GPU)
+
+The `endpoint` backend sends generation to an OpenAI-compatible service
+(`oncocs/llm/endpoint.py`) instead of local Ollama. Four LUAD runs
+surfaced failure modes the same-prompt gemma runs never hit.
+
+- **`agent/a8a460e3431b` (Qwen2.5-7B):** every draft was cut mid-sentence
+  at the service's default 256-token generation bound, and
+  `missing_sections` flagged the absent tail sections on all 3 attempts.
+  Truncation, not writing, was the defect. Fixed by sending `max_tokens`
+  per request.
+- **`agent/535bfb3be89f` (Qwen2.5-7B, bound raised):** drafts tripled in
+  length but spent the budget enumerating per-covariate hazard ratios.
+  Invented p-values were flagged `unverified_numbers` (`p=0.5502` where
+  the recorded value is 0.5602) and CI bounds landed in the wrong model
+  blocks (`misattributed` ×12). Still truncated before the required
+  sections.
+- **`agent/1c01ac53d02f` (Qwen2.5-3B, grounding prompt):** complete
+  drafts, all sections, zero numeric violations. Rejected on 4 misquotes
+  (paraphrased passage text in quotation marks) and one `robust`.
+  Verbatim quoting exceeded small-model fidelity, so the prompt now
+  requires paraphrase-only citations.
+- **`agent/1abfb93c0599` (Qwen2.5-3B):** verifier passed on attempt 1,
+  the first verified draft through the endpoint backend and replays
+  byte-for-byte against its recorded transcript (PASS). Pending human
+  review.
+
+A verifier tightening then showed that pass was thin: `1abfb93c0599`
+named every focus model but reported no values. A `focus_without_values`
+check now requires each in-scope focus model to carry at least one of
+its own recorded metrics, and the old run replays FROZEN. Six more
+endpoint runs under the tightened verifier mapped three further
+small-model failure modes, each fixed in the prompt or the plan
+hand-off rather than in the verifier.
+
+- The 3B pasted the retry findings verbatim into its next draft. The
+  retry prompt now wraps the rejected draft in `<rejected_draft>` tags
+  and forbids copying checker phrasing.
+- The analysis agent wrote sentence claims carrying invented metrics
+  ("Harrell C-index of 0.75"), and the report model quoted them. The
+  analysis prompt now restricts `claims_to_make` to metric names, and
+  `graph.py` masks digits in that field before it reaches the report
+  prompt (`_plan_view`).
+- GBM abstained all four models after failed checks, yet the model
+  wrote invented metrics into the new per-model bullets while also
+  writing "abstained" elsewhere. The bullet instruction now defines
+  the abstention form explicitly, and the prompt's example carries no
+  numbers (an earlier numeric example was copied verbatim into a
+  draft).
+
+Three endpoint runs passed against the same 3B service:
+`106b1edbf7b5` (LUAD, attempt 3), `1171d5d935a4` (BRCA, attempt 1),
+`254fd283defd` (GBM, attempt 2). Those runs now replay FROZEN under
+the tightened prompt and verifier. Live reruns surfaced further
+small-model failure modes.
+
+- `16448fdcde62` (BRCA) passed while listing
+  `rsf/clinical_expression` as abstained beside its real values. A
+  `false_abstention` check now rejects valued models described as
+  abstained, and that run replays FROZEN.
+- Retries regenerated token-identical drafts. Attempt 1 runs at
+  temperature 0 and the inference service seeds sampling
+  deterministically, so identical findings produced identical
+  outputs. Retries now sample at nonzero temperature with an
+  attempt-specific marker.
+- LUAD's all-PASS cohort produced a fabricated abstention list in
+  "Checks and abstentions": the section header itself invited one.
+  The checks instruction now names abstention only when the results
+  contain a FAIL.
+- `robust` survived a flat word ban as `robustness`, so the verifier
+  now matches the word family. Zero-missingness entries were dropped
+  from the rendered table because "absence of missing data" reliably
+  drew evaluative claims about data completeness.
+- Passage listings were rendered in quotation marks, which taught the
+  model to dump verbatim quotes into Limitations. Passages now render
+  unquoted, and the checks table renders as copyable sentences.
+
+The final sweep reran all three cohorts under identical code at two
+model scales, and every run passed on attempt 1.
+
+- **Qwen2.5-3B:** `77fe3a4ac23e` (LUAD), `dc07cf8dab4b` (BRCA),
+  `c85e0b06131c` (GBM, all four models abstained with reasons).
+- **Qwen2.5-14B:** `a080438819f2` (LUAD), `eea6fa8ba841` (BRCA),
+  `401e3254cc64` (GBM, where the analysis plan scoped two focus
+  models and the draft disclosed both abstentions).
+
+Each of those six replays PASS against its recorded transcript under
+the current code. `results/agent_model_comparison.json` carries 68
+runs: 6 replay PASS and 62 replay FROZEN, where FROZEN means a run's
+recorded prompts no longer match current code and its verdict cannot
+be re-claimed as current behavior.
+
 ## Quick start
 
 ```bash
@@ -255,8 +355,12 @@ docker run -v "$PWD/results:/app/results" -v "$PWD/data:/app/data" \
            -v "$PWD/splits:/app/splits" -v "$PWD/rag:/app/rag" -p 8000:8000 oncocs
 ```
 
-The container serves the review API over saved runs. The LLM backend (Ollama)
-is **not** in the image. Agent runs happen outside the container.
+The image builds the React UI (`web/`, served at `/ui`) and installs the
+`deploy` extra. The LLM backend is **not** in the image. The model lives
+behind `ONCOCS_LLM_BASE_URL`, any OpenAI-compatible endpoint (a Colab
+vLLM/Ollama tunnel, llama.cpp, or a hosted API). `docker compose up`
+brings up the API with a Postgres mirror for run records. See
+[docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## Evidence record
 
@@ -269,13 +373,30 @@ hashes and reruns the pipeline. Agent runs write
 the full prompt transcript (replayable via `RecordedBackend`), every draft with
 its verification, the analysis plan, status and human-review metadata.
 
+Upstream data drifts, and verify says so. cBioPortal retired the public
+tarballs, and the mutations member now arrives through a live API whose
+output shifts when upstream gene symbols are migrated. Re-downloading
+today produces a mutations file that hashes differently than the one the
+committed results consumed, so `verify` fails `data_manifest_sha256` for
+the recorded runs. That is the gate working: the manifest documents the
+original inputs byte-for-byte, and a changed upstream is reported as
+changed rather than silently absorbed.
+
 ## API
 
 `GET /cohorts`, `GET /runs`, `GET /runs/{cohort}/{run_id}`,
 `GET /runs/{cohort}/{run_id}/agent`, `GET /agent/{cohort}/{run_id}/{agent_id}/report`
 and `.../agent_run`, plus `POST .../approve` / `POST .../reject`
-(`{by, note|reason}`; conflicts return 409). The API reads saved runs and
-records human decisions only and cannot trigger pipeline or agent runs.
+(`{by, note|reason}`; conflicts return 409).
+
+`POST /runs/{cohort}/{run_id}/agent` triggers an agent run in the
+background (`{backend, seed}`: `endpoint` reads `ONCOCS_LLM_*` env,
+`scripted-demo` needs no model) and returns a `job_id` for
+`GET /jobs/{job_id}`. When `DATABASE_URL` is set, agent-run records and
+jobs mirror into Postgres and the read endpoints serve from there. The
+`results/` filesystem remains canonical. The pipeline itself is not
+triggered through the API. Runs re-draft reports over saved
+results.json files.
 
 ## Limitations
 

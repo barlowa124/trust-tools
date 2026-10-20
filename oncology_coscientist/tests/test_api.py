@@ -88,3 +88,34 @@ def test_reject_records_human_review(client):
     aj = client.get(base + "/agent_run").json()
     assert aj["human_review"]["decision"] == "rejected"
     assert aj["human_review"]["by"] == "reviewer"
+
+
+def test_trigger_agent_run_scripted(client):
+    """POST /runs/{cohort}/{run_id}/agent launches a run; the job
+    endpoint reports completion and the new agent_run is listed."""
+    import time
+    run_id = client.synth["run_id"]
+    r = client.post(f"/runs/synth/{run_id}/agent",
+                    json={"backend": "scripted-demo"})
+    assert r.status_code == 202
+    job_id = r.json()["job_id"]
+    for _ in range(200):
+        job = client.get(f"/jobs/{job_id}").json()
+        if job["status"] != "running":
+            break
+        time.sleep(0.05)
+    assert job["status"] == "done", job
+    new_id = job["detail"]["agent_run_id"]
+    agents = client.get(f"/runs/synth/{run_id}/agent").json()
+    assert any(a["agent_run_id"] == new_id for a in agents)
+
+
+def test_trigger_rejects_bad_backend(client):
+    run_id = client.synth["run_id"]
+    r = client.post(f"/runs/synth/{run_id}/agent",
+                    json={"backend": "made-up"})
+    assert r.status_code == 422
+
+
+def test_job_404(client):
+    assert client.get("/jobs/no-such-job").status_code == 404

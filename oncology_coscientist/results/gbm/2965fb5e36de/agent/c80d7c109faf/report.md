@@ -1,0 +1,8 @@
+<!-- agent_run_sha256: f65f4d4646395de487144e1e71515f7d69c60f83bd4bb29901d36daf8af18170 -->
+> **REJECTED - no verified report was produced after 3 attempts.**
+
+- Attempt 1: unverified number '0.612' (s - cox/clinical: harrell_c = 0.612, auc_12m = 0.654, auc_24m = 0); unverified number '0.654' (harrell_c = 0.612, auc_12m = 0.654, auc_24m = 0.678, auc_36m = 0); unverified number '0.678' (2, auc_12m = 0.654, auc_24m = 0.678, auc_36m = 0.692, integrated_); unverified number '0.692' (4, auc_24m = 0.678, auc_36m = 0.692, integrated_brier_6_36m = 0.2); unverified number '0.213' (692, integrated_brier_6_36m = 0.213, calibration_24m = 0.045 - rs); unverified number '0.045' (6m = 0.213, calibration_24m = 0.045 - rsf/clinical: harrell_c = 0.); unverified number '0.623' (5 - rsf/clinical: harrell_c = 0.623, auc_12m = 0.665, auc_24m = 0); unverified number '0.665' (harrell_c = 0.623, auc_12m = 0.665, auc_24m = 0.687, auc_36m = 0); unverified number '0.687' (3, auc_12m = 0.665, auc_24m = 0.687, auc_36m = 0.701, integrated_); unverified number '0.701' (5, auc_24m = 0.687, auc_36m = 0.701, integrated_brier_6_36m = 0.2); unverified number '0.209' (701, integrated_brier_6_36m = 0.209, calibration_24m = 0.047 - co); unverified number '0.047' (6m = 0.209, calibration_24m = 0.047 - cox/clinical_expression: har); unverified number '24' (s. Calibration is assessed at 24 months for both Cox models an)
+- Attempt 2: unverified number '24' (s. Calibration is assessed at 24 months for both Cox models an)
+- Attempt 3: unverified number '24' (s. Calibration is assessed at 24 months for both Cox models an)
+
+All drafts with their verification results are preserved in `agent_run.json`.

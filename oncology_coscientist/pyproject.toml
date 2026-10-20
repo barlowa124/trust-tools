@@ -30,6 +30,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest", "httpx"]
 openai = ["langchain-openai>=0.2"]
+deploy = ["psycopg[binary]>=3.1"]
 
 [project.scripts]
 oncocs = "oncocs.cli:main"

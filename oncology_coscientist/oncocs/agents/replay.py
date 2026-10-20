@@ -15,7 +15,17 @@ def replay_agent(agent_run_path: Path) -> tuple[str, str]:
     issues. The run predates a prompt change and is preserved as evidence."""
     agent_run_path = Path(agent_run_path)
     record = json.loads(agent_run_path.read_text(encoding="utf-8"))
-    results = json.loads(Path(record["results_path"]).read_text(encoding="utf-8"))
+    # records may store foreign-OS or container paths; the on-disk layout
+    # is canonical (agent_run.json sits at
+    # results/<cohort>/<run_id>/agent/<agent_run_id>/), so prefer the
+    # record's own location over the stored path
+    local_results = agent_run_path.parents[2] / "results.json"
+    if local_results.exists():
+        results_path = local_results
+    else:
+        results_path = Path(record["results_path"].replace("\\", "/"))
+    record["results_path"] = str(results_path)
+    results = json.loads(results_path.read_text(encoding="utf-8"))
     # results/<cohort>/<run_id>/agent/<agent_run_id>/agent_run.json
     root = agent_run_path.parents[5]
 

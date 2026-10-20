@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: oncocs
+      POSTGRES_PASSWORD: oncocs
+      POSTGRES_DB: oncocs
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oncocs"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://oncocs:oncocs@db:5432/oncocs
+      # Point the model anywhere OpenAI-compatible — a Colab vLLM or
+      # Ollama tunnel, llama.cpp, or a hosted API. The demo works
+      # without it via backend=scripted-demo.
+      # ONCOCS_LLM_BASE_URL: https://your-tunnel.example/v1
+      # ONCOCS_LLM_MODEL: google/gemma-3-4b-it
+      # ONCOCS_LLM_API_KEY: ""
+    volumes:
+      - ./results:/app/results
+      - ./data:/app/data
+      - ./splits:/app/splits
+      - ./rag:/app/rag
+      - ./web/dist:/app/web/dist
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

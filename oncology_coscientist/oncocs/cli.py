@@ -380,9 +380,12 @@ def cmd_agent_run(args):
         from oncocs.splits import load_split
         backend = demo_backend(json.loads(results_path.read_text()),
                                load_split(cfg, args.data_dir))
+    elif args.backend == "endpoint":
+        from oncocs.llm.endpoint import EndpointBackend
+        backend = EndpointBackend(model=args.model or None)
     else:
         from oncocs.llm.ollama import OllamaBackend
-        backend = OllamaBackend(model=args.model)
+        backend = OllamaBackend(model=args.model or "gemma3:4b")
     record = run_agent(args.cohort, results_path, backend, args.seed,
                        Path(args.data_dir))
     agent_dir = (Path(record["results_path"]).parent / "agent"
@@ -439,8 +442,11 @@ def cmd_agent_summarize(args):
         entries.append({
             "cohort": rec.get("cohort"), "run_id": p.parents[2].name,
             "agent_run_id": rec.get("agent_run_id"),
+            "backend": rec.get("backend"),
             "model_id": rec.get("model_id"), "status": rec.get("status"),
             "attempts": len(rec.get("drafts", [])),
+            "passed": (rec.get("drafts") or [{}])[-1]
+                      .get("verification", {}).get("passed"),
             "analysis_plan_fallback": rec.get("analysis_plan_fallback"),
             "findings_per_attempt": findings,
             "replay": rec.get("_replay_status") if args.replay else None,
@@ -535,8 +541,10 @@ def main(argv=None):
     ar = ags.add_parser("run")
     ar.add_argument("--cohort", required=True)
     ar.add_argument("--results", required=True)
-    ar.add_argument("--backend", choices=["ollama", "scripted-demo"], default="ollama")
-    ar.add_argument("--model", default="gemma3:4b")
+    ar.add_argument("--backend", choices=["ollama", "endpoint", "scripted-demo"], default="ollama")
+    ar.add_argument("--model", default=None,
+                    help="ollama model name, or ONCOCS_LLM_MODEL override "
+                         "for the endpoint backend")
     ar.add_argument("--seed", type=int, default=None)
     ar.set_defaults(fn=cmd_agent_run)
     rp = ags.add_parser("replay")

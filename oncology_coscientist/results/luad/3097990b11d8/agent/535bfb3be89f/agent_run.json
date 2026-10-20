@@ -1,0 +1,666 @@
+{
+  "agent_run_id": "535bfb3be89f",
+  "timestamp": "2026-10-12T22:34:41.972877+00:00",
+  "cohort": "luad",
+  "results_path": "/app/results/luad/3097990b11d8/results.json",
+  "results_sha256": "41cf2ec6e41f772ea83037046c08666836e1e4025666f3a0961866ebbe6cb082",
+  "backend": "endpoint",
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "temperature": 0.0,
+  "seed": 7,
+  "git_commit": null,
+  "git_dirty": null,
+  "transcript": [
+    {
+      "index": 0,
+      "prompt_sha256": "e0a81cc8bdca79f926729dbe257cab830b25dd5eda6ed512b276a0c185a5ecd4",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are a careful scientific writer. Use only provided numbers."
+        },
+        {
+          "role": "user",
+          "content": "Cohort: luad\nmissingness: {\"age\": {\"missing\": 10, \"fraction\": 0.02}, \"sex\": {\"missing\": 0, \"fraction\": 0.0}, \"stage\": {\"missing\": 2, \"fraction\": 0.004}, \"mut_TP53\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_KRAS\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_EGFR\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_STK11\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_KEAP1\": {\"missing\": 0, \"fraction\": 0.0}}\ndropped: {\"missing_os\": 61, \"nonpositive_os_months\": 4, \"extra_primary_samples\": 0, \"no_primary_sample\": 0}\nn_train: 350, n_test: 151\npatients: 501, with_expression: 497, unsequenced: 0\nchecks: [[\"split_integrity\", true], [\"min_events\", true], [\"leakage\", true], [\"proportional_hazards\", true], [\"convergence\", true]]\n\nWrite a 1-2 paragraph description of this cohort, then a bulleted list of data concerns. Use only the numbers above; do not invent any."
+        }
+      ],
+      "response": "The cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient is lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 2 patients (0.4% of the cohort).\n\u2022 The dataset has been validated with several checks, including split integrity, minimum events, no leakage, proportional hazards, and convergence, all of which passed.",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "temperature": 0.0,
+      "seed": 7,
+      "elapsed_s": 16.597
+    },
+    {
+      "index": 1,
+      "prompt_sha256": "83a0201163719f6f559c63cae60ac08d532d9d324c86b1fc6561797194da5b9e",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are a planning agent. Reply with JSON only."
+        },
+        {
+          "role": "user",
+          "content": "Choose what to discuss from this menu of already-computed items (you cannot request new computations):\n{\n \"models\": [\n  \"cox/clinical\",\n  \"rsf/clinical\",\n  \"cox/clinical_expression\",\n  \"rsf/clinical_expression\"\n ],\n \"metrics\": [\n  \"harrell_c\",\n  \"uno_c\",\n  \"auc_12m\",\n  \"auc_24m\",\n  \"auc_36m\",\n  \"integrated_brier_6_36m\"\n ],\n \"checks\": [\n  {\n   \"name\": \"split_integrity\",\n   \"passed\": true\n  },\n  {\n   \"name\": \"min_events\",\n   \"passed\": true\n  },\n  {\n   \"name\": \"leakage\",\n   \"passed\": true\n  },\n  {\n   \"name\": \"proportional_hazards\",\n   \"passed\": true\n  },\n  {\n   \"name\": \"convergence\",\n   \"passed\": true\n  }\n ]\n}\nRespond with ONLY a JSON object: {\"focus_models\": [...], \"claims_to_make\": [...], \"must_disclose\": [...]}"
+        }
+      ],
+      "response": "{\"focus_models\": [\"cox/clinical\", \"rsf/clinical\"], \"claims_to_make\": [\"harrell_c\", \"uno_c\", \"auc_12m\", \"auc_24m\", \"auc_36m\", \"integrated_brier_6_36m\"], \"must_disclose\": [\"split_integrity\", \"min_events\", \"proportional_hazards\", \"convergence\"]}",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "temperature": 0.0,
+      "seed": 7,
+      "elapsed_s": 7.446
+    },
+    {
+      "index": 2,
+      "prompt_sha256": "28fc7d885de63fde6a48b665f0009d0acbecac4908962e7bed5329ba19b33c6f",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You write cautious scientific summaries. Every number in your output must come from the supplied results table exactly as displayed. If any check failed, state the corresponding metrics as abstained. Forbidden phrasing: 'clinically validated', 'proves', 'causes', 'should be used', 'outperforms', 'state-of-the-art', 'robust', and 'significant' without an adjacent verifiable p-value. Do not name the language model, software versions, or patient identifiers. Describe each check by its recorded outcome and detail; do not infer assumption validity from confidence intervals. Metric glossary: harrell_c and uno_c are concordance indices measuring discrimination (rank agreement between predicted risk and observed survival); auc_12m/24m/36m are time-dependent AUCs measuring discrimination at that horizon; integrated_brier_6_36m is the overall accuracy of predicted survival probabilities (lower is better); calibration_24m is the agreement between predicted and observed survival at 24 months. Do not call a concordance index a calibration metric. When citing a model-specific number, name the model key it belongs to in the same sentence or bullet."
+        },
+        {
+          "role": "user",
+          "content": "Results table (numbers at display precision; cite these only):\ncohort: luad\nseed: 20240601\nn_train: 350\nn_test: 151\nn_patients: 501\nn_patients_with_expression: 497\nn_unsequenced_patients: 0\ndropped: {\"missing_os\": 61, \"nonpositive_os_months\": 4, \"extra_primary_samples\": 0, \"no_primary_sample\": 0}\nmissingness: {\"age\": {\"missing\": 10, \"fraction\": 0.02}, \"sex\": {\"missing\": 0, \"fraction\": 0.0}, \"stage\": {\"missing\": 2, \"fraction\": 0.004}, \"mut_TP53\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_KRAS\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_EGFR\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_STK11\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_KEAP1\": {\"missing\": 0, \"fraction\": 0.0}}\nchecks:\n  split_integrity: PASS {\"hash_match\": true, \"overlap_count\": 0, \"missing_ids\": [], \"missing_fraction\": 0.0}\n  min_events: PASS {\"train_events\": 126, \"test_events\": 55, \"required_train\": 30, \"required_test\": 10}\n  leakage: PASS {\"impute_age_matches\": true, \"impute_sex_matches\": true, \"impute_stage_matches\": true, \"impute_mut_TP53_matches\": true, \"impute_mut_KRAS_matches\": true, \"impute_mut_EGFR_matches\": true, \"impute_mut_STK11_matches\": true, \"impute_mut_KEAP1_matches\": true, \"gene_selection_matches\": true, \"scale_FGB_matches\": true, \"scale_PLUNC_matches\": true, \"scale_SFTPC_matches\": true, \"scale_PGC_matches\": true, \"scale_CALCA_matches\": true, \"scale_PAEP_matches\": true, \"scale_MAGEA6_matches\": true, \"scale_XAGE1D_matches\": true, \"scale_AKR1B10_matches\": true, \"scale_SCGB1A1_matches\": true, \"scale_FGG_matches\": true, \"scale_MAGEA3_matches\": true, \"scale_FGA_matches\": true, \"scale_GPX2_matches\": true, \"scale_UGT1A6_matches\": true, \"scale_MSMB_matches\": true, \"scale_MUC13_matches\": true, \"scale_TFF1_matches\": true, \"scale_CPS1_matches\": true, \"scale_KIF1A_matches\": true, \"scale_GSTM1_matches\": true, \"scale_VIL1_matches\": true, \"scale_AKR1C2_matches\": true, \"scale_MUC5B_matches\": true, \"scale_SPINK1_matches\": true, \"scale_GSTT1_matches\": true, \"scale_PRAME_matches\": true, \"scale_KRT6A_matches\": true, \"scale_PCSK2_matches\": true, \"scale_MAGEA2_matches\": true, \"scale_ASCL1_matches\": true, \"scale_KLK12_matches\": true, \"scale_BARX1_matches\": true, \"scale_FGL1_matches\": true, \"scale_SCGB3A2_matches\": true, \"scale_C20orf114_matches\": true, \"scale_GLB1L3_matches\": true, \"scale_EEF1A2_matches\": true, \"scale_SFTPA1_matches\": true, \"scale_PAX7_matches\": true, \"scale_TCN1_matches\": true, \"scale_BPIL1_matches\": true, \"scale_MSLN_matches\": true, \"scale_MUC16_matches\": true, \"scale_LGALS4_matches\": true, \"scale_MAGEA12_matches\": true, \"scale_SCGB3A1_matches\": true, \"scale_HHLA2_matches\": true, \"scale_CLDN18_matches\": true, \"scale_SERPINB3_matches\": true}\n  proportional_hazards: PASS {\"covariates_below_p_0.01\": {}, \"p_values\": {\"age\": 0.600095184428315, \"mut_EGFR\": 0.9723089024456641, \"mut_KEAP1\": 0.8758863774706097, \"mut_KRAS\": 0.014062138099867465, \"mut_STK11\": 0.7380799295544883, \"mut_TP53\": 0.4732781646815829, \"sex_Male\": 0.05935678414706864, \"stage_II\": 0.5640852556833844, \"stage_III\": 0.07147240069830563, \"stage_IV\": 0.6811360420406203}}\n  convergence: PASS {\"converged\": true, \"log_likelihood\": -609.0508613985864}\ncox/clinical.harrell_c = 0.647\ncox/clinical.uno_c = 0.640\ncox/clinical.integrated_brier_6_36m = 0.153\ncox/clinical.auc_12m = 0.649\ncox/clinical.auc_24m = 0.691\ncox/clinical.auc_36m = 0.694\ncox/clinical.auc_mean = 0.681\ncox/clinical.HR[age] = 1.02 [1.00, 1.03] p=0.0678\ncox/clinical.HR[mut_EGFR] = 1.15 [0.72, 1.85] p=0.5602\ncox/clinical.HR[mut_KEAP1] = 0.97 [0.63, 1.49] p=0.8873\ncox/clinical.HR[mut_KRAS] = 1.20 [0.84, 1.72] p=0.3120\ncox/clinical.HR[mut_STK11] = 1.64 [1.06, 2.53] p=0.0266\ncox/clinical.HR[mut_TP53] = 1.18 [0.86, 1.62] p=0.3142\ncox/clinical.HR[sex_Male] = 0.99 [0.72, 1.36] p=0.9577\ncox/clinical.HR[stage_II] = 1.54 [1.06, 2.24] p=0.0248\ncox/clinical.HR[stage_III] = 2.62 [1.75, 3.93] p=0.0000\ncox/clinical.HR[stage_IV] = 3.27 [1.66, 6.44] p=0.0006\ncox/clinical.reference_levels = {\"sex\": \"Female\", \"stage\": \"I\"}\nrsf/clinical.harrell_c = 0.639\nrsf/clinical.uno_c = 0.639\nrsf/clinical.integrated_brier_6_36m = 0.153\nrsf/clinical.auc_12m = 0.604\nrsf/clinical.auc_24m = 0.675\nrsf/clinical.auc_36m = 0.695\nrsf/clinical.auc_mean = 0.663\ncox/clinical_expression.harrell_c = 0.643\ncox/clinical_expression.uno_c = 0.632\ncox/clinical_expression.integrated_brier_6_36m = 0.157\ncox/clinical_expression.auc_12m = 0.711\ncox/clinical_expression.auc_24m = 0.666\ncox/clinical_expression.auc_36m = 0.628\ncox/clinical_expression.auc_mean = 0.664\nrsf/clinical_expression.harrell_c = 0.632\nrsf/clinical_expression.uno_c = 0.615\nrsf/clinical_expression.integrated_brier_6_36m = 0.153\nrsf/clinical_expression.auc_12m = 0.671\nrsf/clinical_expression.auc_24m = 0.672\nrsf/clinical_expression.auc_36m = 0.609\nrsf/clinical_expression.auc_mean = 0.649\n\nCohort summary:\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient is lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 2 patients (0.4% of the cohort).\n\u2022 The dataset has been validated with several checks, including split integrity, minimum events, no leakage, proportional hazards, and convergence, all of which passed.\n\nAnalysis plan:\n{\"focus_models\": [\"cox/clinical\", \"rsf/clinical\"], \"claims_to_make\": [\"harrell_c\", \"uno_c\", \"auc_12m\", \"auc_24m\", \"auc_36m\", \"integrated_brier_6_36m\"], \"must_disclose\": [\"split_integrity\", \"min_events\", \"proportional_hazards\", \"convergence\"]}\n\nWrite a markdown report with exactly these sections, in order:\n## Cohort\n## Models and metrics\n## Checks and abstentions\n## Limitations\nThe headers must appear verbatim as shown above (## + exact title).\n\nRetrieved public-domain passages you may cite:\n[PDQ:pdq_nsclc_treatment#181] \"Treatment of stage IA non-small cell lung cancer and stage IB non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#187] \"Treatment of stage IIA non-small cell lung cancer and stage IIB non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#211] \"Treatment of stage IIIB non-small cell lung cancer and stage IIIC non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#195] \"Treatment of stage IIIA non-small cell lung cancer that can be removed with surgery may include:\"\n[PDQ:pdq_nsclc_treatment#201] \"Treatment of stage IIIA non-small cell lung cancer that cannot be removed with surgery may include:\"\n\nOptionally append a '## Context' section after Limitations. In it, any sentence quoting a passage must end with its citation tag, e.g. \"...quoted text...\" [PDQ:pdq_nsclc_treatment#181]. Quote verbatim only; never cite a tag not listed above; numbers in Context must come from the cited passage, not the results table."
+        }
+      ],
+      "response": "## Cohort\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 2 patients (0.4% of the cohort).\n\n## Models and metrics\nThe following models were evaluated: `cox/clinical`, `rsf/clinical`, `cox/clinical_expression`, and `rsf/clinical_expression`. The metrics of interest are `harrell_c`, `uno_c`, `auc_12m`, `auc_24m`, `auc36m`, and `integrated_brier_6_36m`.\n\n- **cox/clinical:**\n  - `harrell_c`: 0.647\n  - `uno_c`: 0.640\n  - `auc12m`: 0.649\n  - `auc24m`: 0.691\n  - `auc36m`: 0.694\n  - `auc_mean`: 0.681\n  - `HR[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `HR[mut_STK11]`: 1.64 [1.06, 2.53] p=0.0226\n  - `HR[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142\n  - `HR[sex_Male]`: 0.99 [0.72, 1.36] p=0.9577\n  - `HR[stage_II]`: 1.54 [1.06, 2.24] p=0.0248\n  - `HR[stage_III]`: 2.62 [1.75, 3.93] p=0.0000\n  - `HR[stage_IV]`: 3.27 [1.66, 6.44] p=0.0006\n  - `reference_levels`: {\"sex\": \"Female\", \"stage\": \"I\"}\n\n- **rsf/clinical:**\n  - `harrell_c`: 0.639\n  - `uno_c`: 0.639\n  - `auc12m`: 0.604\n  - `auc24m`: 0.675\n  - `auc36m`: 0.695\n  - `auc_mean`: 0.663\n\n- **cox/clinical_expression:**\n  - `harrell_c`: 0.643\n  - `uno_c`: 0.632\n  - `auc12m`: 0.711\n  - `auc24m`: 0.666\n  - `auc36m`: 0.628\n  - `auc_mean`: 0.664\n  - `HR[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `HR[mut_STK11]`: 1.64 [1.06, 2.53] p=",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "temperature": 0.0,
+      "seed": 7,
+      "elapsed_s": 82.247
+    },
+    {
+      "index": 3,
+      "prompt_sha256": "657d2567481673756ad2d283586724b55137110a65501c6640097ba50d933281",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You write cautious scientific summaries. Every number in your output must come from the supplied results table exactly as displayed. If any check failed, state the corresponding metrics as abstained. Forbidden phrasing: 'clinically validated', 'proves', 'causes', 'should be used', 'outperforms', 'state-of-the-art', 'robust', and 'significant' without an adjacent verifiable p-value. Do not name the language model, software versions, or patient identifiers. Describe each check by its recorded outcome and detail; do not infer assumption validity from confidence intervals. Metric glossary: harrell_c and uno_c are concordance indices measuring discrimination (rank agreement between predicted risk and observed survival); auc_12m/24m/36m are time-dependent AUCs measuring discrimination at that horizon; integrated_brier_6_36m is the overall accuracy of predicted survival probabilities (lower is better); calibration_24m is the agreement between predicted and observed survival at 24 months. Do not call a concordance index a calibration metric. When citing a model-specific number, name the model key it belongs to in the same sentence or bullet."
+        },
+        {
+          "role": "user",
+          "content": "Results table (numbers at display precision; cite these only):\ncohort: luad\nseed: 20240601\nn_train: 350\nn_test: 151\nn_patients: 501\nn_patients_with_expression: 497\nn_unsequenced_patients: 0\ndropped: {\"missing_os\": 61, \"nonpositive_os_months\": 4, \"extra_primary_samples\": 0, \"no_primary_sample\": 0}\nmissingness: {\"age\": {\"missing\": 10, \"fraction\": 0.02}, \"sex\": {\"missing\": 0, \"fraction\": 0.0}, \"stage\": {\"missing\": 2, \"fraction\": 0.004}, \"mut_TP53\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_KRAS\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_EGFR\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_STK11\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_KEAP1\": {\"missing\": 0, \"fraction\": 0.0}}\nchecks:\n  split_integrity: PASS {\"hash_match\": true, \"overlap_count\": 0, \"missing_ids\": [], \"missing_fraction\": 0.0}\n  min_events: PASS {\"train_events\": 126, \"test_events\": 55, \"required_train\": 30, \"required_test\": 10}\n  leakage: PASS {\"impute_age_matches\": true, \"impute_sex_matches\": true, \"impute_stage_matches\": true, \"impute_mut_TP53_matches\": true, \"impute_mut_KRAS_matches\": true, \"impute_mut_EGFR_matches\": true, \"impute_mut_STK11_matches\": true, \"impute_mut_KEAP1_matches\": true, \"gene_selection_matches\": true, \"scale_FGB_matches\": true, \"scale_PLUNC_matches\": true, \"scale_SFTPC_matches\": true, \"scale_PGC_matches\": true, \"scale_CALCA_matches\": true, \"scale_PAEP_matches\": true, \"scale_MAGEA6_matches\": true, \"scale_XAGE1D_matches\": true, \"scale_AKR1B10_matches\": true, \"scale_SCGB1A1_matches\": true, \"scale_FGG_matches\": true, \"scale_MAGEA3_matches\": true, \"scale_FGA_matches\": true, \"scale_GPX2_matches\": true, \"scale_UGT1A6_matches\": true, \"scale_MSMB_matches\": true, \"scale_MUC13_matches\": true, \"scale_TFF1_matches\": true, \"scale_CPS1_matches\": true, \"scale_KIF1A_matches\": true, \"scale_GSTM1_matches\": true, \"scale_VIL1_matches\": true, \"scale_AKR1C2_matches\": true, \"scale_MUC5B_matches\": true, \"scale_SPINK1_matches\": true, \"scale_GSTT1_matches\": true, \"scale_PRAME_matches\": true, \"scale_KRT6A_matches\": true, \"scale_PCSK2_matches\": true, \"scale_MAGEA2_matches\": true, \"scale_ASCL1_matches\": true, \"scale_KLK12_matches\": true, \"scale_BARX1_matches\": true, \"scale_FGL1_matches\": true, \"scale_SCGB3A2_matches\": true, \"scale_C20orf114_matches\": true, \"scale_GLB1L3_matches\": true, \"scale_EEF1A2_matches\": true, \"scale_SFTPA1_matches\": true, \"scale_PAX7_matches\": true, \"scale_TCN1_matches\": true, \"scale_BPIL1_matches\": true, \"scale_MSLN_matches\": true, \"scale_MUC16_matches\": true, \"scale_LGALS4_matches\": true, \"scale_MAGEA12_matches\": true, \"scale_SCGB3A1_matches\": true, \"scale_HHLA2_matches\": true, \"scale_CLDN18_matches\": true, \"scale_SERPINB3_matches\": true}\n  proportional_hazards: PASS {\"covariates_below_p_0.01\": {}, \"p_values\": {\"age\": 0.600095184428315, \"mut_EGFR\": 0.9723089024456641, \"mut_KEAP1\": 0.8758863774706097, \"mut_KRAS\": 0.014062138099867465, \"mut_STK11\": 0.7380799295544883, \"mut_TP53\": 0.4732781646815829, \"sex_Male\": 0.05935678414706864, \"stage_II\": 0.5640852556833844, \"stage_III\": 0.07147240069830563, \"stage_IV\": 0.6811360420406203}}\n  convergence: PASS {\"converged\": true, \"log_likelihood\": -609.0508613985864}\ncox/clinical.harrell_c = 0.647\ncox/clinical.uno_c = 0.640\ncox/clinical.integrated_brier_6_36m = 0.153\ncox/clinical.auc_12m = 0.649\ncox/clinical.auc_24m = 0.691\ncox/clinical.auc_36m = 0.694\ncox/clinical.auc_mean = 0.681\ncox/clinical.HR[age] = 1.02 [1.00, 1.03] p=0.0678\ncox/clinical.HR[mut_EGFR] = 1.15 [0.72, 1.85] p=0.5602\ncox/clinical.HR[mut_KEAP1] = 0.97 [0.63, 1.49] p=0.8873\ncox/clinical.HR[mut_KRAS] = 1.20 [0.84, 1.72] p=0.3120\ncox/clinical.HR[mut_STK11] = 1.64 [1.06, 2.53] p=0.0266\ncox/clinical.HR[mut_TP53] = 1.18 [0.86, 1.62] p=0.3142\ncox/clinical.HR[sex_Male] = 0.99 [0.72, 1.36] p=0.9577\ncox/clinical.HR[stage_II] = 1.54 [1.06, 2.24] p=0.0248\ncox/clinical.HR[stage_III] = 2.62 [1.75, 3.93] p=0.0000\ncox/clinical.HR[stage_IV] = 3.27 [1.66, 6.44] p=0.0006\ncox/clinical.reference_levels = {\"sex\": \"Female\", \"stage\": \"I\"}\nrsf/clinical.harrell_c = 0.639\nrsf/clinical.uno_c = 0.639\nrsf/clinical.integrated_brier_6_36m = 0.153\nrsf/clinical.auc_12m = 0.604\nrsf/clinical.auc_24m = 0.675\nrsf/clinical.auc_36m = 0.695\nrsf/clinical.auc_mean = 0.663\ncox/clinical_expression.harrell_c = 0.643\ncox/clinical_expression.uno_c = 0.632\ncox/clinical_expression.integrated_brier_6_36m = 0.157\ncox/clinical_expression.auc_12m = 0.711\ncox/clinical_expression.auc_24m = 0.666\ncox/clinical_expression.auc_36m = 0.628\ncox/clinical_expression.auc_mean = 0.664\nrsf/clinical_expression.harrell_c = 0.632\nrsf/clinical_expression.uno_c = 0.615\nrsf/clinical_expression.integrated_brier_6_36m = 0.153\nrsf/clinical_expression.auc_12m = 0.671\nrsf/clinical_expression.auc_24m = 0.672\nrsf/clinical_expression.auc_36m = 0.609\nrsf/clinical_expression.auc_mean = 0.649\n\nCohort summary:\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient is lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 2 patients (0.4% of the cohort).\n\u2022 The dataset has been validated with several checks, including split integrity, minimum events, no leakage, proportional hazards, and convergence, all of which passed.\n\nAnalysis plan:\n{\"focus_models\": [\"cox/clinical\", \"rsf/clinical\"], \"claims_to_make\": [\"harrell_c\", \"uno_c\", \"auc_12m\", \"auc_24m\", \"auc_36m\", \"integrated_brier_6_36m\"], \"must_disclose\": [\"split_integrity\", \"min_events\", \"proportional_hazards\", \"convergence\"]}\n\nWrite a markdown report with exactly these sections, in order:\n## Cohort\n## Models and metrics\n## Checks and abstentions\n## Limitations\nThe headers must appear verbatim as shown above (## + exact title).\n\nRetrieved public-domain passages you may cite:\n[PDQ:pdq_nsclc_treatment#181] \"Treatment of stage IA non-small cell lung cancer and stage IB non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#187] \"Treatment of stage IIA non-small cell lung cancer and stage IIB non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#211] \"Treatment of stage IIIB non-small cell lung cancer and stage IIIC non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#195] \"Treatment of stage IIIA non-small cell lung cancer that can be removed with surgery may include:\"\n[PDQ:pdq_nsclc_treatment#201] \"Treatment of stage IIIA non-small cell lung cancer that cannot be removed with surgery may include:\"\n\nOptionally append a '## Context' section after Limitations. In it, any sentence quoting a passage must end with its citation tag, e.g. \"...quoted text...\" [PDQ:pdq_nsclc_treatment#181]. Quote verbatim only; never cite a tag not listed above; numbers in Context must come from the cited passage, not the results table."
+        },
+        {
+          "role": "user",
+          "content": "Here is your previous draft:\n\n## Cohort\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 2 patients (0.4% of the cohort).\n\n## Models and metrics\nThe following models were evaluated: `cox/clinical`, `rsf/clinical`, `cox/clinical_expression`, and `rsf/clinical_expression`. The metrics of interest are `harrell_c`, `uno_c`, `auc_12m`, `auc_24m`, `auc36m`, and `integrated_brier_6_36m`.\n\n- **cox/clinical:**\n  - `harrell_c`: 0.647\n  - `uno_c`: 0.640\n  - `auc12m`: 0.649\n  - `auc24m`: 0.691\n  - `auc36m`: 0.694\n  - `auc_mean`: 0.681\n  - `HR[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `HR[mut_STK11]`: 1.64 [1.06, 2.53] p=0.0226\n  - `HR[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142\n  - `HR[sex_Male]`: 0.99 [0.72, 1.36] p=0.9577\n  - `HR[stage_II]`: 1.54 [1.06, 2.24] p=0.0248\n  - `HR[stage_III]`: 2.62 [1.75, 3.93] p=0.0000\n  - `HR[stage_IV]`: 3.27 [1.66, 6.44] p=0.0006\n  - `reference_levels`: {\"sex\": \"Female\", \"stage\": \"I\"}\n\n- **rsf/clinical:**\n  - `harrell_c`: 0.639\n  - `uno_c`: 0.639\n  - `auc12m`: 0.604\n  - `auc24m`: 0.675\n  - `auc36m`: 0.695\n  - `auc_mean`: 0.663\n\n- **cox/clinical_expression:**\n  - `harrell_c`: 0.643\n  - `uno_c`: 0.632\n  - `auc12m`: 0.711\n  - `auc24m`: 0.666\n  - `auc36m`: 0.628\n  - `auc_mean`: 0.664\n  - `HR[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `HR[mut_STK11]`: 1.64 [1.06, 2.53] p=\n\nThe following problems were found. Return the complete corrected report, not a description of changes:\n  - 0.5502 (context: t_EGFR]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEap1]`: 0.97 [0.63,)\n  - 0.0226 (context: _STK11]`: 1.64 [1.06, 2.53] p=0.0226   - `HR[mut_TP53]`: 1.18 [0.88,)\n  - 1.52 (context: - `HR[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142   - `HR[sex_Male]`:)\n  - 0.5502 (context: t_EGfr]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEap1]`: 0.97 [0.63,)\n  - The number 1.15 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 0.72 appears under cox/clinical_expression but belongs to cox/clinical, rsf/clinical, rsf/clinical_expression.\n  - The number 1.85 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 1.49 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 0.8873 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 1.20 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 0.84 appears under cox/clinical_expression but belongs to cox/clinical, rsf/clinical_expression.\n  - The number 1.72 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 0.3120 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 1.64 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 1.06 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 2.53 appears under cox/clinical_expression but belongs to cox/clinical.\n  - missing section: ## Checks and abstentions\n  - missing section: ## Limitations"
+        }
+      ],
+      "response": "## Cohort\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 1 patient (0.4% of the cohort).\n\n## Models and metrics\nThe following models were evaluated: `cox/clinical`, `rsf/clinical`, `cox/clinical_expression`, and `rsf/clinical_expression`. The metrics of interest are `harrell_c`, `uno_c`, `auc_12m`, `auc_24m`, `auc_36m`, and `integrated_brier_6_36m`.\n\n- **cox/clinical:**\n  - `harrell_c`: 0.647\n  - `uno_c`: 0.640\n  - `auc_12m`: 0.649\n  - `auc_24m`: 0.691\n  - `auc_36m`: 0.694\n  - `auc_mean`: 0.681\n  - `HR[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `hr[mut_STK11]`: 1.64 [1.06, 2.53] p=0.0226\n  - `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142\n  - `hr[sex_Male]`: 0.99 [0.72, 1.36] p=0.9577\n  - `hr[stage_II]`: 1.54 [1.06, 2.24] p=0.0248\n  - `hr[stage_III]`: 2.62 [1.75, 3.93] p=0.0000\n  - `hr[stage_IV]`: 3.27 [1.66, 6.44] p=0.0006\n  - `reference_levels`: {\"sex\": \"Female\", \"stage\": \"I\"}\n\n  - **rsf/clinical:**\n    - `harrell_c`: 0.639\n    - `uno_c`: 0.639\n    - `auc_12m`: 0.604\n    - `auc_24m`: 0.675\n    - `auc_36m`: 0.695\n    - `auc_mean`: 0.663\n\n  - **cox/clinical_expression:**\n    - `harrell_c`: 0.643\n    - `uno_c`: 0.632\n    - `auc_12m`: 0.711\n    - `auc_24m`: 0.666\n    - `auc_36m`: 0.628\n    - `auc_mean`: 0.664\n    - `hr[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502\n    - `hr[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n    - `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n    - `hr[mut_STK11]`: 1.64 [1.",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "temperature": 0.0,
+      "seed": 7,
+      "elapsed_s": 82.163
+    },
+    {
+      "index": 4,
+      "prompt_sha256": "cfc5e7c08bb11c750f40961976c1417dcbeede3f06903ab57091af2afbefd63b",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You write cautious scientific summaries. Every number in your output must come from the supplied results table exactly as displayed. If any check failed, state the corresponding metrics as abstained. Forbidden phrasing: 'clinically validated', 'proves', 'causes', 'should be used', 'outperforms', 'state-of-the-art', 'robust', and 'significant' without an adjacent verifiable p-value. Do not name the language model, software versions, or patient identifiers. Describe each check by its recorded outcome and detail; do not infer assumption validity from confidence intervals. Metric glossary: harrell_c and uno_c are concordance indices measuring discrimination (rank agreement between predicted risk and observed survival); auc_12m/24m/36m are time-dependent AUCs measuring discrimination at that horizon; integrated_brier_6_36m is the overall accuracy of predicted survival probabilities (lower is better); calibration_24m is the agreement between predicted and observed survival at 24 months. Do not call a concordance index a calibration metric. When citing a model-specific number, name the model key it belongs to in the same sentence or bullet."
+        },
+        {
+          "role": "user",
+          "content": "Results table (numbers at display precision; cite these only):\ncohort: luad\nseed: 20240601\nn_train: 350\nn_test: 151\nn_patients: 501\nn_patients_with_expression: 497\nn_unsequenced_patients: 0\ndropped: {\"missing_os\": 61, \"nonpositive_os_months\": 4, \"extra_primary_samples\": 0, \"no_primary_sample\": 0}\nmissingness: {\"age\": {\"missing\": 10, \"fraction\": 0.02}, \"sex\": {\"missing\": 0, \"fraction\": 0.0}, \"stage\": {\"missing\": 2, \"fraction\": 0.004}, \"mut_TP53\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_KRAS\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_EGFR\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_STK11\": {\"missing\": 0, \"fraction\": 0.0}, \"mut_KEAP1\": {\"missing\": 0, \"fraction\": 0.0}}\nchecks:\n  split_integrity: PASS {\"hash_match\": true, \"overlap_count\": 0, \"missing_ids\": [], \"missing_fraction\": 0.0}\n  min_events: PASS {\"train_events\": 126, \"test_events\": 55, \"required_train\": 30, \"required_test\": 10}\n  leakage: PASS {\"impute_age_matches\": true, \"impute_sex_matches\": true, \"impute_stage_matches\": true, \"impute_mut_TP53_matches\": true, \"impute_mut_KRAS_matches\": true, \"impute_mut_EGFR_matches\": true, \"impute_mut_STK11_matches\": true, \"impute_mut_KEAP1_matches\": true, \"gene_selection_matches\": true, \"scale_FGB_matches\": true, \"scale_PLUNC_matches\": true, \"scale_SFTPC_matches\": true, \"scale_PGC_matches\": true, \"scale_CALCA_matches\": true, \"scale_PAEP_matches\": true, \"scale_MAGEA6_matches\": true, \"scale_XAGE1D_matches\": true, \"scale_AKR1B10_matches\": true, \"scale_SCGB1A1_matches\": true, \"scale_FGG_matches\": true, \"scale_MAGEA3_matches\": true, \"scale_FGA_matches\": true, \"scale_GPX2_matches\": true, \"scale_UGT1A6_matches\": true, \"scale_MSMB_matches\": true, \"scale_MUC13_matches\": true, \"scale_TFF1_matches\": true, \"scale_CPS1_matches\": true, \"scale_KIF1A_matches\": true, \"scale_GSTM1_matches\": true, \"scale_VIL1_matches\": true, \"scale_AKR1C2_matches\": true, \"scale_MUC5B_matches\": true, \"scale_SPINK1_matches\": true, \"scale_GSTT1_matches\": true, \"scale_PRAME_matches\": true, \"scale_KRT6A_matches\": true, \"scale_PCSK2_matches\": true, \"scale_MAGEA2_matches\": true, \"scale_ASCL1_matches\": true, \"scale_KLK12_matches\": true, \"scale_BARX1_matches\": true, \"scale_FGL1_matches\": true, \"scale_SCGB3A2_matches\": true, \"scale_C20orf114_matches\": true, \"scale_GLB1L3_matches\": true, \"scale_EEF1A2_matches\": true, \"scale_SFTPA1_matches\": true, \"scale_PAX7_matches\": true, \"scale_TCN1_matches\": true, \"scale_BPIL1_matches\": true, \"scale_MSLN_matches\": true, \"scale_MUC16_matches\": true, \"scale_LGALS4_matches\": true, \"scale_MAGEA12_matches\": true, \"scale_SCGB3A1_matches\": true, \"scale_HHLA2_matches\": true, \"scale_CLDN18_matches\": true, \"scale_SERPINB3_matches\": true}\n  proportional_hazards: PASS {\"covariates_below_p_0.01\": {}, \"p_values\": {\"age\": 0.600095184428315, \"mut_EGFR\": 0.9723089024456641, \"mut_KEAP1\": 0.8758863774706097, \"mut_KRAS\": 0.014062138099867465, \"mut_STK11\": 0.7380799295544883, \"mut_TP53\": 0.4732781646815829, \"sex_Male\": 0.05935678414706864, \"stage_II\": 0.5640852556833844, \"stage_III\": 0.07147240069830563, \"stage_IV\": 0.6811360420406203}}\n  convergence: PASS {\"converged\": true, \"log_likelihood\": -609.0508613985864}\ncox/clinical.harrell_c = 0.647\ncox/clinical.uno_c = 0.640\ncox/clinical.integrated_brier_6_36m = 0.153\ncox/clinical.auc_12m = 0.649\ncox/clinical.auc_24m = 0.691\ncox/clinical.auc_36m = 0.694\ncox/clinical.auc_mean = 0.681\ncox/clinical.HR[age] = 1.02 [1.00, 1.03] p=0.0678\ncox/clinical.HR[mut_EGFR] = 1.15 [0.72, 1.85] p=0.5602\ncox/clinical.HR[mut_KEAP1] = 0.97 [0.63, 1.49] p=0.8873\ncox/clinical.HR[mut_KRAS] = 1.20 [0.84, 1.72] p=0.3120\ncox/clinical.HR[mut_STK11] = 1.64 [1.06, 2.53] p=0.0266\ncox/clinical.HR[mut_TP53] = 1.18 [0.86, 1.62] p=0.3142\ncox/clinical.HR[sex_Male] = 0.99 [0.72, 1.36] p=0.9577\ncox/clinical.HR[stage_II] = 1.54 [1.06, 2.24] p=0.0248\ncox/clinical.HR[stage_III] = 2.62 [1.75, 3.93] p=0.0000\ncox/clinical.HR[stage_IV] = 3.27 [1.66, 6.44] p=0.0006\ncox/clinical.reference_levels = {\"sex\": \"Female\", \"stage\": \"I\"}\nrsf/clinical.harrell_c = 0.639\nrsf/clinical.uno_c = 0.639\nrsf/clinical.integrated_brier_6_36m = 0.153\nrsf/clinical.auc_12m = 0.604\nrsf/clinical.auc_24m = 0.675\nrsf/clinical.auc_36m = 0.695\nrsf/clinical.auc_mean = 0.663\ncox/clinical_expression.harrell_c = 0.643\ncox/clinical_expression.uno_c = 0.632\ncox/clinical_expression.integrated_brier_6_36m = 0.157\ncox/clinical_expression.auc_12m = 0.711\ncox/clinical_expression.auc_24m = 0.666\ncox/clinical_expression.auc_36m = 0.628\ncox/clinical_expression.auc_mean = 0.664\nrsf/clinical_expression.harrell_c = 0.632\nrsf/clinical_expression.uno_c = 0.615\nrsf/clinical_expression.integrated_brier_6_36m = 0.153\nrsf/clinical_expression.auc_12m = 0.671\nrsf/clinical_expression.auc_24m = 0.672\nrsf/clinical_expression.auc_36m = 0.609\nrsf/clinical_expression.auc_mean = 0.649\n\nCohort summary:\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient is lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 2 patients (0.4% of the cohort).\n\u2022 The dataset has been validated with several checks, including split integrity, minimum events, no leakage, proportional hazards, and convergence, all of which passed.\n\nAnalysis plan:\n{\"focus_models\": [\"cox/clinical\", \"rsf/clinical\"], \"claims_to_make\": [\"harrell_c\", \"uno_c\", \"auc_12m\", \"auc_24m\", \"auc_36m\", \"integrated_brier_6_36m\"], \"must_disclose\": [\"split_integrity\", \"min_events\", \"proportional_hazards\", \"convergence\"]}\n\nWrite a markdown report with exactly these sections, in order:\n## Cohort\n## Models and metrics\n## Checks and abstentions\n## Limitations\nThe headers must appear verbatim as shown above (## + exact title).\n\nRetrieved public-domain passages you may cite:\n[PDQ:pdq_nsclc_treatment#181] \"Treatment of stage IA non-small cell lung cancer and stage IB non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#187] \"Treatment of stage IIA non-small cell lung cancer and stage IIB non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#211] \"Treatment of stage IIIB non-small cell lung cancer and stage IIIC non-small cell lung cancer may include:\"\n[PDQ:pdq_nsclc_treatment#195] \"Treatment of stage IIIA non-small cell lung cancer that can be removed with surgery may include:\"\n[PDQ:pdq_nsclc_treatment#201] \"Treatment of stage IIIA non-small cell lung cancer that cannot be removed with surgery may include:\"\n\nOptionally append a '## Context' section after Limitations. In it, any sentence quoting a passage must end with its citation tag, e.g. \"...quoted text...\" [PDQ:pdq_nsclc_treatment#181]. Quote verbatim only; never cite a tag not listed above; numbers in Context must come from the cited passage, not the results table."
+        },
+        {
+          "role": "user",
+          "content": "Here is your previous draft:\n\n## Cohort\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 1 patient (0.4% of the cohort).\n\n## Models and metrics\nThe following models were evaluated: `cox/clinical`, `rsf/clinical`, `cox/clinical_expression`, and `rsf/clinical_expression`. The metrics of interest are `harrell_c`, `uno_c`, `auc_12m`, `auc_24m`, `auc_36m`, and `integrated_brier_6_36m`.\n\n- **cox/clinical:**\n  - `harrell_c`: 0.647\n  - `uno_c`: 0.640\n  - `auc_12m`: 0.649\n  - `auc_24m`: 0.691\n  - `auc_36m`: 0.694\n  - `auc_mean`: 0.681\n  - `HR[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `hr[mut_STK11]`: 1.64 [1.06, 2.53] p=0.0226\n  - `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142\n  - `hr[sex_Male]`: 0.99 [0.72, 1.36] p=0.9577\n  - `hr[stage_II]`: 1.54 [1.06, 2.24] p=0.0248\n  - `hr[stage_III]`: 2.62 [1.75, 3.93] p=0.0000\n  - `hr[stage_IV]`: 3.27 [1.66, 6.44] p=0.0006\n  - `reference_levels`: {\"sex\": \"Female\", \"stage\": \"I\"}\n\n  - **rsf/clinical:**\n    - `harrell_c`: 0.639\n    - `uno_c`: 0.639\n    - `auc_12m`: 0.604\n    - `auc_24m`: 0.675\n    - `auc_36m`: 0.695\n    - `auc_mean`: 0.663\n\n  - **cox/clinical_expression:**\n    - `harrell_c`: 0.643\n    - `uno_c`: 0.632\n    - `auc_12m`: 0.711\n    - `auc_24m`: 0.666\n    - `auc_36m`: 0.628\n    - `auc_mean`: 0.664\n    - `hr[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502\n    - `hr[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n    - `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n    - `hr[mut_STK11]`: 1.64 [1.\n\nThe following problems were found. Return the complete corrected report, not a description of changes:\n  - 0.5502 (context: t_EGFR]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEap1]`: 0.97 [0.63,)\n  - 0.0226 (context: _STK11]`: 1.64 [1.06, 2.53] p=0.0226   - `hr[mut_TP53]`: 1.18 [0.88,)\n  - 1.52 (context: - `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142   - `hr[sex_Male]`:)\n  - 0.5502 (context: t_EGfr]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut_KEap1]`: 0.97 [0.63,)\n  - The number 1.15 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 0.72 appears under cox/clinical_expression but belongs to cox/clinical, rsf/clinical, rsf/clinical_expression.\n  - The number 1.85 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 1.49 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 0.8873 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 1.20 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 0.84 appears under cox/clinical_expression but belongs to cox/clinical, rsf/clinical_expression.\n  - The number 1.72 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 0.3120 appears under cox/clinical_expression but belongs to cox/clinical.\n  - The number 1.64 appears under cox/clinical_expression but belongs to cox/clinical.\n  - missing section: ## Checks and abstentions\n  - missing section: ## Limitations"
+        }
+      ],
+      "response": "## Cohort\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 351 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 1 patient (0.4% of the cohort).\n\n## Models and metrics\nThe following models were evaluated: `cox/clinical`, `rsf/clinical`, `cox/clinical_expression`, and `rsf/clinical_expression`. The metrics of interest are `harrell_c`, `uno_c`, `auc_12m`, `auc_24m`, `auc_36m`, and `integrated_brier_6_36m`.\n\n- **cox/clinical:**\n  - `harrell_c`: 0.647\n  - `uno_c`: 0.640\n  - `auc_12m`: 0.649\n  - `auc_24m`: 0.691\n  - `auc_36m`: 0.694\n  - `auc_mean`: 0.681\n  - `HR[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEAP1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3120\n  - `hr[mut_STK11]`: 1.64 [1.06, 2.53] p=0.0226\n  - `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142\n  - `hr[sex_Male]`: 0.99 [0.71, 1.36] p=0.9577\n  - `hr[stage_II]`: 1.54 [1.06, 2.24] p=0.0148\n  - `hr[stage_III]`: 2.62 [1.75, 3.93] p=0.0000\n  - `hr[stage_IV]`: 3.27 [1.66, 6.44] p=0.0006\n  - `reference_levels`: {\"sex\": \"Female\", \"stage\": \"I\"}\n\n  - **rsf/clinical:**\n    - `harrell_c`: 0.639\n    - `uno_c`: 0.639\n    - `auc_12m`: 0.604\n    - `auc_24m`: 0.675\n    - `auc_36m`: 0.695\n    - `auc_mean`: 0.663\n\n  - **cox/clinical_expression:**\n    - `harrell_c`: 0.643\n    - `uno_c`: 0.632\n    - `auc_12m`: 0.711\n    - `auc_24m`: 0.666\n    - `auc_36m`: 0.628\n    - `auc_mean`: 0.664\n    - `hr[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n    - `hr[mut_KEAP1]`: 0.97 [0.63, 1.49] p=0.8873\n    - `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3110\n    - `hr[mut_STK11]`: 1.64 [1.",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "temperature": 0.0,
+      "seed": 7,
+      "elapsed_s": 83.76
+    }
+  ],
+  "drafts": [
+    {
+      "attempt": 1,
+      "draft": "## Cohort\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 2 patients (0.4% of the cohort).\n\n## Models and metrics\nThe following models were evaluated: `cox/clinical`, `rsf/clinical`, `cox/clinical_expression`, and `rsf/clinical_expression`. The metrics of interest are `harrell_c`, `uno_c`, `auc_12m`, `auc_24m`, `auc36m`, and `integrated_brier_6_36m`.\n\n- **cox/clinical:**\n  - `harrell_c`: 0.647\n  - `uno_c`: 0.640\n  - `auc12m`: 0.649\n  - `auc24m`: 0.691\n  - `auc36m`: 0.694\n  - `auc_mean`: 0.681\n  - `HR[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `HR[mut_STK11]`: 1.64 [1.06, 2.53] p=0.0226\n  - `HR[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142\n  - `HR[sex_Male]`: 0.99 [0.72, 1.36] p=0.9577\n  - `HR[stage_II]`: 1.54 [1.06, 2.24] p=0.0248\n  - `HR[stage_III]`: 2.62 [1.75, 3.93] p=0.0000\n  - `HR[stage_IV]`: 3.27 [1.66, 6.44] p=0.0006\n  - `reference_levels`: {\"sex\": \"Female\", \"stage\": \"I\"}\n\n- **rsf/clinical:**\n  - `harrell_c`: 0.639\n  - `uno_c`: 0.639\n  - `auc12m`: 0.604\n  - `auc24m`: 0.675\n  - `auc36m`: 0.695\n  - `auc_mean`: 0.663\n\n- **cox/clinical_expression:**\n  - `harrell_c`: 0.643\n  - `uno_c`: 0.632\n  - `auc12m`: 0.711\n  - `auc24m`: 0.666\n  - `auc36m`: 0.628\n  - `auc_mean`: 0.664\n  - `HR[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `HR[mut_STK11]`: 1.64 [1.06, 2.53] p=",
+      "verification": {
+        "passed": false,
+        "unverified_numbers": [
+          {
+            "token": "0.5502",
+            "context": "t_EGFR]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEap1]`: 0.97 [0.63,"
+          },
+          {
+            "token": "0.0226",
+            "context": "_STK11]`: 1.64 [1.06, 2.53] p=0.0226   - `HR[mut_TP53]`: 1.18 [0.88,"
+          },
+          {
+            "token": "1.52",
+            "context": "- `HR[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142   - `HR[sex_Male]`:"
+          },
+          {
+            "token": "0.5502",
+            "context": "t_EGfr]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEap1]`: 0.97 [0.63,"
+          }
+        ],
+        "unknown_citations": [],
+        "misquotes": [],
+        "unscoped_model_numbers": [],
+        "misattributed": [
+          {
+            "token": "1.15",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "n`: 0.664   - `HR[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502   - `HR["
+          },
+          {
+            "token": "0.72",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical",
+              "rsf/clinical",
+              "rsf/clinical_expression"
+            ],
+            "context": "664   - `HR[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_K"
+          },
+          {
+            "token": "1.85",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "- `HR[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEap1]`"
+          },
+          {
+            "token": "1.49",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "`HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873   - `HR[mut_KrAs]`:"
+          },
+          {
+            "token": "0.8873",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "_KEap1]`: 0.97 [0.63, 1.49] p=0.8873   - `HR[mut_KrAs]`: 1.20 [0.84,"
+          },
+          {
+            "token": "1.20",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "p=0.8873   - `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120   - `HR["
+          },
+          {
+            "token": "0.84",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical",
+              "rsf/clinical_expression"
+            ],
+            "context": "873   - `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120   - `HR[mut_S"
+          },
+          {
+            "token": "1.72",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "- `HR[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120   - `HR[mut_STK11]`"
+          },
+          {
+            "token": "0.3120",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "t_KrAs]`: 1.20 [0.84, 1.72] p=0.3120   - `HR[mut_STK11]`: 1.64 [1.06,"
+          },
+          {
+            "token": "1.64",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "p=0.3120   - `HR[mut_STK11]`: 1.64 [1.06, 2.53] p="
+          },
+          {
+            "token": "1.06",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "20   - `HR[mut_STK11]`: 1.64 [1.06, 2.53] p="
+          },
+          {
+            "token": "2.53",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "`HR[mut_STK11]`: 1.64 [1.06, 2.53] p="
+          }
+        ],
+        "missing_focus_models": [],
+        "forbidden": [],
+        "missing_sections": [
+          "## Checks and abstentions",
+          "## Limitations"
+        ],
+        "abstention_missing": false
+      }
+    },
+    {
+      "attempt": 2,
+      "draft": "## Cohort\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 1 patient (0.4% of the cohort).\n\n## Models and metrics\nThe following models were evaluated: `cox/clinical`, `rsf/clinical`, `cox/clinical_expression`, and `rsf/clinical_expression`. The metrics of interest are `harrell_c`, `uno_c`, `auc_12m`, `auc_24m`, `auc_36m`, and `integrated_brier_6_36m`.\n\n- **cox/clinical:**\n  - `harrell_c`: 0.647\n  - `uno_c`: 0.640\n  - `auc_12m`: 0.649\n  - `auc_24m`: 0.691\n  - `auc_36m`: 0.694\n  - `auc_mean`: 0.681\n  - `HR[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n  - `hr[mut_STK11]`: 1.64 [1.06, 2.53] p=0.0226\n  - `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142\n  - `hr[sex_Male]`: 0.99 [0.72, 1.36] p=0.9577\n  - `hr[stage_II]`: 1.54 [1.06, 2.24] p=0.0248\n  - `hr[stage_III]`: 2.62 [1.75, 3.93] p=0.0000\n  - `hr[stage_IV]`: 3.27 [1.66, 6.44] p=0.0006\n  - `reference_levels`: {\"sex\": \"Female\", \"stage\": \"I\"}\n\n  - **rsf/clinical:**\n    - `harrell_c`: 0.639\n    - `uno_c`: 0.639\n    - `auc_12m`: 0.604\n    - `auc_24m`: 0.675\n    - `auc_36m`: 0.695\n    - `auc_mean`: 0.663\n\n  - **cox/clinical_expression:**\n    - `harrell_c`: 0.643\n    - `uno_c`: 0.632\n    - `auc_12m`: 0.711\n    - `auc_24m`: 0.666\n    - `auc_36m`: 0.628\n    - `auc_mean`: 0.664\n    - `hr[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502\n    - `hr[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873\n    - `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120\n    - `hr[mut_STK11]`: 1.64 [1.",
+      "verification": {
+        "passed": false,
+        "unverified_numbers": [
+          {
+            "token": "0.5502",
+            "context": "t_EGFR]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEap1]`: 0.97 [0.63,"
+          },
+          {
+            "token": "0.0226",
+            "context": "_STK11]`: 1.64 [1.06, 2.53] p=0.0226   - `hr[mut_TP53]`: 1.18 [0.88,"
+          },
+          {
+            "token": "1.52",
+            "context": "- `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142   - `hr[sex_Male]`:"
+          },
+          {
+            "token": "0.5502",
+            "context": "t_EGfr]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut_KEap1]`: 0.97 [0.63,"
+          }
+        ],
+        "unknown_citations": [],
+        "misquotes": [],
+        "unscoped_model_numbers": [],
+        "misattributed": [
+          {
+            "token": "1.15",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": ": 0.664     - `hr[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502     - `h"
+          },
+          {
+            "token": "0.72",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical",
+              "rsf/clinical",
+              "rsf/clinical_expression"
+            ],
+            "context": "4     - `hr[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut"
+          },
+          {
+            "token": "1.85",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "- `hr[mut_EGfr]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut_KEap1"
+          },
+          {
+            "token": "1.49",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "`hr[mut_KEap1]`: 0.97 [0.63, 1.49] p=0.8873     - `hr[mut_KrAs]"
+          },
+          {
+            "token": "0.8873",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "_KEap1]`: 0.97 [0.63, 1.49] p=0.8873     - `hr[mut_KrAs]`: 1.20 [0.84,"
+          },
+          {
+            "token": "1.20",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "=0.8873     - `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120     - `h"
+          },
+          {
+            "token": "0.84",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical",
+              "rsf/clinical_expression"
+            ],
+            "context": "3     - `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120     - `hr[mut"
+          },
+          {
+            "token": "1.72",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "- `hr[mut_KrAs]`: 1.20 [0.84, 1.72] p=0.3120     - `hr[mut_STK11"
+          },
+          {
+            "token": "0.3120",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "t_KrAs]`: 1.20 [0.84, 1.72] p=0.3120     - `hr[mut_STK11]`: 1.64 [1."
+          },
+          {
+            "token": "1.64",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "0.3120     - `hr[mut_STK11]`: 1.64 [1."
+          }
+        ],
+        "missing_focus_models": [],
+        "forbidden": [],
+        "missing_sections": [
+          "## Checks and abstentions",
+          "## Limitations"
+        ],
+        "abstention_missing": false
+      }
+    },
+    {
+      "attempt": 3,
+      "draft": "## Cohort\nThe cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 351 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 1 patient (0.4% of the cohort).\n\n## Models and metrics\nThe following models were evaluated: `cox/clinical`, `rsf/clinical`, `cox/clinical_expression`, and `rsf/clinical_expression`. The metrics of interest are `harrell_c`, `uno_c`, `auc_12m`, `auc_24m`, `auc_36m`, and `integrated_brier_6_36m`.\n\n- **cox/clinical:**\n  - `harrell_c`: 0.647\n  - `uno_c`: 0.640\n  - `auc_12m`: 0.649\n  - `auc_24m`: 0.691\n  - `auc_36m`: 0.694\n  - `auc_mean`: 0.681\n  - `HR[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n  - `HR[mut_KEAP1]`: 0.97 [0.63, 1.49] p=0.8873\n  - `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3120\n  - `hr[mut_STK11]`: 1.64 [1.06, 2.53] p=0.0226\n  - `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142\n  - `hr[sex_Male]`: 0.99 [0.71, 1.36] p=0.9577\n  - `hr[stage_II]`: 1.54 [1.06, 2.24] p=0.0148\n  - `hr[stage_III]`: 2.62 [1.75, 3.93] p=0.0000\n  - `hr[stage_IV]`: 3.27 [1.66, 6.44] p=0.0006\n  - `reference_levels`: {\"sex\": \"Female\", \"stage\": \"I\"}\n\n  - **rsf/clinical:**\n    - `harrell_c`: 0.639\n    - `uno_c`: 0.639\n    - `auc_12m`: 0.604\n    - `auc_24m`: 0.675\n    - `auc_36m`: 0.695\n    - `auc_mean`: 0.663\n\n  - **cox/clinical_expression:**\n    - `harrell_c`: 0.643\n    - `uno_c`: 0.632\n    - `auc_12m`: 0.711\n    - `auc_24m`: 0.666\n    - `auc_36m`: 0.628\n    - `auc_mean`: 0.664\n    - `hr[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502\n    - `hr[mut_KEAP1]`: 0.97 [0.63, 1.49] p=0.8873\n    - `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3110\n    - `hr[mut_STK11]`: 1.64 [1.",
+      "verification": {
+        "passed": false,
+        "unverified_numbers": [
+          {
+            "token": "351",
+            "context": "split into a training set of 351 patients and a test set of 15"
+          },
+          {
+            "token": "0.5502",
+            "context": "t_EGFR]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEAP1]`: 0.97 [0.63,"
+          },
+          {
+            "token": "0.0226",
+            "context": "_STK11]`: 1.64 [1.06, 2.53] p=0.0226   - `hr[mut_TP53]`: 1.18 [0.88,"
+          },
+          {
+            "token": "1.52",
+            "context": "- `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142   - `hr[sex_Male]`:"
+          },
+          {
+            "token": "0.0148",
+            "context": "age_II]`: 1.54 [1.06, 2.24] p=0.0148   - `hr[stage_III]`: 2.62 [1.75,"
+          },
+          {
+            "token": "0.5502",
+            "context": "t_EGFR]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut_KEAP1]`: 0.97 [0.63,"
+          },
+          {
+            "token": "0.3110",
+            "context": "t_KRAS]`: 1.20 [0.84, 1.72] p=0.3110     - `hr[mut_STK11]`: 1.64 [1."
+          }
+        ],
+        "unknown_citations": [],
+        "misquotes": [],
+        "unscoped_model_numbers": [],
+        "misattributed": [
+          {
+            "token": "0.71",
+            "attributed_to": "cox/clinical",
+            "actually_in": [
+              "cox/clinical_expression"
+            ],
+            "context": "142   - `hr[sex_Male]`: 0.99 [0.71, 1.36] p=0.9577   - `hr[stage"
+          },
+          {
+            "token": "1.15",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": ": 0.664     - `hr[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502     - `h"
+          },
+          {
+            "token": "0.72",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical",
+              "rsf/clinical",
+              "rsf/clinical_expression"
+            ],
+            "context": "4     - `hr[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut"
+          },
+          {
+            "token": "1.85",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "- `hr[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut_KEAP1"
+          },
+          {
+            "token": "1.49",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "`hr[mut_KEAP1]`: 0.97 [0.63, 1.49] p=0.8873     - `hr[mut_KRAS]"
+          },
+          {
+            "token": "0.8873",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "_KEAP1]`: 0.97 [0.63, 1.49] p=0.8873     - `hr[mut_KRAS]`: 1.20 [0.84,"
+          },
+          {
+            "token": "1.20",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "=0.8873     - `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3110     - `h"
+          },
+          {
+            "token": "0.84",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical",
+              "rsf/clinical_expression"
+            ],
+            "context": "3     - `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3110     - `hr[mut"
+          },
+          {
+            "token": "1.72",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "- `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3110     - `hr[mut_STK11"
+          },
+          {
+            "token": "1.64",
+            "attributed_to": "cox/clinical_expression",
+            "actually_in": [
+              "cox/clinical"
+            ],
+            "context": "0.3110     - `hr[mut_STK11]`: 1.64 [1."
+          }
+        ],
+        "missing_focus_models": [],
+        "forbidden": [],
+        "missing_sections": [
+          "## Checks and abstentions",
+          "## Limitations"
+        ],
+        "abstention_missing": false
+      }
+    }
+  ],
+  "cohort_summary": "The cohort consists of 501 patients with liver adenocarcinoma (LUAD), of which 497 have gene expression data. The dataset has been split into a training set of 350 patients and a test set of 151 patients. The data shows some missing values: specifically, 1 patient is lacks age information (2% missing fraction), and 2 patients have missing stage information (0.4% missing fraction). No missing data was found for sex, TP53 mutations, KRAS mutations, EGFR mutations, STK11 mutations, or KEAP1 mutations.\n\n**Data Concerns:**\n- Age information is is missing for 1 patient (2% of the cohort).\n\u2022 Stage information is missing for 2 patients (0.4% of the cohort).\n\u2022 The dataset has been validated with several checks, including split integrity, minimum events, no leakage, proportional hazards, and convergence, all of which passed.",
+  "analysis_plan": {
+    "focus_models": [
+      "cox/clinical",
+      "rsf/clinical"
+    ],
+    "claims_to_make": [
+      "harrell_c",
+      "uno_c",
+      "auc_12m",
+      "auc_24m",
+      "auc_36m",
+      "integrated_brier_6_36m"
+    ],
+    "must_disclose": [
+      "split_integrity",
+      "min_events",
+      "proportional_hazards",
+      "convergence"
+    ]
+  },
+  "analysis_plan_fallback": false,
+  "analysis_plan_dropped_focus_models": [],
+  "status": "rejected",
+  "verification": {
+    "passed": false,
+    "unverified_numbers": [
+      {
+        "token": "351",
+        "context": "split into a training set of 351 patients and a test set of 15"
+      },
+      {
+        "token": "0.5502",
+        "context": "t_EGFR]`: 1.15 [0.72, 1.85] p=0.5502   - `HR[mut_KEAP1]`: 0.97 [0.63,"
+      },
+      {
+        "token": "0.0226",
+        "context": "_STK11]`: 1.64 [1.06, 2.53] p=0.0226   - `hr[mut_TP53]`: 1.18 [0.88,"
+      },
+      {
+        "token": "1.52",
+        "context": "- `hr[mut_TP53]`: 1.18 [0.88, 1.52] p=0.3142   - `hr[sex_Male]`:"
+      },
+      {
+        "token": "0.0148",
+        "context": "age_II]`: 1.54 [1.06, 2.24] p=0.0148   - `hr[stage_III]`: 2.62 [1.75,"
+      },
+      {
+        "token": "0.5502",
+        "context": "t_EGFR]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut_KEAP1]`: 0.97 [0.63,"
+      },
+      {
+        "token": "0.3110",
+        "context": "t_KRAS]`: 1.20 [0.84, 1.72] p=0.3110     - `hr[mut_STK11]`: 1.64 [1."
+      }
+    ],
+    "unknown_citations": [],
+    "misquotes": [],
+    "unscoped_model_numbers": [],
+    "misattributed": [
+      {
+        "token": "0.71",
+        "attributed_to": "cox/clinical",
+        "actually_in": [
+          "cox/clinical_expression"
+        ],
+        "context": "142   - `hr[sex_Male]`: 0.99 [0.71, 1.36] p=0.9577   - `hr[stage"
+      },
+      {
+        "token": "1.15",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical"
+        ],
+        "context": ": 0.664     - `hr[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502     - `h"
+      },
+      {
+        "token": "0.72",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical",
+          "rsf/clinical",
+          "rsf/clinical_expression"
+        ],
+        "context": "4     - `hr[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut"
+      },
+      {
+        "token": "1.85",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical"
+        ],
+        "context": "- `hr[mut_EGFR]`: 1.15 [0.72, 1.85] p=0.5502     - `hr[mut_KEAP1"
+      },
+      {
+        "token": "1.49",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical"
+        ],
+        "context": "`hr[mut_KEAP1]`: 0.97 [0.63, 1.49] p=0.8873     - `hr[mut_KRAS]"
+      },
+      {
+        "token": "0.8873",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical"
+        ],
+        "context": "_KEAP1]`: 0.97 [0.63, 1.49] p=0.8873     - `hr[mut_KRAS]`: 1.20 [0.84,"
+      },
+      {
+        "token": "1.20",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical"
+        ],
+        "context": "=0.8873     - `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3110     - `h"
+      },
+      {
+        "token": "0.84",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical",
+          "rsf/clinical_expression"
+        ],
+        "context": "3     - `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3110     - `hr[mut"
+      },
+      {
+        "token": "1.72",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical"
+        ],
+        "context": "- `hr[mut_KRAS]`: 1.20 [0.84, 1.72] p=0.3110     - `hr[mut_STK11"
+      },
+      {
+        "token": "1.64",
+        "attributed_to": "cox/clinical_expression",
+        "actually_in": [
+          "cox/clinical"
+        ],
+        "context": "0.3110     - `hr[mut_STK11]`: 1.64 [1."
+      }
+    ],
+    "missing_focus_models": [],
+    "forbidden": [],
+    "missing_sections": [
+      "## Checks and abstentions",
+      "## Limitations"
+    ],
+    "abstention_missing": false
+  },
+  "final_report_sha256": "7af6a6a60c3e88ebd6c541db4ecaa3d2379acc1bab2d71bcd9472884ba1bc604"
+}

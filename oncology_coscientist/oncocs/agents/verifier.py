@@ -161,7 +161,8 @@ def verify_draft(draft: str, flat_values: dict[str, float],
                 owner = key
         return owner
 
-    for tok in extract_numbers(draft):
+    num_toks = list(extract_numbers(draft))
+    for tok in num_toks:
         v, tol = tok["value"], 0.5 * 10 ** (-tok["decimals"])
         if any(s <= tok["pos"] < e for s, e in tag_spans):
             continue  # digits inside citation tags are not claims
@@ -205,17 +206,63 @@ def verify_draft(draft: str, flat_values: dict[str, float],
         if not ok:
             unverified.append({"token": tok["token"], "context": tok["context"]})
 
+    focus_without_values = []
     if models and focus_models:
         for fm in focus_models:
-            if fm in models and fm not in draft:
+            if fm not in models:
+                continue
+            if fm not in draft:
                 missing_focus.append(fm)
+                continue
+            # naming the model is not coverage: its scope must contain at
+            # least one of its own flat values. A model with no computed
+            # values (all checks failed, metrics abstained) has nothing to
+            # report; the abstention check covers that case.
+            fm_vals = model_vals.get(fm, [])
+            if not fm_vals:
+                continue
+            covered = False
+            for s, e, k in scopes:
+                if k != fm:
+                    continue
+                for tok in num_toks:
+                    if not (s <= tok["pos"] < e):
+                        continue
+                    tv = tok["value"]
+                    tol = 0.5 * 10 ** (-tok["decimals"])
+                    hit = any(abs(tv - fv) <= tol for fv in fm_vals)
+                    if not hit and tok["is_pct"]:
+                        hit = any(abs(tv / 100.0 - fv) <= tol / 100.0
+                                  for fv in fm_vals)
+                    if hit:
+                        covered = True
+                        break
+                if covered:
+                    break
+            if not covered:
+                focus_without_values.append(fm)
+
+    # a model with computed values whose scope claims it abstained is a
+    # fabricated abstention — number checks can't see it, since the claim
+    # is a word, not a value. Negated uses ("did not abstain") are exempt.
+    false_abstention = []
+    for s, e, k in scopes:
+        if not model_vals.get(k):
+            continue
+        seg = draft[s:e]
+        for m in re.finditer(r"abstain", seg, re.IGNORECASE):
+            ctx = seg[max(0, m.start() - 20):m.start()].lower()
+            if re.search(r"\b(not|no|never)\s*$|non[-\s]$", ctx):
+                continue
+            false_abstention.append(k)
+            break
 
     low = draft.lower()
     for phrase in FORBIDDEN_PHRASES:
         # word-bounded: "improves"/"approves" must not trip "proves"
         if re.search(r"\b" + re.escape(phrase) + r"\b", low):
             forbidden.append(phrase)
-    if re.search(r"\brobust\b", low):
+    if re.search(r"\brobust", low):
         forbidden.append("robust")
     for rx, label in FORBIDDEN_REGEXES:
         if rx.search(draft):
@@ -245,6 +292,7 @@ def verify_draft(draft: str, flat_values: dict[str, float],
         "passed": (not unverified and not forbidden and not missing
                    and not abstention_missing and not misattributed
                    and not missing_focus and not unscoped_model
+                   and not focus_without_values and not false_abstention
                    and not unknown_citations and not misquotes),
         "unverified_numbers": unverified,
         "unknown_citations": unknown_citations,
@@ -252,6 +300,8 @@ def verify_draft(draft: str, flat_values: dict[str, float],
         "unscoped_model_numbers": unscoped_model,
         "misattributed": misattributed,
         "missing_focus_models": missing_focus,
+        "focus_without_values": focus_without_values,
+        "false_abstention": false_abstention,
         "forbidden": forbidden,
         "missing_sections": missing,
         "abstention_missing": abstention_missing,

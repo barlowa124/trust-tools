@@ -154,6 +154,35 @@ def test_analysis_json_fenced_and_fallback(synth_results):
     assert rec["analysis_plan_fallback"] is True
 
 
+def test_report_prompt_grounds_numbers(synth_results):
+    """The report prompt must pin the table as sole numeric source and bar
+    per-covariate enumeration, which exhausts the generation budget and
+    invites fabricated p-values."""
+    responses = ["cohort text", '{"focus_models": []}',
+                 *_scripted_ok(synth_results)[2:]]
+    rec = _agent_run(synth_results.parents[3], synth_results, responses)
+    # transcript calls: 0 cohort, 1 analysis, 2 report attempt 1
+    report_msgs = rec["transcript"][2]["messages"]
+    system, user = report_msgs[0]["content"], report_msgs[1]["content"]
+    assert "do not list per-covariate hazard ratios" in system
+    assert "sole numeric" in user
+    assert "advisory" in user
+
+
+def test_report_prompt_masks_plan_claim_digits(synth_results):
+    """A planner that emits sentence-style claims with invented numbers
+    (GBM failure mode) must not feed those digits to the report prompt."""
+    plan = ('{"focus_models": ["cox/clinical"], "claims_to_make": '
+            '["Harrell C-index of 0.75 and AUC of 0.82 at 12 months"], '
+            '"must_disclose": []}')
+    rec = _agent_run(synth_results.parents[3], synth_results,
+                     ["cohort text", plan, *_scripted_ok(synth_results)[2:]])
+    user = rec["transcript"][2]["messages"][1]["content"]
+    plan_json = user.split("copied):")[1]
+    assert "0.75" not in plan_json and "0.82" not in plan_json
+    assert "#.##" in plan_json
+
+
 def test_retry_prompt_contains_previous_draft(synth_results):
     bad = "## Cohort\n0.99999 fabricated.\n"
     responses = ["cohort text", '{"focus_models": []}',
@@ -328,6 +357,66 @@ def test_scoped_verifier_missing_focus_model():
                      focus_models=FOCUS_ALL)
     assert not v["passed"]
     assert v["missing_focus_models"] == ["rsf/clinical_expression"]
+
+
+def test_focus_models_named_without_values_rejected():
+    # naming every focus model without reporting any of their values is a
+    # name-drop, not coverage
+    body = ("The focus models are cox/clinical, rsf/clinical, "
+            "cox/clinical_expression, and rsf/clinical_expression. "
+            "We discuss their discrimination metrics below.\n")
+    v = verify_draft(_scoped_draft(body), SCOPE_FLAT, [], models=SCOPE_MODELS,
+                     focus_models=FOCUS_ALL)
+    assert not v["passed"]
+    assert sorted(v["focus_without_values"]) == FOCUS_ALL
+
+
+def test_abstained_models_exempt_from_value_coverage():
+    # an all-abstained cohort has no model values to report; naming the
+    # models and disclosing the abstention must not fail the coverage check
+    abst_models = {mk: {"metrics": {}} for mk in SCOPE_MODELS}
+    checks = [{"name": "covariates", "passed": False}]
+    draft = ("## Cohort\n501 patients.\n\n## Models and metrics\n"
+             "* cox/clinical, rsf/clinical, cox/clinical_expression, and "
+             "rsf/clinical_expression all abstained.\n\n"
+             "## Checks and abstentions\ncovariates failed; all models "
+             "abstain.\n\n## Limitations\nResearch only.")
+    v = verify_draft(draft, SCOPE_FLAT, checks,
+                     models=abst_models, focus_models=FOCUS_ALL)
+    assert not v["focus_without_values"]
+    assert v["passed"], v
+
+
+def test_focus_models_with_values_pass():
+    body = ("* cox/clinical: C 0.647\n* rsf/clinical: C 0.639\n"
+            "* cox/clinical_expression: C 0.643\n"
+            "* rsf/clinical_expression: C 0.632\n")
+    v = verify_draft(_scoped_draft(body), SCOPE_FLAT, [], models=SCOPE_MODELS,
+                     focus_models=FOCUS_ALL)
+    assert v["passed"], v
+
+
+def test_false_abstention_on_valued_model_rejected():
+    # live failure observed: a 3B wrote "harrell_c abstained (missing data)"
+    # for a model whose table line carried real values; number checks can't
+    # see a fabricated abstention because the claim is a word, not a value
+    body = ("* cox/clinical: C 0.647\n* rsf/clinical: C 0.639\n"
+            "* cox/clinical_expression: C 0.643\n"
+            "* rsf/clinical_expression: harrell_c abstained (missing data) | "
+            "auc_24m 0.632\n")
+    v = verify_draft(_scoped_draft(body), SCOPE_FLAT, [], models=SCOPE_MODELS,
+                     focus_models=FOCUS_ALL)
+    assert not v["passed"]
+    assert v["false_abstention"] == ["rsf/clinical_expression"]
+
+
+def test_negated_abstention_is_not_a_false_claim():
+    body = ("* cox/clinical: C 0.647\n* rsf/clinical: C 0.639\n"
+            "* cox/clinical_expression: C 0.643\n"
+            "* rsf/clinical_expression: C 0.632; this model did not abstain\n")
+    v = verify_draft(_scoped_draft(body), SCOPE_FLAT, [], models=SCOPE_MODELS,
+                     focus_models=FOCUS_ALL)
+    assert v["passed"], v
 
 
 def test_unscoped_model_number_rejected():

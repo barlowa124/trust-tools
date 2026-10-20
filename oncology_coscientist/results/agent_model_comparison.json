@@ -4,9 +4,11 @@
       "cohort": "brca",
       "run_id": "24528d61379c",
       "agent_run_id": "052fa2c286da",
+      "backend": "ollama",
       "model_id": "gemma3:12b",
       "status": "draft_pending_approval",
       "attempts": 3,
+      "passed": true,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -30,15 +32,39 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\brca\\24528d61379c\\agent\\052fa2c286da\\agent_run.json"
+      "path": "results/brca/24528d61379c/agent/052fa2c286da/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "1171d5d935a4",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/24528d61379c/agent/1171d5d935a4/agent_run.json"
     },
     {
       "cohort": "brca",
       "run_id": "24528d61379c",
       "agent_run_id": "14dee8f5d071",
+      "backend": "ollama",
       "model_id": "gemma3:12b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -61,17 +87,19 @@
           }
         }
       ],
-      "replay": "PASS",
+      "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\brca\\24528d61379c\\agent\\14dee8f5d071\\agent_run.json"
+      "path": "results/brca/24528d61379c/agent/14dee8f5d071/agent_run.json"
     },
     {
       "cohort": "brca",
       "run_id": "24528d61379c",
       "agent_run_id": "39189caa1502",
+      "backend": "ollama",
       "model_id": "gemma3:27b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -97,17 +125,19 @@
           }
         }
       ],
-      "replay": "PASS",
+      "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\brca\\24528d61379c\\agent\\39189caa1502\\agent_run.json"
+      "path": "results/brca/24528d61379c/agent/39189caa1502/agent_run.json"
     },
     {
       "cohort": "brca",
       "run_id": "24528d61379c",
       "agent_run_id": "4afbc74b7bc5",
+      "backend": "ollama",
       "model_id": "gemma3:12b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -133,15 +163,17 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\brca\\24528d61379c\\agent\\4afbc74b7bc5\\agent_run.json"
+      "path": "results/brca/24528d61379c/agent/4afbc74b7bc5/agent_run.json"
     },
     {
       "cohort": "brca",
       "run_id": "24528d61379c",
       "agent_run_id": "5d5a01a0e471",
+      "backend": "ollama",
       "model_id": "gemma3:4b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -167,15 +199,17 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\brca\\24528d61379c\\agent\\5d5a01a0e471\\agent_run.json"
+      "path": "results/brca/24528d61379c/agent/5d5a01a0e471/agent_run.json"
     },
     {
       "cohort": "brca",
       "run_id": "24528d61379c",
-      "agent_run_id": "b81f24db3970",
-      "model_id": "gemma3:4b",
+      "agent_run_id": "b2b1f30e352a",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
       "status": "draft_pending_approval",
       "attempts": 1,
+      "passed": true,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -187,15 +221,107 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\brca\\24528d61379c\\agent\\b81f24db3970\\agent_run.json"
+      "path": "results/brca/24528d61379c/agent/b2b1f30e352a/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "b81f24db3970",
+      "backend": "ollama",
+      "model_id": "gemma3:4b",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/24528d61379c/agent/b81f24db3970/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "c6a3f2c27c18",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "focus_without_values": 4
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "focus_without_values": 4
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "focus_without_values": 4
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/24528d61379c/agent/c6a3f2c27c18/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "d780d66fb090",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/24528d61379c/agent/d780d66fb090/agent_run.json"
     },
     {
       "cohort": "brca",
       "run_id": "24528d61379c",
       "agent_run_id": "dd95bfcd2b8b",
+      "backend": "ollama",
       "model_id": "gemma3:4b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -218,17 +344,646 @@
           }
         }
       ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/24528d61379c/agent/dd95bfcd2b8b/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "e82a2dcb433f",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/24528d61379c/agent/e82a2dcb433f/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "24528d61379c",
+      "agent_run_id": "eb9049ebe1bb",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "focus_without_values": 4
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "focus_without_values": 4
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "focus_without_values": 4
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/24528d61379c/agent/eb9049ebe1bb/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "14a46690396d",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 2,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "focus_without_values": 1,
+            "false_abstention": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/14a46690396d/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "16448fdcde62",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 2,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "focus_without_values": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/16448fdcde62/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "5f756fd65688",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "focus_without_values": 1,
+            "false_abstention": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "false_abstention": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "false_abstention": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/5f756fd65688/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "5f941386913f",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "focus_without_values": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "focus_without_values": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "focus_without_values": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/5f941386913f/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "6ef052f0cba8",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/6ef052f0cba8/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "8b3d5e67da88",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "focus_without_values": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "focus_without_values": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "focus_without_values": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/8b3d5e67da88/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "bb23d88340ef",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-14B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "missing_focus_models": 2,
+            "focus_without_values": 1,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "missing_focus_models": 2,
+            "focus_without_values": 1,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "missing_focus_models": 2,
+            "focus_without_values": 1,
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/bb23d88340ef/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "dc07cf8dab4b",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
       "replay": "PASS",
       "human_review": null,
-      "path": "results\\brca\\24528d61379c\\agent\\dd95bfcd2b8b\\agent_run.json"
+      "path": "results/brca/875af3143ecd/agent/dc07cf8dab4b/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "e0be572323e1",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/e0be572323e1/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "e64d6c0c7f88",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/e64d6c0c7f88/agent_run.json"
+    },
+    {
+      "cohort": "brca",
+      "run_id": "875af3143ecd",
+      "agent_run_id": "eea6fa8ba841",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-14B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results/brca/875af3143ecd/agent/eea6fa8ba841/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2965fb5e36de",
+      "agent_run_id": "05a6dbeb245d",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 24
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 24
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 24
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2965fb5e36de/agent/05a6dbeb245d/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2965fb5e36de",
+      "agent_run_id": "254fd283defd",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 2,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 10
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2965fb5e36de/agent/254fd283defd/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2965fb5e36de",
+      "agent_run_id": "7edc66cf0365",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2965fb5e36de/agent/7edc66cf0365/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2965fb5e36de",
+      "agent_run_id": "a0a52cd63dc5",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 12,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 12,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 12,
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2965fb5e36de/agent/a0a52cd63dc5/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2965fb5e36de",
+      "agent_run_id": "c80d7c109faf",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 13
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2965fb5e36de/agent/c80d7c109faf/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2965fb5e36de",
+      "agent_run_id": "e7713a0cd5bd",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 10,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2965fb5e36de/agent/e7713a0cd5bd/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2965fb5e36de",
+      "agent_run_id": "f547bc5e5720",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 6,
+            "missing_sections": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 6
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 6
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2965fb5e36de/agent/f547bc5e5720/agent_run.json"
     },
     {
       "cohort": "gbm",
       "run_id": "2beaf67dc0b2",
       "agent_run_id": "0fb3e28f52d6",
+      "backend": "ollama",
       "model_id": "gemma3:12b",
       "status": "draft_pending_approval",
       "attempts": 2,
+      "passed": true,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -246,15 +1001,74 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\gbm\\2beaf67dc0b2\\agent\\0fb3e28f52d6\\agent_run.json"
+      "path": "results/gbm/2beaf67dc0b2/agent/0fb3e28f52d6/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "401e3254cc64",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-14B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results/gbm/2beaf67dc0b2/agent/401e3254cc64/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "619154267b98",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 6,
+            "missing_focus_models": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 22
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 38
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2beaf67dc0b2/agent/619154267b98/agent_run.json"
     },
     {
       "cohort": "gbm",
       "run_id": "2beaf67dc0b2",
       "agent_run_id": "a706c3f76993",
+      "backend": "ollama",
       "model_id": "gemma3:4b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -281,43 +1095,19 @@
           }
         }
       ],
-      "replay": "PASS",
+      "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\gbm\\2beaf67dc0b2\\agent\\a706c3f76993\\agent_run.json"
+      "path": "results/gbm/2beaf67dc0b2/agent/a706c3f76993/agent_run.json"
     },
     {
       "cohort": "gbm",
       "run_id": "2beaf67dc0b2",
-      "agent_run_id": "ba8da12d0f19",
-      "model_id": "gemma3:27b",
-      "status": "draft_pending_approval",
-      "attempts": 1,
-      "analysis_plan_fallback": false,
-      "findings_per_attempt": [
-        {
-          "attempt": 1,
-          "findings": {
-            "passed": 1
-          }
-        }
-      ],
-      "replay": "PASS",
-      "human_review": {
-        "decision": "rejected",
-        "by": "barlowa124 (lead review)",
-        "timestamp": "2026-09-22T16:10:44.263699+00:00",
-        "reason": "All numbers verify and the abstention is disclosed, but the Limitations section interprets the proportional_hazards and convergence check failures as evidence that the PH assumption may not hold and that fitting was unstable. The recorded details say 'clinical Cox model did not fit' and 'no covariates survived the missingness filter' \u2014 both failures are downstream of the covariates check, not independent findings. Semantic misreading of recorded check detail; verifier cannot catch this.",
-        "agent_run_sha256": "eba344cf1de02b7bed14a4bd34017aeda5d68c5837df4f6a1778ce4597da9462"
-      },
-      "path": "results\\gbm\\2beaf67dc0b2\\agent\\ba8da12d0f19\\agent_run.json"
-    },
-    {
-      "cohort": "gbm",
-      "run_id": "2beaf67dc0b2",
-      "agent_run_id": "c654c99fa00f",
-      "model_id": "gemma3:12b",
+      "agent_run_id": "b7107e72848a",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -335,21 +1125,53 @@
         {
           "attempt": 3,
           "findings": {
+            "unverified_numbers": 1,
+            "misquotes": 5,
             "abstention_missing": 1
           }
         }
       ],
-      "replay": "PASS",
+      "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\gbm\\2beaf67dc0b2\\agent\\c654c99fa00f\\agent_run.json"
+      "path": "results/gbm/2beaf67dc0b2/agent/b7107e72848a/agent_run.json"
     },
     {
       "cohort": "gbm",
       "run_id": "2beaf67dc0b2",
-      "agent_run_id": "ce75cc3fd75a",
-      "model_id": "gemma3:4b",
+      "agent_run_id": "ba8da12d0f19",
+      "backend": "ollama",
+      "model_id": "gemma3:27b",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": {
+        "decision": "rejected",
+        "by": "barlowa124 (lead review)",
+        "timestamp": "2026-09-22T16:10:44.263699+00:00",
+        "reason": "All numbers verify and the abstention is disclosed, but the Limitations section interprets the proportional_hazards and convergence check failures as evidence that the PH assumption may not hold and that fitting was unstable. The recorded details say 'clinical Cox model did not fit' and 'no covariates survived the missingness filter' \u2014 both failures are downstream of the covariates check, not independent findings. Semantic misreading of recorded check detail; verifier cannot catch this.",
+        "agent_run_sha256": "eba344cf1de02b7bed14a4bd34017aeda5d68c5837df4f6a1778ce4597da9462"
+      },
+      "path": "results/gbm/2beaf67dc0b2/agent/ba8da12d0f19/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "c654c99fa00f",
+      "backend": "ollama",
+      "model_id": "gemma3:12b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -373,15 +1195,129 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\gbm\\2beaf67dc0b2\\agent\\ce75cc3fd75a\\agent_run.json"
+      "path": "results/gbm/2beaf67dc0b2/agent/c654c99fa00f/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "c73f87687ae4",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "abstention_missing": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2beaf67dc0b2/agent/c73f87687ae4/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "c85e0b06131c",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results/gbm/2beaf67dc0b2/agent/c85e0b06131c/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "ce75cc3fd75a",
+      "backend": "ollama",
+      "model_id": "gemma3:4b",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "abstention_missing": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "abstention_missing": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2beaf67dc0b2/agent/ce75cc3fd75a/agent_run.json"
+    },
+    {
+      "cohort": "gbm",
+      "run_id": "2beaf67dc0b2",
+      "agent_run_id": "e30f3588c55f",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/gbm/2beaf67dc0b2/agent/e30f3588c55f/agent_run.json"
     },
     {
       "cohort": "gbm",
       "run_id": "2beaf67dc0b2",
       "agent_run_id": "ea53fcd852c2",
+      "backend": "ollama",
       "model_id": "gemma3:4b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -413,15 +1349,111 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\gbm\\2beaf67dc0b2\\agent\\ea53fcd852c2\\agent_run.json"
+      "path": "results/gbm/2beaf67dc0b2/agent/ea53fcd852c2/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "106b1edbf7b5",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 3,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "focus_without_values": 4
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unscoped_model_numbers": 11,
+            "focus_without_values": 4
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/106b1edbf7b5/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "1abfb93c0599",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/1abfb93c0599/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "1c01ac53d02f",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "misquotes": 4,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "misquotes": 4,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "misquotes": 4,
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/1c01ac53d02f/agent_run.json"
     },
     {
       "cohort": "luad",
       "run_id": "3097990b11d8",
       "agent_run_id": "318d61643606",
+      "backend": "ollama",
       "model_id": "gemma3:27b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -448,17 +1480,81 @@
           }
         }
       ],
-      "replay": "PASS",
+      "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\luad\\3097990b11d8\\agent\\318d61643606\\agent_run.json"
+      "path": "results/luad/3097990b11d8/agent/318d61643606/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "31a24c049ab0",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/31a24c049ab0/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "36ab17c3f1b7",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unscoped_model_numbers": 7,
+            "missing_focus_models": 2,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unscoped_model_numbers": 7,
+            "missing_focus_models": 2,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unscoped_model_numbers": 7,
+            "missing_focus_models": 2,
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/36ab17c3f1b7/agent_run.json"
     },
     {
       "cohort": "luad",
       "run_id": "3097990b11d8",
       "agent_run_id": "4918eaf618e7",
+      "backend": "ollama",
       "model_id": "gemma3:4b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -483,15 +1579,131 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\luad\\3097990b11d8\\agent\\4918eaf618e7\\agent_run.json"
+      "path": "results/luad/3097990b11d8/agent/4918eaf618e7/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "4f5fc0edded0",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/4f5fc0edded0/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "535bfb3be89f",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 4,
+            "misattributed": 12,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 4,
+            "misattributed": 10,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 7,
+            "misattributed": 10,
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/535bfb3be89f/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "6e63d7ff1c8b",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unscoped_model_numbers": 7,
+            "missing_focus_models": 2,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unscoped_model_numbers": 7,
+            "missing_focus_models": 2,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unscoped_model_numbers": 7,
+            "missing_focus_models": 2,
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/6e63d7ff1c8b/agent_run.json"
     },
     {
       "cohort": "luad",
       "run_id": "3097990b11d8",
       "agent_run_id": "76a00fdba97d",
+      "backend": "ollama",
       "model_id": "gemma3:4b",
       "status": "draft_pending_approval",
       "attempts": 1,
+      "passed": true,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -503,15 +1715,17 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\luad\\3097990b11d8\\agent\\76a00fdba97d\\agent_run.json"
+      "path": "results/luad/3097990b11d8/agent/76a00fdba97d/agent_run.json"
     },
     {
       "cohort": "luad",
       "run_id": "3097990b11d8",
       "agent_run_id": "777c93997c7a",
+      "backend": "ollama",
       "model_id": "gemma3:12b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -537,15 +1751,39 @@
       ],
       "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\luad\\3097990b11d8\\agent\\777c93997c7a\\agent_run.json"
+      "path": "results/luad/3097990b11d8/agent/777c93997c7a/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "77fe3a4ac23e",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "PASS",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/77fe3a4ac23e/agent_run.json"
     },
     {
       "cohort": "luad",
       "run_id": "3097990b11d8",
       "agent_run_id": "7b433c558b79",
+      "backend": "ollama",
       "model_id": "gemma3:4b",
       "status": "draft_pending_approval",
       "attempts": 1,
+      "passed": true,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -563,15 +1801,53 @@
         "reason": "Model label/number mismatch: block titled rsf/clinical_expression reports cox/clinical_expression metrics; rsf/clinical omitted. Numeric verifier passed; attribution was not checked.",
         "agent_run_sha256": "7c2603a997525ecaf21745779dd14e683f3b46e169934d5f01bb7198c62da094"
       },
-      "path": "results\\luad\\3097990b11d8\\agent\\7b433c558b79\\agent_run.json"
+      "path": "results/luad/3097990b11d8/agent/7b433c558b79/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "8f36542deffe",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "false_abstention": 4
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 4,
+            "false_abstention": 4,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "false_abstention": 4
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/8f36542deffe/agent_run.json"
     },
     {
       "cohort": "luad",
       "run_id": "3097990b11d8",
       "agent_run_id": "98d9952a9150",
+      "backend": "ollama",
       "model_id": "gemma3:4b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -595,17 +1871,84 @@
           }
         }
       ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/98d9952a9150/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "a080438819f2",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-14B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
       "replay": "PASS",
       "human_review": null,
-      "path": "results\\luad\\3097990b11d8\\agent\\98d9952a9150\\agent_run.json"
+      "path": "results/luad/3097990b11d8/agent/a080438819f2/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "a8a460e3431b",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "unverified_numbers": 1,
+            "unscoped_model_numbers": 1,
+            "missing_focus_models": 1,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 2,
+            "unscoped_model_numbers": 1,
+            "missing_focus_models": 1,
+            "missing_sections": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 2,
+            "unscoped_model_numbers": 1,
+            "missing_focus_models": 1,
+            "missing_sections": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/a8a460e3431b/agent_run.json"
     },
     {
       "cohort": "luad",
       "run_id": "3097990b11d8",
       "agent_run_id": "a911996a2e14",
+      "backend": "ollama",
       "model_id": "gemma3:12b",
       "status": "rejected",
       "attempts": 3,
+      "passed": false,
       "analysis_plan_fallback": false,
       "findings_per_attempt": [
         {
@@ -631,9 +1974,205 @@
           }
         }
       ],
-      "replay": "PASS",
+      "replay": "FROZEN",
       "human_review": null,
-      "path": "results\\luad\\3097990b11d8\\agent\\a911996a2e14\\agent_run.json"
+      "path": "results/luad/3097990b11d8/agent/a911996a2e14/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "ab7778c6531e",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/ab7778c6531e/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "c1f2d133d8b3",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "false_abstention": 2
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "unverified_numbers": 5,
+            "false_abstention": 2
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "unverified_numbers": 5,
+            "false_abstention": 2
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/c1f2d133d8b3/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "e84150a730cb",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "draft_pending_approval",
+      "attempts": 1,
+      "passed": true,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "passed": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/e84150a730cb/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "3097990b11d8",
+      "agent_run_id": "f0e0ae5eaf51",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "false_abstention": 4,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "false_abstention": 4,
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/3097990b11d8/agent/f0e0ae5eaf51/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "549df572c5ab",
+      "agent_run_id": "ac60c5940b58",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/549df572c5ab/agent/ac60c5940b58/agent_run.json"
+    },
+    {
+      "cohort": "luad",
+      "run_id": "549df572c5ab",
+      "agent_run_id": "ba44f8cc4795",
+      "backend": "endpoint",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "status": "rejected",
+      "attempts": 3,
+      "passed": false,
+      "analysis_plan_fallback": false,
+      "findings_per_attempt": [
+        {
+          "attempt": 1,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 2,
+          "findings": {
+            "forbidden": 1
+          }
+        },
+        {
+          "attempt": 3,
+          "findings": {
+            "forbidden": 1
+          }
+        }
+      ],
+      "replay": "FROZEN",
+      "human_review": null,
+      "path": "results/luad/549df572c5ab/agent/ba44f8cc4795/agent_run.json"
     }
   ]
 }

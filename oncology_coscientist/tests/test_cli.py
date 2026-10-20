@@ -34,7 +34,9 @@ def test_qc_and_agent_summarize(synth_results):
     assert main(_argv(root, "agent", "summarize")) == 0
     out = root / "results" / "agent_model_comparison.json"
     runs = json.loads(out.read_text())["runs"]
-    assert any(r["agent_run_id"] == rec["agent_run_id"] for r in runs)
+    row = next(r for r in runs if r["agent_run_id"] == rec["agent_run_id"])
+    assert row["backend"] == rec["backend"]
+    assert row["passed"] is True
 
 
 def test_agent_replay_and_cli_approve_reject(synth_results):

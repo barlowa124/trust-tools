@@ -1,0 +1,17 @@
+.git
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+*.egg-info
+node_modules
+web/node_modules
+web/dist
+results
+data
+splits
+rag
+docs
+tests
+Dockerfile
+docker-compose.yml
