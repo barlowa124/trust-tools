@@ -1,7 +1,5 @@
 # trust-tools
 
-[![ci](https://github.com/barlowa124/trust-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/barlowa124/trust-tools/actions/workflows/ci.yml)
-
 **Live demo (static): [barlowa124.github.io/trust-tools](https://barlowa124.github.io/trust-tools/)**. traj-review-ui renders the repo's committed audit artifacts.
 
 Tools for verifying what AI systems did — and checking whether the
